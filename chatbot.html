@@ -617,26 +617,23 @@
         }
 
 async function sendMsg() {
-            const inp = document.getElementById('input');
-            const msg = inp.value.trim();
-            if(!msg) return;
+    const inp = document.getElementById('input');
+    const msg = inp.value.trim();
+    if(!msg) return;
 
-            addMsg(msg, true);
-            inp.value = '';
-            history.push({role:'user', content:msg});
-            showTyping();
+    addMsg(msg, true);
+    inp.value = '';
+    history.push({role:'user', content:msg});
+    showTyping();
 
-            try {
-                const res = await fetch(API, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({message: msg, history: history})
-                  message: userMessage,
-        history: conversationHistory 
-    })
-});
+    try {
+        const res = await fetch(API, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: msg, history: history})
+        });
 
-                removeTyping();
+        removeTyping();
 
                 if(!res.ok) throw new Error(`API error: ${res.status}`);
 
