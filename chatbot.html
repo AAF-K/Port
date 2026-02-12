@@ -147,6 +147,46 @@
             font-size: 0.8125rem;
         }
         
+                /* Model Selector */
+        .model-selector {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .model-selector label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-selector select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .model-selector select:hover {
+            border-color: var(--primary);
+        }
+        
+        .model-selector select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .model-info {
+            font-size: 0.6875rem;
+            color: var(--gray-700);
+            margin-top: 0.5rem;
+        }
+        
         /* Cleo Chat */
         .cleo-section { padding: 1.25rem; }
         
@@ -471,6 +511,14 @@
                         <div>🔒 Tailscale VPN</div>
                     </div>
                 </div>
+                                <div class="model-selector">
+                    <label for="modelSelect">⚡ Cleo Mode</label>
+                    <select id="modelSelect">
+                        <option value="Cleo:latest">🧠 Cleo Smart (3B) - Aanbevolen</option>
+                        <option value="qwen2.5:1.5b">🚀 Cleo Turbo (1.5B) - Extra snel</option>
+                    </select>
+                    <p class="model-info">Smart: 45-60s | Turbo: 15-30s</p>
+                </div>
 
                 <div class="cleo-section">
                     <div class="cleo-header">
@@ -621,23 +669,29 @@ async function sendMsg() {
     const msg = inp.value.trim();
     if(!msg) return;
 
-    addMsg(msg, true);
-    inp.value = '';
-    history.push({role:'user', content:msg});
-    showTyping();
+addMsg(msg, true);
+inp.value = '';
+history.push({role:'user', content:msg});
+showTyping();
 
-    try {
-        const res = await fetch(API, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({message: msg, history: history})
-        });
+const selectedModel = document.getElementById('modelSelect').value;
 
-        removeTyping();
+try {
+    const res = await fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            message: msg, 
+            history: history,
+            model: selectedModel
+        })
+    });
 
-                if(!res.ok) throw new Error(`API error: ${res.status}`);
+    removeTyping();
 
-                const data = await res.json();
+    if(!res.ok) throw new Error(`API error: ${res.status}`);
+    
+    const data = await res.json();
                 
                 // DE BELANGRIJKE WIJZIGING:
                 // We gebruiken data.reply omdat je Python script 'reply' verstuurt
