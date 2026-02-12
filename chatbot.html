@@ -187,10 +187,10 @@
             margin-top: 0.5rem;
         }
         
-        /* Cleo Chat */
-        .cleo-section { padding: 1.25rem; }
+        /* Naja Chat */
+        .naja-section { padding: 1.25rem; }
         
-        .cleo-header {
+        .naja-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -199,7 +199,7 @@
             border-bottom: 2px solid var(--gray-100);
         }
         
-        .cleo-avatar {
+        .naja-avatar {
             width: 44px;
             height: 44px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
@@ -210,8 +210,8 @@
             font-size: 1.5rem;
         }
         
-        .cleo-info h4 { font-size: 1rem; font-weight: 700; }
-        .cleo-info p { font-size: 0.8125rem; color: var(--gray-700); }
+        .naja-info h4 { font-size: 1rem; font-weight: 700; }
+        .naja-info p { font-size: 0.8125rem; color: var(--gray-700); }
         
         .quick-actions {
             display: flex;
@@ -451,7 +451,7 @@
             margin-bottom: 1rem;
         }
         
-        .ask-cleo-btn {
+        .ask-naja-btn {
             width: 100%;
             padding: 0.75rem;
             background: var(--primary);
@@ -462,7 +462,7 @@
             cursor: pointer;
         }
         
-        .ask-cleo-btn:hover { background: var(--primary-dark); }
+        .ask-naja-btn:hover { background: var(--primary-dark); }
         
         .error-message {
             background: #FEE2E2;
@@ -500,7 +500,7 @@
         </div>
 
         <div class="main-grid">
-            <!-- Sidebar with Cleo -->
+            <!-- Sidebar with Naja -->
             <div class="sidebar">
                 <div class="tech-info-card">
                     <h3>Powered by</h3>
@@ -512,19 +512,19 @@
                     </div>
                 </div>
                                 <div class="model-selector">
-                    <label for="modelSelect">⚡ Cleo Mode</label>
+                    <label for="modelSelect">⚡ Naja Mode</label>
                     <select id="modelSelect">
-                        <option value="Cleo:latest">🧠 Cleo Smart (3B) - Aanbevolen</option>
-                        <option value="qwen2.5:1.5b">🚀 Cleo Turbo (1.5B) - Extra snel</option>
+                        <option value="Naja">🧠 Naja Smart (3B) - Aanbevolen</option>
+                        <option value="Naja-Fast">🚀 Naja Turbo (1.5B) - Extra snel</option>
                     </select>
                     <p class="model-info">Smart: 45-60s | Turbo: 15-30s</p>
                 </div>
 
-                <div class="cleo-section">
-                    <div class="cleo-header">
-                        <div class="cleo-avatar">🤖</div>
-                        <div class="cleo-info">
-                            <h4>Cleo</h4>
+                <div class="naja-section">
+                    <div class="naja-header">
+                        <div class="naja-avatar">🤖</div>
+                        <div class="naja-info">
+                            <h4>Naja</h4>
                             <p>AI Product Advisor</p>
                         </div>
                     </div>
@@ -548,7 +548,7 @@
                             type="text" 
                             class="chat-input" 
                             id="input" 
-                            placeholder="Vraag Cleo..."
+                            placeholder="Vraag Naja..."
                             onkeypress="if(event.key==='Enter')sendMsg()"
                         >
                         <button class="send-btn" onclick="sendMsg()">Verstuur</button>
@@ -617,7 +617,7 @@
                         <span class="review-count">(${p.reviews})</span>
                     </div>
                     <div class="product-price">€${p.price},-</div>
-                    <button class="ask-cleo-btn" onclick="askProduct('${p.name}')">Vraag Cleo</button>
+                    <button class="ask-naja-btn" onclick="askProduct('${p.name}')">Vraag Naja</button>
                 </div>
             `).join('');
         }
@@ -707,7 +707,7 @@ try {
             } catch(e) {
                 removeTyping();
                 console.error(e);
-                showError(`❌ Kon niet verbinden met Cleo. <br><small>${e.message}</small>`);
+                showError(`❌ Kon niet verbinden met Naja. <br><small>${e.message}</small>`);
             }
         }
 
@@ -720,10 +720,10 @@ try {
             try {
                 const res = await fetch('https://cleo.alanokricha.com/health');
                 if(res.ok) {
-                    addMsg('👋 Hoi! Ik ben Cleo, draaiend op een Raspberry Pi 5 met Qwen 2. Waar kan ik je mee helpen?');
+                    addMsg('👋 Hoi! Ik ben Naja, draaiend op een Raspberry Pi 5 met Qwen 2. Waar kan ik je mee helpen?');
                 }
             } catch(e) {
-                showError('⚠️ Cleo API niet bereikbaar. Start de API: <code>python3 chatbot_api.py</code>');
+                showError('⚠️ Naja API niet bereikbaar. Check de verbinding.');
             }
         }
 
