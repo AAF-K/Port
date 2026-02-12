@@ -3,51 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Product Advies Chatbot - Alano Kricha</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <title>AK's Elektronica - AI Product Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --white: #FFFFFF;
-            --black: #0A0A0A;
+            --primary: #2D5F3F;
+            --primary-dark: #1E4029;
+            --accent: #4CAF50;
+            --dark: #1A1A1A;
             --gray-50: #FAFAFA;
             --gray-100: #F5F5F5;
             --gray-200: #E5E5E5;
-            --gray-800: #1F1F1F;
-            --blue-accent: #0090E3;
-            --green-accent: #00D68F;
+            --gray-300: #D4D4D4;
+            --gray-700: #404040;
+            --white: #FFFFFF;
         }
-
+        
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--gray-50);
-            color: var(--black);
+            color: var(--dark);
             line-height: 1.6;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
+        
         /* Header */
-        header {
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1.5rem 0;
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
+        
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -56,607 +47,627 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .back-link {
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+        
+        .logo span { color: var(--accent); }
+        
+        .header-nav {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            color: var(--black);
-            font-weight: 500;
-            transition: opacity 0.3s ease;
-        }
-
-        .back-link:hover {
-            opacity: 0.6;
-        }
-
-        .project-title-header {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        /* Main Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 350px 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            align-items: center;
         }
-
-        /* Product Sidebar */
-        .product-sidebar {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 2rem;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
+        
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
         }
-
-        .product-sidebar h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .product-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .product-item {
-            padding: 1rem;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .product-item:hover {
-            border-color: var(--black);
-            background: var(--gray-50);
-            transform: translateX(4px);
-        }
-
-        .product-name {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            font-size: 0.95rem;
-        }
-
-        .product-price {
-            color: var(--gray-800);
-            font-size: 0.9rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .product-category {
-            font-size: 0.8rem;
-            color: var(--gray-800);
-            margin-top: 0.25rem;
-        }
-
-        /* Chat Interface */
-        .chat-container {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 180px);
-            max-height: 800px;
-        }
-
-        .chat-header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--gray-200);
-            background: var(--gray-50);
-            border-radius: 16px 16px 0 0;
-        }
-
-        .chat-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .chat-header p {
-            color: var(--gray-800);
-            font-size: 0.95rem;
-        }
-
-        .chat-status {
+        
+        .tech-badge {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 0.75rem;
-            font-size: 0.85rem;
-            color: var(--green-accent);
-            font-weight: 500;
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 600;
         }
-
+        
         .status-dot {
             width: 8px;
             height: 8px;
-            background: var(--green-accent);
+            background: var(--accent);
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
-
+        
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.6; }
         }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
+        
+        /* Main */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 2rem;
+        }
+        
+        .breadcrumb {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-700);
         }
-
-        .message {
+        
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 100px;
+        }
+        
+        /* Tech Info - Compact */
+        .tech-info-card {
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .tech-info-card h3 {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tech-specs {
+            display: grid;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+        }
+        
+        /* Cleo Chat */
+        .cleo-section { padding: 1.25rem; }
+        
+        .cleo-header {
             display: flex;
-            gap: 1rem;
-            animation: slideIn 0.3s ease-out;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-100);
         }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gray-100);
+        
+        .cleo-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            flex-shrink: 0;
-            border: 2px solid var(--gray-200);
+            font-size: 1.5rem;
         }
-
-        .message.user .message-avatar {
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .message-content {
-            max-width: 70%;
-            background: var(--gray-100);
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            line-height: 1.6;
-        }
-
-        .message.user .message-content {
-            background: var(--black);
-            color: var(--white);
-        }
-
-        .message-time {
-            font-size: 0.75rem;
-            color: var(--gray-800);
-            margin-top: 0.5rem;
-            opacity: 0.7;
-        }
-
-        .typing-indicator {
-            display: none;
-            align-items: center;
+        
+        .cleo-info h4 { font-size: 1rem; font-weight: 700; }
+        .cleo-info p { font-size: 0.8125rem; color: var(--gray-700); }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
             gap: 0.5rem;
-            padding: 1rem 1.25rem;
-            background: var(--gray-100);
-            border-radius: 12px;
-            width: fit-content;
+            margin-bottom: 1rem;
         }
-
-        .typing-indicator.active {
-            display: flex;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--gray-800);
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
-        }
-
-        .chat-input-container {
-            padding: 1.5rem 2rem;
-            border-top: 1px solid var(--gray-200);
-            background: var(--white);
-            border-radius: 0 0 16px 16px;
-        }
-
-        .chat-input-wrapper {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 1rem 1.25rem;
+        
+        .quick-action {
+            padding: 0.65rem 0.75rem;
+            background: var(--gray-50);
             border: 1px solid var(--gray-200);
             border-radius: 8px;
-            font-size: 0.95rem;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.3s ease;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            transition: all 0.2s;
         }
-
+        
+        .quick-action:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .chat-messages {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .message { margin-bottom: 0.75rem; }
+        .message.user { text-align: right; }
+        
+        .message-bubble {
+            display: inline-block;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            max-width: 85%;
+            font-size: 0.875rem;
+        }
+        
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
+        
+        .message.assistant .message-bubble {
+            background: var(--gray-100);
+            color: var(--dark);
+            border-bottom-left-radius: 3px;
+        }
+        
+        .message-time {
+            font-size: 0.6875rem;
+            color: var(--gray-700);
+            margin-top: 0.25rem;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 0.65rem 0.85rem;
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gray-700);
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.65rem 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+        
         .chat-input:focus {
             outline: none;
-            border-color: var(--black);
+            border-color: var(--primary);
         }
-
-        .send-button {
-            padding: 1rem 2rem;
-            background: var(--black);
-            color: var(--white);
+        
+        .send-btn {
+            padding: 0.65rem 1rem;
+            background: var(--primary);
+            color: white;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'DM Sans', sans-serif;
         }
-
-        .send-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        
+        .send-btn:hover { background: var(--primary-dark); }
+        
+        /* Products */
+        .products-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .quick-questions {
+        
+        .section-header {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .results-count {
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+        
+        .category-filters {
+            display: flex;
             gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.25s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(45, 95, 63, 0.12);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+        }
+        
+        .product-emoji {
+            font-size: 3.5rem;
+            display: block;
             margin-bottom: 1rem;
         }
-
-        .quick-question {
-            padding: 0.5rem 1rem;
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .quick-question:hover {
-            background: var(--black);
-            color: var(--white);
-            border-color: var(--black);
-        }
-
-        /* Info banner */
-        .info-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .info-banner h3 {
+        
+        .product-name {
+            font-size: 1.0625rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            line-height: 1.3;
         }
-
-        .info-banner p {
-            opacity: 0.9;
-            font-size: 0.9rem;
+        
+        .product-specs {
+            font-size: 0.8125rem;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
         }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .product-sidebar {
-                position: relative;
-                top: 0;
-            }
-
-            .message-content {
-                max-width: 85%;
-            }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8125rem;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .chat-container {
-                height: calc(100vh - 150px);
-            }
-
-            .chat-messages {
-                padding: 1rem;
-            }
-
-            .chat-input-wrapper {
-                flex-direction: column;
-            }
-
-            .send-button {
-                width: 100%;
-            }
+        
+        .stars { color: #FFA500; font-weight: 700; }
+        .review-count { color: var(--gray-700); }
+        
+        .product-price {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .ask-cleo-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .ask-cleo-btn:hover { background: var(--primary-dark); }
+        
+        .error-message {
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 968px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar { position: relative; top: 0; }
         }
     </style>
 </head>
 <body>
-    <header>
+    <header class="header">
         <div class="header-content">
-            <a href="portfolio.html" class="back-link">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
-                Terug naar portfolio
-            </a>
-            <div class="project-title-header">Project 02: AI Chatbot</div>
+            <div class="logo">AK's <span>Elektronica</span></div>
+            <div class="header-nav">
+                <span class="tech-badge">
+                    <span class="status-dot"></span>
+                    Raspberry Pi Server
+                </span>
+                <a href="index.html">← Portfolio</a>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="info-banner">
-            <h3>🤖 Demo: AI Product Advies Chatbot</h3>
-            <p>Dit is een prototype geïnspireerd op Coolblue's AI chatbot strategie. De chatbot gebruikt Claude API om klanten te helpen het juiste product te vinden door gerichte vragen te stellen.</p>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <span>AI Product Advisor</span>
         </div>
 
-        <div class="main-layout">
-            <!-- Product Sidebar -->
-            <div class="product-sidebar">
-                <h2>Producten</h2>
-                <div class="product-grid">
-                    <div class="product-item">
-                        <div class="product-name">Gaming Laptop Pro</div>
-                        <div class="product-price">€1.299,-</div>
-                        <div class="product-category">Laptops • Gaming</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Wasmachine EcoWash</div>
-                        <div class="product-price">€549,-</div>
-                        <div class="product-category">Witgoed • Wasmachines</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">UltraBook Student</div>
-                        <div class="product-price">€799,-</div>
-                        <div class="product-category">Laptops • Studie</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">4K Smart TV 55"</div>
-                        <div class="product-price">€699,-</div>
-                        <div class="product-category">TV & Beeld</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Noise Cancelling Koptelefoon</div>
-                        <div class="product-price">€279,-</div>
-                        <div class="product-category">Audio</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Chat Interface -->
-            <div class="chat-container">
-                <div class="chat-header">
-                    <h2>Product Advies Chatbot</h2>
-                    <p>Stel je vraag en de AI helpt je het juiste product te vinden</p>
-                    <div class="chat-status">
-                        <div class="status-dot"></div>
-                        Online en klaar om te helpen
+        <div class="main-grid">
+            <!-- Sidebar with Cleo -->
+            <div class="sidebar">
+                <div class="tech-info-card">
+                    <h3>🤖 Powered by</h3>
+                    <div class="tech-specs">
+                        <div>🥧 Raspberry Pi 5 (16GB RAM)</div>
+                        <div>🧠 Qwen 2 (7.6B parameters)</div>
+                        <div>🐍 Python Flask API</div>
+                        <div>🔒 Tailscale VPN</div>
                     </div>
                 </div>
 
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message">
-                        <div class="message-avatar">AI</div>
-                        <div>
-                            <div class="message-content">
-                                Hoi! 👋 Ik help je graag het perfecte product te vinden. Waar ben je naar op zoek?
-                            </div>
-                            <div class="message-time">Nu</div>
+                <div class="cleo-section">
+                    <div class="cleo-header">
+                        <div class="cleo-avatar">🤖</div>
+                        <div class="cleo-info">
+                            <h4>Cleo</h4>
+                            <p>AI Product Advisor</p>
                         </div>
                     </div>
-                </div>
 
-                <div class="chat-input-container">
-                    <div class="quick-questions">
-                        <div class="quick-question" onclick="sendQuickQuestion('Ik zoek een laptop voor studie')">
+                    <div class="quick-actions">
+                        <button class="quick-action" onclick="sendQuick('Ik zoek een laptop voor studie')">
                             💻 Laptop voor studie
-                        </div>
-                        <div class="quick-question" onclick="sendQuickQuestion('Ik wil gamen op hoog niveau')">
-                            🎮 Gaming laptop
-                        </div>
-                        <div class="quick-question" onclick="sendQuickQuestion('Wat is de beste wasmachine?')">
-                            🌀 Beste wasmachine
-                        </div>
+                        </button>
+                        <button class="quick-action" onclick="sendQuick('Welke smartphone onder €800?')">
+                            📱 Smartphone advies
+                        </button>
+                        <button class="quick-action" onclick="sendQuick('Goede wasmachine?')">
+                            🌀 Wasmachine advies
+                        </button>
                     </div>
+
+                    <div class="chat-messages" id="messages"></div>
+
                     <div class="chat-input-wrapper">
                         <input 
                             type="text" 
                             class="chat-input" 
-                            id="messageInput" 
-                            placeholder="Type je vraag hier..."
-                            onkeypress="handleKeyPress(event)"
+                            id="input" 
+                            placeholder="Vraag Cleo..."
+                            onkeypress="if(event.key==='Enter')sendMsg()"
                         >
-                        <button class="send-button" onclick="sendMessage()">Verstuur</button>
+                        <button class="send-btn" onclick="sendMsg()">Verstuur</button>
                     </div>
                 </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="products-section">
+                <div class="section-header">
+                    <h2>Onze Producten</h2>
+                    <span class="results-count" id="count">18 producten</span>
+                </div>
+
+                <div class="category-filters">
+                    <button class="category-btn active" onclick="filter('all')">Alles</button>
+                    <button class="category-btn" onclick="filter('laptops')">💻 Laptops</button>
+                    <button class="category-btn" onclick="filter('phones')">📱 Smartphones</button>
+                    <button class="category-btn" onclick="filter('appliances')">🌀 Wasmachines</button>
+                    <button class="category-btn" onclick="filter('tv')">📺 TV's</button>
+                    <button class="category-btn" onclick="filter('audio')">🎧 Audio</button>
+                </div>
+
+                <div class="products-grid" id="grid"></div>
             </div>
         </div>
     </div>
 
     <script>
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
+        const API = 'http://100.109.6.112:5000/chat';
+        let history = [];
+        let currentCat = 'all';
 
-        // Simulated product database
-        const products = {
-            laptops: [
-                { name: 'Gaming Laptop Pro', price: 1299, use: 'gaming', specs: 'RTX 4060, 16GB RAM, 1TB SSD' },
-                { name: 'UltraBook Student', price: 799, use: 'studie', specs: 'Intel i5, 8GB RAM, 512GB SSD' },
-                { name: 'Business Laptop Elite', price: 1099, use: 'werken', specs: 'Intel i7, 16GB RAM, 1TB SSD' }
-            ],
-            wasmachines: [
-                { name: 'Wasmachine EcoWash', price: 549, capacity: '8kg', energy: 'A+++' },
-                { name: 'Premium Wasmachine', price: 799, capacity: '10kg', energy: 'A+++' }
-            ]
-        };
+        const products = [
+            {id:1,name:'MacBook Pro 14" M3',cat:'laptops',emoji:'💻',specs:'Apple M3, 16GB RAM, 512GB SSD',price:2199,rating:4.8,reviews:234,badge:'Populair'},
+            {id:2,name:'Dell XPS 15',cat:'laptops',emoji:'💻',specs:'Intel i7, 16GB RAM, RTX 4050',price:1799,rating:4.6,reviews:189},
+            {id:3,name:'HP Pavilion 15',cat:'laptops',emoji:'💻',specs:'AMD Ryzen 5, 8GB RAM, 512GB SSD',price:699,rating:4.3,reviews:567},
+            {id:4,name:'ASUS ROG Strix G16',cat:'laptops',emoji:'💻',specs:'Intel i9, 32GB RAM, RTX 4070',price:2399,rating:4.9,reviews:145,badge:'Gaming'},
+            {id:5,name:'iPhone 15 Pro',cat:'phones',emoji:'📱',specs:'A17 Pro, 128GB, titanium design',price:1199,rating:4.7,reviews:892,badge:'Nieuw'},
+            {id:6,name:'Samsung Galaxy S24',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3, 256GB',price:899,rating:4.6,reviews:654},
+            {id:7,name:'Google Pixel 8',cat:'phones',emoji:'📱',specs:'Tensor G3, 128GB, pure Android',price:699,rating:4.5,reviews:423},
+            {id:8,name:'OnePlus 12',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3, 256GB',price:799,rating:4.4,reviews:312},
+            {id:9,name:'Miele WEG 675 WCS',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, 1400 toeren, WiFi',price:1299,rating:4.9,reviews:178,badge:'Premium'},
+            {id:10,name:'Bosch Serie 6',cat:'appliances',emoji:'🌀',specs:'8kg, B klasse, 1400 toeren',price:649,rating:4.5,reviews:456},
+            {id:11,name:'Samsung EcoBubble',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, SmartThings',price:799,rating:4.6,reviews:389},
+            {id:12,name:'LG OLED C3 55"',cat:'tv',emoji:'📺',specs:'55" OLED evo, 4K 120Hz, webOS',price:1499,rating:4.8,reviews:234,badge:'OLED'},
+            {id:13,name:'Samsung QLED Q80C',cat:'tv',emoji:'📺',specs:'65" QLED, 4K 120Hz, Gaming Hub',price:1299,rating:4.7,reviews:198},
+            {id:14,name:'Sony Bravia XR A80L',cat:'tv',emoji:'📺',specs:'55" OLED, 4K 120Hz, Google TV',price:1699,rating:4.8,reviews:167},
+            {id:15,name:'Sony WH-1000XM5',cat:'audio',emoji:'🎧',specs:'Premium ANC, 30u batterij',price:399,rating:4.9,reviews:1234,badge:'Topkeuze'},
+            {id:16,name:'AirPods Pro (2e gen)',cat:'audio',emoji:'🎧',specs:'ANC, ruimtelijke audio, H2 chip',price:279,rating:4.7,reviews:2145},
+            {id:17,name:'Bose QuietComfort Ultra',cat:'audio',emoji:'🎧',specs:'Immersive audio, 24u batterij',price:449,rating:4.8,reviews:567},
+            {id:18,name:'JBL Tune 760NC',cat:'audio',emoji:'🎧',specs:'ANC, 35u batterij, JBL Pure Bass',price:99,rating:4.3,reviews:892}
+        ];
 
-        // AI response logic (simulated - in real version this would call Claude API)
-        function getAIResponse(userMessage) {
-            const message = userMessage.toLowerCase();
-            
-            // Laptop advies
-            if (message.includes('laptop') || message.includes('computer')) {
-                if (message.includes('gaming') || message.includes('gamen') || message.includes('spellen')) {
-                    return {
-                        text: "Perfect! Voor gaming raad ik de **Gaming Laptop Pro** aan voor €1.299,-. Deze heeft een RTX 4060 grafische kaart, ideaal voor moderne games op hoge instellingen. Wat is je budget ongeveer?",
-                        suggestions: ['Dat past in mijn budget', 'Iets goedkoper graag', 'Vertel meer over de specs']
-                    };
-                } else if (message.includes('studie') || message.includes('student')) {
-                    return {
-                        text: "Voor studie is de **UltraBook Student** perfect! Voor €799,- krijg je een lichte laptop met goede batterijduur. Ideaal voor op de campus. Welke programma's ga je vooral gebruiken?",
-                        suggestions: ['Vooral Microsoft Office', 'Ook wat Photoshop', 'Gewoon browsen en typen']
-                    };
+        function render() {
+            const filtered = currentCat === 'all' ? products : products.filter(p => p.cat === currentCat);
+            document.getElementById('count').textContent = `${filtered.length} producten`;
+            document.getElementById('grid').innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                    <span class="product-emoji">${p.emoji}</span>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-specs">${p.specs}</div>
+                    <div class="product-rating">
+                        <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+                        <span class="review-count">(${p.reviews})</span>
+                    </div>
+                    <div class="product-price">€${p.price},-</div>
+                    <button class="ask-cleo-btn" onclick="askProduct('${p.name}')">Vraag Cleo</button>
+                </div>
+            `).join('');
+        }
+
+        function filter(cat) {
+            currentCat = cat;
+            render();
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function askProduct(name) {
+            document.getElementById('input').value = `Vertel me over de ${name}`;
+            sendMsg();
+        }
+
+        function addMsg(txt, user=false) {
+            const div = document.createElement('div');
+            div.className = `message ${user?'user':'assistant'}`;
+            div.innerHTML = `<div class="message-bubble">${txt}</div><div class="message-time">${new Date().toLocaleTimeString('nl',{hour:'2-digit',minute:'2-digit'})}</div>`;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.id = 'typing';
+            div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        function removeTyping() {
+            const t = document.getElementById('typing');
+            if(t) t.remove();
+        }
+
+        function showError(msg) {
+            const div = document.createElement('div');
+            div.className = 'error-message';
+            div.innerHTML = msg;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        async function sendMsg() {
+            const inp = document.getElementById('input');
+            const msg = inp.value.trim();
+            if(!msg) return;
+
+            addMsg(msg, true);
+            inp.value = '';
+            history.push({role:'user',content:msg});
+            showTyping();
+
+            try {
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: msg, history})
+                });
+
+                removeTyping();
+
+                if(!res.ok) throw new Error(`API error: ${res.status}`);
+
+                const data = await res.json();
+                if(data.error) throw new Error(data.error);
+
+                addMsg(data.response);
+                history.push({role:'assistant',content:data.response});
+
+            } catch(e) {
+                removeTyping();
+                console.error(e);
+                showError(`❌ Kon niet verbinden met Cleo. Check of de API draait op je Raspberry Pi.<br><small>${e.message}</small>`);
+            }
+        }
+
+        function sendQuick(msg) {
+            document.getElementById('input').value = msg;
+            sendMsg();
+        }
+
+        async function checkAPI() {
+            try {
+                const res = await fetch('http://100.109.6.112:5000/health');
+                if(res.ok) {
+                    addMsg('👋 Hoi! Ik ben Cleo, draaiend op een Raspberry Pi 5 met Qwen 2. Waar kan ik je mee helpen?');
                 }
-                return {
-                    text: "Leuk dat je een laptop zoekt! Om je beter te kunnen helpen: ga je vooral gamen, studeren of werken met de laptop?",
-                    suggestions: ['Gaming', 'Studeren', 'Werken']
-                };
-            }
-            
-            // Wasmachine advies
-            if (message.includes('wasmachine') || message.includes('wassen')) {
-                return {
-                    text: "Goed idee! Voor wasmachines is het belangrijk om te weten: hoeveel personen zijn er in je huishouden? En heb je specifieke wensen qua energieverbruik?",
-                    suggestions: ['1-2 personen', '3-4 personen', 'Energiezuinig is belangrijk']
-                };
-            }
-
-            // Budget vragen
-            if (message.includes('budget') || message.includes('€') || message.includes('euro')) {
-                return {
-                    text: "Goed om te weten! Met dat budget kan ik je verschillende opties laten zien. Zijn er nog andere belangrijke punten voor je? Bijvoorbeeld merk voorkeur of specifieke features?",
-                    suggestions: ['Nee, laat maar zien', 'Liever bekend merk', 'Lange garantie']
-                };
-            }
-
-            // Default response
-            return {
-                text: "Interessant! Vertel eens wat meer over waarvoor je het product wilt gebruiken, dan kan ik je nog beter helpen met een passend advies.",
-                suggestions: ['Dagelijks gebruik', 'Professioneel werk', 'Gaming/entertainment']
-            };
-        }
-
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user' : ''}`;
-            
-            const time = new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${isUser ? 'JIJ' : 'AI'}</div>
-                <div>
-                    <div class="message-content">${content}</div>
-                    <div class="message-time">${time}</div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function showTypingIndicator() {
-            const indicator = document.createElement('div');
-            indicator.className = 'message';
-            indicator.innerHTML = `
-                <div class="message-avatar">AI</div>
-                <div class="typing-indicator active">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
-            `;
-            indicator.id = 'typingIndicator';
-            chatMessages.appendChild(indicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) indicator.remove();
-        }
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            // Add user message
-            addMessage(message, true);
-            messageInput.value = '';
-
-            // Show typing indicator
-            showTypingIndicator();
-
-            // Simulate AI thinking time
-            setTimeout(() => {
-                removeTypingIndicator();
-                const response = getAIResponse(message);
-                addMessage(response.text, false);
-            }, 1000 + Math.random() * 1000);
-        }
-
-        function sendQuickQuestion(question) {
-            messageInput.value = question;
-            sendMessage();
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+            } catch(e) {
+                showError('⚠️ Cleo API niet bereikbaar. Start de API: <code>python3 chatbot_api.py</code>');
             }
         }
 
-        // Initial focus
-        messageInput.focus();
+        render();
+        checkAPI();
     </script>
 </body>
 </html>
