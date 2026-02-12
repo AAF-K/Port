@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AK's Elektronica - AI Product Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #2D5F3F;
+            --primary-dark: #1E4029;
+            --primary-light: #4A7C59;
+            --accent: #4CAF50;
+            --accent-warm: #F59E0B;
+            --gold: #D97706;
+            --warm-orange: #FB923C;
+            --warm-peach: #FED7AA;
+            --dark: #1A1A1A;
+            --gray-50: #FFFBF5;
+            --gray-100: #FFF8F0;
+            --gray-200: #F5EFE7;
+            --gray-300: #E7E0D8;
+            --gray-700: #404040;
+            --white: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFF4E6 30%, #FFF8F0 60%, #F5EFE7 100%);
+            background-attachment: fixed;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header with warm nature gradient */
+        .header {
+            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 30%, #4CAF50 60%, #F59E0B 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 12s ease infinite;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(45, 95, 63, 0.25);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+        
+        .logo span { color: var(--accent); }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .tech-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Main */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+        }
+        
+        /* Sidebar with warm glassmorphism */
+        .sidebar {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(255,251,245,0.9) 50%,
+                rgba(255,244,230,0.85) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(45, 95, 63, 0.12), 
+                        0 4px 16px rgba(245, 158, 11, 0.08);
+            position: sticky;
+            top: 100px;
+        }
+        
+        /* Tech Info with warm nature gradient */
+        .tech-info-card {
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 40%, #F59E0B 100%);
+            background-size: 200% 200%;
+            animation: techGradient 8s ease infinite;
+            color: white;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
+        }
+        
+        @keyframes techGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .tech-info-card h3 {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        
+        .tech-specs {
+            display: grid;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+        }
+        
+        /* Model Selector */
+        .model-selector {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .model-selector label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .model-selector select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .model-selector select:hover {
+            border-color: var(--primary);
+        }
+        
+        .model-selector select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .model-info {
+            font-size: 0.6875rem;
+            color: var(--gray-700);
+            margin-top: 0.5rem;
+        }
+        
+        /* Naja Chat */
+        .naja-section { padding: 1.25rem; }
+        
+        .naja-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+        
+        /* Professional Avatar */
+        .naja-avatar {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .naja-avatar svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .naja-info h4 { font-size: 1rem; font-weight: 700; }
+        .naja-info p { font-size: 0.8125rem; color: var(--gray-700); }
+        
+        /* More space for messages - no quick actions */
+        .chat-messages {
+            max-height: 550px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .message { margin-bottom: 0.75rem; }
+        .message.user { text-align: right; }
+        
+        .message-bubble {
+            display: inline-block;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            max-width: 85%;
+            font-size: 0.875rem;
+        }
+        
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
+        
+        .message.assistant .message-bubble {
+            background: var(--gray-100);
+            color: var(--dark);
+            border-bottom-left-radius: 3px;
+        }
+        
+        .message-time {
+            font-size: 0.6875rem;
+            color: var(--gray-700);
+            margin-top: 0.25rem;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 0.65rem 0.85rem;
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gray-700);
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        
+        /* Siri-style input */
+        .chat-input-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 0.875rem;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Nature-inspired AI button */
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4CAF50 0%, #F59E0B 50%, #D97706 100%);
+            background-size: 200% 200%;
+            animation: buttonGlow 3s ease infinite;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+        }
+        
+        @keyframes buttonGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 24px rgba(245, 158, 11, 0.5);
+        }
+        
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .send-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* Products */
+        .products-section {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(45, 95, 63, 0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .results-count {
+            font-size: 0.875rem;
+            color: var(--gray-700);
+        }
+        
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--accent-warm);
+            color: var(--accent-warm);
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFF4E6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(135deg, #4CAF50 0%, #4A7C59 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+        }
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .product-card {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            border-color: var(--accent-warm);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(245, 158, 11, 0.15), 
+                        0 4px 16px rgba(45, 95, 63, 0.1);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFF4E6 100%);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #F59E0B 100%);
+            color: white;
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+        
+        .product-emoji {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .product-name {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .product-specs {
+            font-size: 0.8125rem;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8125rem;
+        }
+        
+        .stars { color: #FFA500; font-weight: 700; }
+        .review-count { color: var(--gray-700); }
+        
+        .product-price {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .ask-naja-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #4CAF50 0%, #4A7C59 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+        }
+        
+        .ask-naja-btn:hover { 
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+        }
+        
+        .error-message {
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 968px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar { position: relative; top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="images/ak-logo.png" alt="AK's Elektronica" style="height: 45px; width: auto;">
+            </div>
+            <div class="header-nav">
+                <span class="tech-badge">
+                    <span class="status-dot"></span>
+                    Raspberry Pi Server
+                </span>
+                <a href="/">← Portfolio</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a> / <span>AI Product Advisor</span>
+        </div>
+
+        <div class="main-grid">
+            <!-- Sidebar with Naja -->
+            <div class="sidebar">
+                <div class="tech-info-card">
+                    <h3>🤖 Powered by</h3>
+                    <div class="tech-specs">
+                        <div>🥧 Raspberry Pi 5 (16GB RAM)</div>
+                        <div>🧠 Qwen 2.5 (1.5B & 3B)</div>
+                        <div>🐍 Python Flask API</div>
+                        <div>🔒 Cloudflare Tunnel</div>
+                    </div>
+                </div>
+
+                <div class="model-selector">
+                    <label for="modelSelect">⚡ Naja Mode</label>
+                    <select id="modelSelect">
+                        <option value="Naja">🧠 Naja Smart (3B) - Aanbevolen</option>
+                        <option value="Naja-Fast">🚀 Naja Turbo (1.5B) - Extra snel</option>
+                    </select>
+                    <p class="model-info">Smart: ~20s | Turbo: ~10s</p>
+                </div>
+
+                <div class="naja-section">
+                    <div class="naja-header">
+                        <div class="naja-avatar">
+                            <img src="images/naja-avatar.png" alt="Naja AI Assistant" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        </div>
+                        <div class="naja-info">
+                            <h4>Naja</h4>
+                            <p>AI Product Advisor</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="messages"></div>
+
+                    <div class="chat-input-wrapper">
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="input" 
+                            placeholder="Vraag Naja..."
+                            onkeypress="if(event.key==='Enter')sendMsg()"
+                        >
+                        <button class="send-btn" onclick="sendMsg()" title="Verstuur">
+                            <!-- AI Sparkle Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>
+                                <path d="M7 7L6 9L4 10l2 1 1 2 1-2 2-1-2-1-1-2z" opacity="0.6"/>
+                                <path d="M17 17l-1 2-2 1 2 1 1 2 1-2 2-1-2-1-1-2z" opacity="0.6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div class="products-section">
+                <div class="section-header">
+                    <h2>Onze Producten</h2>
+                    <span class="results-count" id="count">70 producten</span>
+                </div>
+
+                <div class="category-filters">
+                    <button class="category-btn active" onclick="filter('all')">Alles</button>
+                    <button class="category-btn" onclick="filter('laptops')">💻 Laptops</button>
+                    <button class="category-btn" onclick="filter('phones')">📱 Smartphones</button>
+                    <button class="category-btn" onclick="filter('appliances')">🌀 Wasmachines</button>
+                    <button class="category-btn" onclick="filter('tv')">📺 TV's</button>
+                    <button class="category-btn" onclick="filter('audio')">🎧 Audio</button>
+                    <button class="category-btn" onclick="filter('household')">🧹 Huishoudelijk</button>
+                    <button class="category-btn" onclick="filter('tablets')">📚 Tablets</button>
+                    <button class="category-btn" onclick="filter('smarthome')">🏠 Smart Home</button>
+                    <button class="category-btn" onclick="filter('gaming')">🎮 Gaming</button>
+                    <button class="category-btn" onclick="filter('camera')">📷 Camera's</button>
+                </div>
+
+                <div class="products-grid" id="grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API = 'https://cleo.alanokricha.com/chat';
+        let history = [];
+        let currentCat = 'all';
+
+        const products = [
+            // Laptops (7 products)
+            {id:1,name:'MacBook Pro 14" M4',cat:'laptops',emoji:'💻',specs:'Apple M4, 16GB RAM, 512GB SSD',price:2399,rating:4.9,reviews:312,badge:'Nieuw'},
+            {id:2,name:'Dell XPS 15',cat:'laptops',emoji:'💻',specs:'Intel i7, 16GB RAM, RTX 4050',price:1799,rating:4.6,reviews:189},
+            {id:3,name:'HP Pavilion 15',cat:'laptops',emoji:'💻',specs:'AMD Ryzen 5, 8GB RAM, 512GB SSD',price:699,rating:4.3,reviews:445},
+            {id:4,name:'ASUS ROG Strix G16',cat:'laptops',emoji:'💻',specs:'Intel i9, 32GB RAM, RTX 4070',price:2399,rating:4.9,reviews:234,badge:'Gaming'},
+            {id:5,name:'Lenovo ThinkPad X1',cat:'laptops',emoji:'💻',specs:'Intel i7, 16GB RAM, 512GB SSD',price:1899,rating:4.7,reviews:278},
+            {id:6,name:'MSI Katana 15',cat:'laptops',emoji:'💻',specs:'Intel i5, 16GB RAM, RTX 4060',price:1299,rating:4.5,reviews:156},
+            {id:7,name:'Acer Aspire 5',cat:'laptops',emoji:'💻',specs:'Intel i5, 8GB RAM, 512GB SSD',price:599,rating:4.2,reviews:523},
+            
+            // Smartphones (7 products)
+            {id:8,name:'iPhone 16 Pro',cat:'phones',emoji:'📱',specs:'A18 Pro, 256GB, titanium',price:1349,rating:4.9,reviews:1234,badge:'Nieuw'},
+            {id:9,name:'Samsung Galaxy S24 Ultra',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3, 512GB',price:1299,rating:4.8,reviews:756,badge:'Premium'},
+            {id:10,name:'Google Pixel 9 Pro',cat:'phones',emoji:'📱',specs:'Tensor G4, 256GB',price:1099,rating:4.7,reviews:523},
+            {id:11,name:'iPhone 15',cat:'phones',emoji:'📱',specs:'A17 Bionic, 128GB',price:999,rating:4.7,reviews:892},
+            {id:12,name:'OnePlus 12',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3, 256GB',price:799,rating:4.6,reviews:345},
+            {id:13,name:'Samsung Galaxy A55',cat:'phones',emoji:'📱',specs:'Exynos 1480, 256GB',price:449,rating:4.4,reviews:456},
+            {id:14,name:'Nothing Phone (2a)',cat:'phones',emoji:'📱',specs:'Dimensity 7200, 256GB',price:399,rating:4.3,reviews:234},
+            
+            // Wasmachines (7 products)
+            {id:15,name:'Miele WEG 675 WCS',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, 1400 toeren, WiFi',price:1299,rating:4.9,reviews:234,badge:'Premium'},
+            {id:16,name:'Bosch Serie 8',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, 1600 toeren',price:999,rating:4.8,reviews:345},
+            {id:17,name:'Samsung EcoBubble',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, SmartThings',price:799,rating:4.6,reviews:389},
+            {id:18,name:'LG F4WV909P2',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, AI DD',price:899,rating:4.7,reviews:278},
+            {id:19,name:'Bosch Serie 6',cat:'appliances',emoji:'🌀',specs:'8kg, B klasse, 1400 toeren',price:649,rating:4.5,reviews:456},
+            {id:20,name:'AEG L8FEN96CS',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, ProSteam',price:949,rating:4.7,reviews:189},
+            {id:21,name:'Siemens iQ700',cat:'appliances',emoji:'🌀',specs:'9kg, A klasse, 1400 toeren',price:849,rating:4.6,reviews:234},
+            
+            // TV's (7 products)
+            {id:22,name:'LG OLED C4 65"',cat:'tv',emoji:'📺',specs:'65" OLED evo, 4K 144Hz',price:2199,rating:4.9,reviews:345,badge:'OLED'},
+            {id:23,name:'Samsung QLED QN95C',cat:'tv',emoji:'📺',specs:'65" Mini-LED, 4K 144Hz',price:2499,rating:4.8,reviews:278,badge:'Premium'},
+            {id:24,name:'Sony Bravia XR A80L',cat:'tv',emoji:'📺',specs:'55" OLED, 4K 120Hz',price:1699,rating:4.8,reviews:234},
+            {id:25,name:'LG OLED C3 55"',cat:'tv',emoji:'📺',specs:'55" OLED evo, 4K 120Hz',price:1499,rating:4.8,reviews:456},
+            {id:26,name:'Samsung QLED Q80C',cat:'tv',emoji:'📺',specs:'65" QLED, 4K 120Hz',price:1299,rating:4.7,reviews:389},
+            {id:27,name:'Philips OLED808',cat:'tv',emoji:'📺',specs:'55" OLED, Ambilight',price:1599,rating:4.7,reviews:189},
+            {id:28,name:'TCL C845',cat:'tv',emoji:'📺',specs:'65" Mini-LED, 4K 144Hz',price:1399,rating:4.6,reviews:312},
+            
+            // Audio (7 products)
+            {id:29,name:'Sony WH-1000XM5',cat:'audio',emoji:'🎧',specs:'Premium ANC, 30u batterij',price:399,rating:4.9,reviews:1567,badge:'Topkeuze'},
+            {id:30,name:'AirPods Pro (2e gen)',cat:'audio',emoji:'🎧',specs:'ANC, ruimtelijke audio',price:279,rating:4.8,reviews:2345},
+            {id:31,name:'Bose QuietComfort Ultra',cat:'audio',emoji:'🎧',specs:'Immersive audio, 24u',price:449,rating:4.8,reviews:678},
+            {id:32,name:'Sennheiser Momentum 4',cat:'audio',emoji:'🎧',specs:'Premium sound, 60u',price:349,rating:4.7,reviews:534},
+            {id:33,name:'AirPods Max',cat:'audio',emoji:'🎧',specs:'Premium ANC, Apple H1',price:579,rating:4.7,reviews:892,badge:'Premium'},
+            {id:34,name:'Sony LinkBuds S',cat:'audio',emoji:'🎧',specs:'Compact ANC earbuds',price:199,rating:4.5,reviews:456},
+            {id:35,name:'JBL Tune 760NC',cat:'audio',emoji:'🎧',specs:'ANC, 35u batterij',price:99,rating:4.3,reviews:892},
+            
+            // Huishoudelijk (7 products)
+            {id:36,name:'Dyson V15 Detect',cat:'household',emoji:'🧹',specs:'Laser detectie, 60 min',price:699,rating:4.8,reviews:523,badge:'Premium'},
+            {id:37,name:'Philips 5000 Series',cat:'household',emoji:'🧹',specs:'Robotstofzuiger, app control',price:399,rating:4.6,reviews:678},
+            {id:38,name:'Nespresso Vertuo Next',cat:'household',emoji:'☕',specs:'Koffiezetapparaat, centrifuge',price:179,rating:4.5,reviews:1234},
+            {id:39,name:'De\'Longhi Magnifica S',cat:'household',emoji:'☕',specs:'Volautomaat, verse bonen',price:449,rating:4.7,reviews:892},
+            {id:40,name:'iRobot Roomba j7+',cat:'household',emoji:'🤖',specs:'Zelflegende basis, smart map',price:799,rating:4.7,reviews:456},
+            {id:41,name:'Dyson Pure Cool',cat:'household',emoji:'💨',specs:'Luchtreiniger & ventilator',price:499,rating:4.6,reviews:345},
+            {id:42,name:'Philips Airfryer XXL',cat:'household',emoji:'🍳',specs:'1.4kg, digitaal display',price:249,rating:4.8,reviews:2156},
+            
+            // Tablets & E-readers (7 products)
+            {id:43,name:'iPad Pro 12.9" M4',cat:'tablets',emoji:'📱',specs:'M4 chip, 512GB, ProMotion',price:1599,rating:4.9,reviews:456,badge:'Premium'},
+            {id:44,name:'iPad Air 11"',cat:'tablets',emoji:'📱',specs:'M2 chip, 256GB, Apple Pencil',price:899,rating:4.8,reviews:678},
+            {id:45,name:'Samsung Galaxy Tab S9',cat:'tablets',emoji:'📱',specs:'Snapdragon 8 Gen 2, 256GB',price:899,rating:4.7,reviews:423},
+            {id:46,name:'iPad 10.9"',cat:'tablets',emoji:'📱',specs:'A14 Bionic, 64GB',price:449,rating:4.6,reviews:1234},
+            {id:47,name:'Kindle Paperwhite',cat:'tablets',emoji:'📚',specs:'6.8" E-Ink, waterdicht, 16GB',price:149,rating:4.8,reviews:5678},
+            {id:48,name:'Kobo Libra 2',cat:'tablets',emoji:'📚',specs:'7" E-Ink, fysieke knoppen',price:189,rating:4.6,reviews:892},
+            {id:49,name:'reMarkable 2',cat:'tablets',emoji:'📝',specs:'10.3" E-Ink, notities maken',price:399,rating:4.5,reviews:567},
+            
+            // Smart Home (7 products)
+            {id:50,name:'Philips Hue Starter Kit',cat:'smarthome',emoji:'💡',specs:'4 lampen + bridge, 16M kleuren',price:199,rating:4.8,reviews:2345,badge:'Populair'},
+            {id:51,name:'Google Nest Hub (2e gen)',cat:'smarthome',emoji:'🖥️',specs:'7" display, Google Assistant',price:99,rating:4.6,reviews:1456},
+            {id:52,name:'Ring Video Doorbell Pro',cat:'smarthome',emoji:'🚪',specs:'1080p HD, nachtzicht, app',price:279,rating:4.7,reviews:3456},
+            {id:53,name:'Nest Learning Thermostat',cat:'smarthome',emoji:'🌡️',specs:'Zelflerend, app control',price:249,rating:4.8,reviews:1789},
+            {id:54,name:'Amazon Echo (4e gen)',cat:'smarthome',emoji:'🔊',specs:'Alexa, smart home hub',price:119,rating:4.5,reviews:8934},
+            {id:55,name:'TP-Link Tapo C200',cat:'smarthome',emoji:'📹',specs:'Beveiligingscamera, 1080p',price:39,rating:4.4,reviews:4567},
+            {id:56,name:'Eve Energy',cat:'smarthome',emoji:'🔌',specs:'Slimme stekker, HomeKit',price:49,rating:4.6,reviews:892},
+            
+            // Gaming (7 products)
+            {id:57,name:'PlayStation 5 Slim',cat:'gaming',emoji:'🎮',specs:'1TB SSD, disc edition',price:549,rating:4.8,reviews:2345,badge:'Populair'},
+            {id:58,name:'Xbox Series X',cat:'gaming',emoji:'🎮',specs:'1TB SSD, 4K gaming',price:499,rating:4.7,reviews:1892},
+            {id:59,name:'Nintendo Switch OLED',cat:'gaming',emoji:'🎮',specs:'7" OLED, 64GB',price:349,rating:4.8,reviews:3456},
+            {id:60,name:'Steam Deck 512GB',cat:'gaming',emoji:'🎮',specs:'AMD APU, portable gaming',price:569,rating:4.7,reviews:1234},
+            {id:61,name:'Logitech G Pro X Superlight',cat:'gaming',emoji:'🖱️',specs:'Gaming muis, 25K DPI',price:159,rating:4.8,reviews:2678},
+            {id:62,name:'Razer BlackWidow V4',cat:'gaming',emoji:'⌨️',specs:'Mechanisch toetsenbord, RGB',price:199,rating:4.6,reviews:892},
+            {id:63,name:'Elgato Stream Deck',cat:'gaming',emoji:'🎛️',specs:'15 LCD keys, streaming control',price:149,rating:4.7,reviews:1567},
+            
+            // Camera's (7 products)
+            {id:64,name:'Sony Alpha 7 IV',cat:'camera',emoji:'📷',specs:'33MP full-frame, 4K 60fps',price:2799,rating:4.9,reviews:567,badge:'Pro'},
+            {id:65,name:'Canon EOS R6 Mark II',cat:'camera',emoji:'📷',specs:'24MP full-frame, IBIS',price:2699,rating:4.8,reviews:423},
+            {id:66,name:'GoPro Hero 12 Black',cat:'camera',emoji:'📷',specs:'5.3K60, waterdicht, HyperSmooth',price:449,rating:4.7,reviews:2345},
+            {id:67,name:'DJI Mini 4 Pro',cat:'camera',emoji:'🚁',specs:'4K HDR, 34 min vliegtijd',price:759,rating:4.8,reviews:1234,badge:'Populair'},
+            {id:68,name:'Fujifilm X-T5',cat:'camera',emoji:'📷',specs:'40MP, klassiek design',price:1899,rating:4.7,reviews:345},
+            {id:69,name:'Insta360 X3',cat:'camera',emoji:'📷',specs:'360° camera, 5.7K',price:449,rating:4.6,reviews:892},
+            {id:70,name:'DJI Osmo Action 4',cat:'camera',emoji:'📷',specs:'4K 120fps, 155° lens',price:399,rating:4.7,reviews:1567}
+        ];
+
+        function render() {
+            const filtered = currentCat === 'all' ? products : products.filter(p => p.cat === currentCat);
+            document.getElementById('count').textContent = `${filtered.length} producten`;
+            document.getElementById('grid').innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                    <span class="product-emoji">${p.emoji}</span>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-specs">${p.specs}</div>
+                    <div class="product-rating">
+                        <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+                        <span class="review-count">(${p.reviews})</span>
+                    </div>
+                    <div class="product-price">€${p.price},-</div>
+                    <button class="ask-naja-btn" onclick="askProduct('${p.name}')">Vraag Naja</button>
+                </div>
+            `).join('');
+        }
+
+        function filter(cat) {
+            currentCat = cat;
+            render();
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function askProduct(name) {
+            document.getElementById('input').value = `Vertel me over de ${name}`;
+            sendMsg();
+        }
+
+        function addMsg(txt, user=false) {
+            const div = document.createElement('div');
+            div.className = `message ${user?'user':'assistant'}`;
+            div.innerHTML = `<div class="message-bubble">${txt}</div><div class="message-time">${new Date().toLocaleTimeString('nl',{hour:'2-digit',minute:'2-digit'})}</div>`;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.id = 'typing';
+            div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        function removeTyping() {
+            const t = document.getElementById('typing');
+            if(t) t.remove();
+        }
+
+        function showError(msg) {
+            const div = document.createElement('div');
+            div.className = 'error-message';
+            div.innerHTML = msg;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+
+        async function sendMsg() {
+            const inp = document.getElementById('input');
+            const msg = inp.value.trim();
+            if(!msg) return;
+
+            addMsg(msg, true);
+            inp.value = '';
+            history.push({role:'user', content:msg});
+            showTyping();
+
+            const selectedModel = document.getElementById('modelSelect').value;
+
+            try {
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        message: msg, 
+                        history: history,
+                        model: selectedModel
+                    })
+                });
+
+                removeTyping();
+
+                if(!res.ok) throw new Error(`API error: ${res.status}`);
+                
+                const data = await res.json();
+                
+                if(data.reply) {
+                    addMsg(data.reply);
+                    history.push({role:'assistant', content: data.reply});
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error("Geen geldig antwoord ontvangen");
+                }
+
+            } catch(e) {
+                removeTyping();
+                console.error(e);
+                showError(`❌ Kon niet verbinden met Naja. <br><small>${e.message}</small>`);
+            }
+        }
+
+        function sendQuick(msg) {
+            document.getElementById('input').value = msg;
+            sendMsg();
+        }
+
+        async function checkAPI() {
+            try {
+                const res = await fetch('https://cleo.alanokricha.com/health');
+                if(res.ok) {
+                    addMsg('👋 Hoi! Ik ben Naja, jouw AI productadviseur. Waar kan ik je mee helpen?');
+                }
+            } catch(e) {
+                showError('⚠️ Naja API niet bereikbaar. Check de verbinding.');
+            }
+        }
+
+        render();
+        checkAPI();
+    </script>
+</body>
+</html>
