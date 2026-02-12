@@ -631,7 +631,10 @@ async function sendMsg() {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({message: msg, history: history})
-                });
+                  message: userMessage,
+        history: conversationHistory 
+    })
+});
 
                 removeTyping();
 
