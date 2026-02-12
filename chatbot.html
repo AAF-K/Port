@@ -616,21 +616,21 @@
             document.getElementById('messages').scrollTop = 999999;
         }
 
-        async function sendMsg() {
+async function sendMsg() {
             const inp = document.getElementById('input');
             const msg = inp.value.trim();
             if(!msg) return;
 
             addMsg(msg, true);
             inp.value = '';
-            history.push({role:'user',content:msg});
+            history.push({role:'user', content:msg});
             showTyping();
 
             try {
                 const res = await fetch(API, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({message: msg, history})
+                    body: JSON.stringify({message: msg, history: history})
                 });
 
                 removeTyping();
@@ -638,15 +638,22 @@
                 if(!res.ok) throw new Error(`API error: ${res.status}`);
 
                 const data = await res.json();
-                if(data.error) throw new Error(data.error);
-
-                addMsg(data.response);
-                history.push({role:'assistant',content:data.response});
+                
+                // DE BELANGRIJKE WIJZIGING:
+                // We gebruiken data.reply omdat je Python script 'reply' verstuurt
+                if(data.reply) {
+                    addMsg(data.reply);
+                    history.push({role:'assistant', content: data.reply});
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error("Geen geldig antwoord ontvangen");
+                }
 
             } catch(e) {
                 removeTyping();
                 console.error(e);
-                showError(`❌ Kon niet verbinden met Cleo. Check of de API draait op je Raspberry Pi.<br><small>${e.message}</small>`);
+                showError(`❌ Kon niet verbinden met Cleo. <br><small>${e.message}</small>`);
             }
         }
 
