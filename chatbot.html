@@ -530,7 +530,7 @@
     </div>
 
     <script>
-        const API = 'http://100.109.6.112:5000/chat';
+        const API = 'https://alanokricha.com/chat';
         let history = [];
         let currentCat = 'all';
 
@@ -657,7 +657,7 @@
 
         async function checkAPI() {
             try {
-                const res = await fetch('http://100.109.6.112:5000/health');
+                const res = await fetch('https://alanokricha.com/health'); 
                 if(res.ok) {
                     addMsg('👋 Hoi! Ik ben Cleo, draaiend op een Raspberry Pi 5 met Qwen 2. Waar kan ik je mee helpen?');
                 }
