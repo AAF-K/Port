@@ -530,7 +530,7 @@
     </div>
 
     <script>
-        const API = 'https://www.alanokricha.com/chat';
+        const API = 'https://cleo.alanokricha.com/chat';
         let history = [];
         let currentCat = 'all';
 
@@ -664,7 +664,7 @@ async function sendMsg() {
 
         async function checkAPI() {
             try {
-                const res = await fetch('https://www.alanokricha.com/health'); 
+                const res = await fetch('https://cleo.alanokricha.com/health');
                 if(res.ok) {
                     addMsg('👋 Hoi! Ik ben Cleo, draaiend op een Raspberry Pi 5 met Qwen 2. Waar kan ik je mee helpen?');
                 }
