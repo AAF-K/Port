@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raspberry Pi Smart Home Server - Alano Kricha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #E5E5E5;
+            --gray-800: #1F1F1F;
+            --raspberry: #C51A4A;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        .project-title-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #C51A4A 0%, #8B1538 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Content */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--raspberry);
+        }
+
+        .section p {
+            color: var(--gray-800);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-color: var(--raspberry);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--gray-800);
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: var(--black);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .architecture h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .diagram-layer {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .diagram-layer::after {
+            content: '↓';
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            color: var(--raspberry);
+        }
+
+        .diagram-layer:last-child::after {
+            display: none;
+        }
+
+        .layer-title {
+            font-weight: 700;
+            color: var(--raspberry);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Challenges */
+        .challenges {
+            background: var(--gray-50);
+            border-left: 4px solid var(--raspberry);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        .challenges h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .challenges ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .challenges li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--gray-800);
+        }
+
+        .challenges li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--raspberry);
+            font-weight: 700;
+        }
+
+        /* Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .result-stat {
+            text-align: center;
+            padding: 2rem;
+            background: var(--gray-50);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .result-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--raspberry);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-label {
+            margin-top: 0.5rem;
+            color: var(--gray-800);
+            font-weight: 500;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--black);
+            color: #00ff00;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .content {
+                padding: 2rem 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="portfolio.html" class="back-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Terug naar portfolio
+            </a>
+            <div class="project-title-header">Project 01: Raspberry Pi</div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Raspberry Pi Smart Home Server</h1>
+        <p>Een complete zelfgebouwde server voor cloud storage, home automation en lokale AI</p>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2>Project Overview</h2>
+            <p>
+                Dit project begon met een simpele vraag: kan ik mijn eigen cloud storage bouwen die even 
+                goed werkt als Google Drive of Icloud, maar dan volledig onder mijn eigen controle? 
+                Het antwoord werd veel groter dan alleen cloud storage.
+            </p>
+            <p>
+                Ik heb een Raspberry Pi 5 omgetoverd tot een volwaardige smart home server die drie 
+                belangrijke functies vervult: veilige cloud storage voor al mijn bestanden, een 
+                centraal platform voor al mijn smart home apparaten via Home Assistant, en een lokaal 
+                draaiend Large Language Model voor privacy-vriendelijke AI assistentie.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Technische Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">Raspberry Pi 5</div>
+                <div class="tech-item">Ubuntu Server</div>
+                <div class="tech-item">Docker</div>
+                <div class="tech-item">Nextcloud</div>
+                <div class="tech-item">Home Assistant</div>
+                <div class="tech-item">Ollama (LLM)</div>
+                <div class="tech-item">Python</div>
+                <div class="tech-item">Nginx</div>
+                <div class="tech-item">SSL/TLS</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Belangrijkste Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3>Cloud Storage</h3>
+                    <p>
+                        Nextcloud implementatie met 1TB opslag. Volledige synchronisatie tussen devices, 
+                        bestandsdeling, en automatische backup systemen.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Home Automation</h3>
+                    <p>
+                        Home Assistant integratie met 15+ smart home apparaten. Automatiseringen voor 
+                        verlichting, klimaat en beveiliging.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Lokale AI</h3>
+                    <p>
+                        Ollama LLM draait volledig lokaal voor privacy-vriendelijke AI assistentie zonder 
+                        data naar externe servers te sturen.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Beveiliging</h3>
+                    <p>
+                        SSL certificaten, VPN toegang, fail2ban voor brute-force bescherming, en 
+                        automatische security updates.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Monitoring</h3>
+                    <p>
+                        Real-time monitoring van CPU, geheugen, opslag en netwerk. Alerting bij 
+                        problemen via Telegram notificaties.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Performance</h3>
+                    <p>
+                        Geoptimaliseerd voor lage latency en energieverbruik. Draait 24/7 met slechts 
+                        5W stroomverbruik.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="architecture">
+                <h3>Systeem Architectuur</h3>
+                <div class="diagram">
+                    <div class="diagram-layer">
+                        <div class="layer-title">Layer 1: Hardware</div>
+                        Raspberry Pi 5 (16GB RAM) + 1TB SSD + Cooling System
+                    </div>
+                    <div class="diagram-layer">
+                        <div class="layer-title">Layer 2: Operating System</div>
+                        Ubuntu Server 22.04 LTS + Docker Engine
+                    </div>
+                    <div class="diagram-layer">
+                        <div class="layer-title">Layer 3: Services</div>
+                        Nextcloud Container | Home Assistant Container | Ollama Container
+                    </div>
+                    <div class="diagram-layer">
+                        <div class="layer-title">Layer 4: Reverse Proxy</div>
+                        Nginx met SSL/TLS certificaten (Let's Encrypt)
+                    </div>
+                    <div class="diagram-layer">
+                        <div class="layer-title">Layer 5: External Access</div>
+                        DuckDNS Dynamic DNS + VPN (WireGuard)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Uitdagingen & Oplossingen</h2>
+            <div class="challenges">
+                <h3>Technische Uitdagingen</h3>
+                <ul>
+                    <li><strong>Limited Resources:</strong> Raspberry Pi heeft beperkte RAM. Oplossing: Docker memory limits en swap optimalisatie.</li>
+                    <li><strong>Network Setup:</strong> Externe toegang via CGNAT router. Oplossing: WireGuard VPN + DuckDNS voor dynamische DNS.</li>
+                    <li><strong>LLM Performance:</strong> Grote modellen draaien traag. Oplossing: Kleinere, geoptimaliseerde modellen (Phi-2, TinyLlama).</li>
+                    <li><strong>Storage Management:</strong> Bestandssync conflicten. Oplossing: Nextcloud versioning + conflict resolution scripts.</li>
+                    <li><strong>Uptime:</strong> Server moet 24/7 beschikbaar zijn. Oplossing: Automatische restart scripts + UPS battery backup.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Resultaten & Impact</h2>
+            <div class="results-grid">
+                <div class="result-stat">
+                    <div class="result-number">99.8%</div>
+                    <div class="result-label">Uptime</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-number">15+</div>
+                    <div class="result-label">Connected Devices</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-number">1TB</div>
+                    <div class="result-label">Storage Capacity</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-number">5W</div>
+                    <div class="result-label">Power Usage</div>
+                </div>
+            </div>
+            <p>
+                Dit project heeft me geleerd hoe je complexe systemen vanaf scratch opbouwt, 
+                troubleshoot wanneer dingen niet werken (wat vaak gebeurde!), en hoe je 
+                verschillende technologieën met elkaar integreert. Het belangrijkste: ik heb 
+                geleerd dat je door gewoon te beginnen en fouten te maken, heel veel leert.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Code Voorbeeld</h2>
+            <p>Een Python script dat ik schreef met AI voor automatische backup monitoring:</p>
+            <div class="code-block">
+import psutil
+import requests
+from datetime import datetime
+
+def check_system_health():
+    cpu = psutil.cpu_percent(interval=1)
+    memory = psutil.virtual_memory().percent
+    disk = psutil.disk_usage('/').percent
+    
+    if cpu > 80 or memory > 85 or disk > 90:
+        send_telegram_alert(
+            f"⚠️ System Alert!\n"
+            f"CPU: {cpu}%\n"
+            f"Memory: {memory}%\n"
+            f"Disk: {disk}%"
+        )
+    
+    log_metrics(cpu, memory, disk)
+
+def send_telegram_alert(message):
+    # Telegram bot integration
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    requests.post(url, json={"chat_id": CHAT_ID, "text": message})
+
+if __name__ == "__main__":
+    check_system_health()
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Wat ik hiervan geleerd heb</h2>
+            <p>
+                <strong>Hands-on mentaliteit:</strong> Geen tutorial kon me alles leren - ik moest 
+                zelf uitzoeken, experimenteren en fouten maken. Dit project heeft me geleerd om 
+                niet bang te zijn om dingen uit te proberen.
+            </p>
+            <p>
+                <strong>Probleem oplossen:</strong> Van kernel panics tot network timeouts - elke 
+                fout was een kans om dieper te graven en te begrijpen hoe dingen écht werken.
+            </p>
+            <p>
+                <strong>Systeemdenken:</strong> Begrijpen hoe verschillende componenten samenwerken, 
+                van hardware tot software tot netwerk configuratie.
+            </p>
+            <p>
+                <strong>Documentatie:</strong> Ik heb geleerd hoe belangrijk goede documentatie is, 
+                zowel het lezen ervan als het schrijven voor mezelf.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

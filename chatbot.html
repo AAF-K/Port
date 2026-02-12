@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Advies Chatbot - Alano Kricha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --white: #FFFFFF;
+            --black: #0A0A0A;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #E5E5E5;
+            --gray-800: #1F1F1F;
+            --blue-accent: #0090E3;
+            --green-accent: #00D68F;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 0.6;
+        }
+
+        .project-title-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Product Sidebar */
+        .product-sidebar {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .product-sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .product-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-item {
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            border-color: var(--black);
+            background: var(--gray-50);
+            transform: translateX(4px);
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .product-price {
+            color: var(--gray-800);
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--gray-800);
+            margin-top: 0.25rem;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 180px);
+            max-height: 800px;
+        }
+
+        .chat-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--gray-200);
+            background: var(--gray-50);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .chat-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-header p {
+            color: var(--gray-800);
+            font-size: 0.95rem;
+        }
+
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--green-accent);
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green-accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            border: 2px solid var(--gray-200);
+        }
+
+        .message.user .message-avatar {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .message-content {
+            max-width: 70%;
+            background: var(--gray-100);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .message.user .message-content {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--gray-800);
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            background: var(--gray-100);
+            border-radius: 12px;
+            width: fit-content;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gray-800);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .chat-input-container {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--gray-200);
+            background: var(--white);
+            border-radius: 0 0 16px 16px;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--black);
+        }
+
+        .send-button {
+            padding: 1rem 2rem;
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .send-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-question {
+            padding: 0.5rem 1rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-question:hover {
+            background: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+        }
+
+        /* Info banner */
+        .info-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-banner h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-banner p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .product-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .chat-container {
+                height: calc(100vh - 150px);
+            }
+
+            .chat-messages {
+                padding: 1rem;
+            }
+
+            .chat-input-wrapper {
+                flex-direction: column;
+            }
+
+            .send-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="portfolio.html" class="back-link">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Terug naar portfolio
+            </a>
+            <div class="project-title-header">Project 02: AI Chatbot</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="info-banner">
+            <h3>🤖 Demo: AI Product Advies Chatbot</h3>
+            <p>Dit is een prototype geïnspireerd op Coolblue's AI chatbot strategie. De chatbot gebruikt Claude API om klanten te helpen het juiste product te vinden door gerichte vragen te stellen.</p>
+        </div>
+
+        <div class="main-layout">
+            <!-- Product Sidebar -->
+            <div class="product-sidebar">
+                <h2>Producten</h2>
+                <div class="product-grid">
+                    <div class="product-item">
+                        <div class="product-name">Gaming Laptop Pro</div>
+                        <div class="product-price">€1.299,-</div>
+                        <div class="product-category">Laptops • Gaming</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Wasmachine EcoWash</div>
+                        <div class="product-price">€549,-</div>
+                        <div class="product-category">Witgoed • Wasmachines</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">UltraBook Student</div>
+                        <div class="product-price">€799,-</div>
+                        <div class="product-category">Laptops • Studie</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">4K Smart TV 55"</div>
+                        <div class="product-price">€699,-</div>
+                        <div class="product-category">TV & Beeld</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">Noise Cancelling Koptelefoon</div>
+                        <div class="product-price">€279,-</div>
+                        <div class="product-category">Audio</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>Product Advies Chatbot</h2>
+                    <p>Stel je vraag en de AI helpt je het juiste product te vinden</p>
+                    <div class="chat-status">
+                        <div class="status-dot"></div>
+                        Online en klaar om te helpen
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message">
+                        <div class="message-avatar">AI</div>
+                        <div>
+                            <div class="message-content">
+                                Hoi! 👋 Ik help je graag het perfecte product te vinden. Waar ben je naar op zoek?
+                            </div>
+                            <div class="message-time">Nu</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="quick-questions">
+                        <div class="quick-question" onclick="sendQuickQuestion('Ik zoek een laptop voor studie')">
+                            💻 Laptop voor studie
+                        </div>
+                        <div class="quick-question" onclick="sendQuickQuestion('Ik wil gamen op hoog niveau')">
+                            🎮 Gaming laptop
+                        </div>
+                        <div class="quick-question" onclick="sendQuickQuestion('Wat is de beste wasmachine?')">
+                            🌀 Beste wasmachine
+                        </div>
+                    </div>
+                    <div class="chat-input-wrapper">
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="messageInput" 
+                            placeholder="Type je vraag hier..."
+                            onkeypress="handleKeyPress(event)"
+                        >
+                        <button class="send-button" onclick="sendMessage()">Verstuur</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+
+        // Simulated product database
+        const products = {
+            laptops: [
+                { name: 'Gaming Laptop Pro', price: 1299, use: 'gaming', specs: 'RTX 4060, 16GB RAM, 1TB SSD' },
+                { name: 'UltraBook Student', price: 799, use: 'studie', specs: 'Intel i5, 8GB RAM, 512GB SSD' },
+                { name: 'Business Laptop Elite', price: 1099, use: 'werken', specs: 'Intel i7, 16GB RAM, 1TB SSD' }
+            ],
+            wasmachines: [
+                { name: 'Wasmachine EcoWash', price: 549, capacity: '8kg', energy: 'A+++' },
+                { name: 'Premium Wasmachine', price: 799, capacity: '10kg', energy: 'A+++' }
+            ]
+        };
+
+        // AI response logic (simulated - in real version this would call Claude API)
+        function getAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // Laptop advies
+            if (message.includes('laptop') || message.includes('computer')) {
+                if (message.includes('gaming') || message.includes('gamen') || message.includes('spellen')) {
+                    return {
+                        text: "Perfect! Voor gaming raad ik de **Gaming Laptop Pro** aan voor €1.299,-. Deze heeft een RTX 4060 grafische kaart, ideaal voor moderne games op hoge instellingen. Wat is je budget ongeveer?",
+                        suggestions: ['Dat past in mijn budget', 'Iets goedkoper graag', 'Vertel meer over de specs']
+                    };
+                } else if (message.includes('studie') || message.includes('student')) {
+                    return {
+                        text: "Voor studie is de **UltraBook Student** perfect! Voor €799,- krijg je een lichte laptop met goede batterijduur. Ideaal voor op de campus. Welke programma's ga je vooral gebruiken?",
+                        suggestions: ['Vooral Microsoft Office', 'Ook wat Photoshop', 'Gewoon browsen en typen']
+                    };
+                }
+                return {
+                    text: "Leuk dat je een laptop zoekt! Om je beter te kunnen helpen: ga je vooral gamen, studeren of werken met de laptop?",
+                    suggestions: ['Gaming', 'Studeren', 'Werken']
+                };
+            }
+            
+            // Wasmachine advies
+            if (message.includes('wasmachine') || message.includes('wassen')) {
+                return {
+                    text: "Goed idee! Voor wasmachines is het belangrijk om te weten: hoeveel personen zijn er in je huishouden? En heb je specifieke wensen qua energieverbruik?",
+                    suggestions: ['1-2 personen', '3-4 personen', 'Energiezuinig is belangrijk']
+                };
+            }
+
+            // Budget vragen
+            if (message.includes('budget') || message.includes('€') || message.includes('euro')) {
+                return {
+                    text: "Goed om te weten! Met dat budget kan ik je verschillende opties laten zien. Zijn er nog andere belangrijke punten voor je? Bijvoorbeeld merk voorkeur of specifieke features?",
+                    suggestions: ['Nee, laat maar zien', 'Liever bekend merk', 'Lange garantie']
+                };
+            }
+
+            // Default response
+            return {
+                text: "Interessant! Vertel eens wat meer over waarvoor je het product wilt gebruiken, dan kan ik je nog beter helpen met een passend advies.",
+                suggestions: ['Dagelijks gebruik', 'Professioneel werk', 'Gaming/entertainment']
+            };
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : ''}`;
+            
+            const time = new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${isUser ? 'JIJ' : 'AI'}</div>
+                <div>
+                    <div class="message-content">${content}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.className = 'message';
+            indicator.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="typing-indicator active">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            indicator.id = 'typingIndicator';
+            chatMessages.appendChild(indicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate AI thinking time
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = getAIResponse(message);
+                addMessage(response.text, false);
+            }, 1000 + Math.random() * 1000);
+        }
+
+        function sendQuickQuestion(question) {
+            messageInput.value = question;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Initial focus
+        messageInput.focus();
+    </script>
+</body>
+</html>
