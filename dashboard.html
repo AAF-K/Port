@@ -4,53 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Analytics Dashboard - Alano Kricha</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
+            --primary: #2D5F3F;
+            --primary-dark: #1E4029;
+            --primary-light: #4A7C59;
+            --accent: #4CAF50;
+            --accent-warm: #F59E0B;
+            --gold: #D97706;
+            --warm-orange: #FB923C;
+            --warm-peach: #FED7AA;
+            --dark: #1A1A1A;
+            --gray-50: #FFFBF5;
+            --gray-100: #FFF8F0;
+            --gray-200: #F5EFE7;
+            --gray-300: #E7E0D8;
+            --gray-700: #404040;
             --white: #FFFFFF;
-            --black: #0A0A0A;
-            --gray-50: #FAFAFA;
-            --gray-100: #F5F5F5;
-            --gray-200: #E5E5E5;
-            --gray-800: #1F1F1F;
-            --blue-accent: #0090E3;
             --green: #00D68F;
             --red: #FF4757;
             --yellow: #FFA502;
         }
-
+        
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--gray-50);
-            color: var(--black);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFFBF5 0%, #FFF4E6 30%, #FFF8F0 60%, #F5EFE7 100%);
+            background-attachment: fixed;
+            color: var(--dark);
             line-height: 1.6;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Header */
-        header {
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
-            padding: 1.5rem 0;
+        
+        /* Header with warm nature gradient */
+        .header {
+            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 30%, #4CAF50 60%, #F59E0B 100%);
+            background-size: 300% 300%;
+            animation: gradientShift 12s ease infinite;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(45, 95, 63, 0.25);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -59,167 +66,380 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .back-link {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: white;
             text-decoration: none;
-            color: var(--black);
             font-weight: 500;
             transition: opacity 0.3s ease;
         }
-
-        .back-link:hover {
-            opacity: 0.6;
-        }
-
+        
+        .back-link:hover { opacity: 0.8; }
+        
         .project-title-header {
             font-size: 1.25rem;
             font-weight: 700;
         }
-
-        /* Dashboard Header */
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Naja Sidebar */
+        .naja-sidebar {
+            background: linear-gradient(180deg, 
+                rgba(255,255,255,0.95) 0%, 
+                rgba(255,251,245,0.9) 50%,
+                rgba(255,244,230,0.85) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(45, 95, 63, 0.12), 
+                        0 4px 16px rgba(245, 158, 11, 0.08);
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .naja-header {
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 40%, #F59E0B 100%);
+            background-size: 200% 200%;
+            animation: techGradient 8s ease infinite;
+            color: white;
+            border-radius: 16px 16px 0 0;
+        }
+        
+        @keyframes techGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .naja-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .naja-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .naja-info h4 { 
+            font-size: 1rem; 
+            font-weight: 700; 
+            margin-bottom: 0.25rem;
+        }
+        
+        .naja-info p { 
+            font-size: 0.8125rem; 
+            opacity: 0.9;
+        }
+        
+        .naja-section { padding: 1.25rem; }
+        
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding-right: 0.5rem;
+        }
+        
+        .message { margin-bottom: 0.75rem; }
+        .message.user { text-align: right; }
+        
+        .message-bubble {
+            display: inline-block;
+            padding: 0.65rem 0.85rem;
+            border-radius: 10px;
+            max-width: 85%;
+            font-size: 0.875rem;
+        }
+        
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
+        
+        .message.assistant .message-bubble {
+            background: var(--gray-100);
+            color: var(--dark);
+            border-bottom-left-radius: 3px;
+        }
+        
+        .typing-indicator {
+            display: inline-flex;
+            gap: 4px;
+            padding: 0.65rem 0.85rem;
+            background: var(--gray-100);
+            border-radius: 10px;
+        }
+        
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gray-700);
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4CAF50 0%, #F59E0B 50%, #D97706 100%);
+            background-size: 200% 200%;
+            animation: buttonGlow 3s ease infinite;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+        }
+        
+        @keyframes buttonGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 24px rgba(245, 158, 11, 0.5);
+        }
+        
+        .send-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .error-message {
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            color: #991B1B;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        /* Dashboard Content */
+        .dashboard-content {
+            min-width: 0;
+        }
+        
         .dashboard-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 50%, #F59E0B 100%);
             color: white;
             padding: 2rem;
             border-radius: 16px;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(45, 95, 63, 0.2);
         }
-
+        
         .dashboard-header h1 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
         }
-
+        
         .dashboard-header p {
             opacity: 0.9;
             font-size: 1.05rem;
         }
-
+        
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-
+        
         .stat-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border: 2px solid var(--gray-200);
             border-radius: 12px;
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
-
+        
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            border-color: var(--black);
+            box-shadow: 0 12px 32px rgba(245, 158, 11, 0.15);
+            border-color: var(--accent-warm);
         }
-
+        
         .stat-label {
             font-size: 0.85rem;
-            color: var(--gray-800);
+            color: var(--gray-700);
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            font-weight: 600;
         }
-
+        
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
+        
         .stat-change {
             font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 0.25rem;
+            font-weight: 500;
         }
-
-        .stat-change.positive {
-            color: var(--green);
-        }
-
-        .stat-change.negative {
-            color: var(--red);
-        }
-
+        
+        .stat-change.positive { color: var(--accent); }
+        .stat-change.negative { color: var(--red); }
+        
         /* Charts Grid */
         .charts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
-
+        
         .chart-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border: 2px solid var(--gray-200);
             border-radius: 16px;
             padding: 2rem;
+            transition: all 0.3s ease;
         }
-
+        
+        .chart-card:hover {
+            border-color: var(--accent-warm);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.1);
+        }
+        
         .chart-card h3 {
             font-size: 1.25rem;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 2px solid var(--gray-200);
+            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
+        
         .chart-container {
             position: relative;
             height: 300px;
         }
-
-        /* SQL Query Section */
+        
+        /* SQL Section */
         .sql-section {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border: 2px solid var(--gray-200);
             border-radius: 16px;
             padding: 2rem;
             margin-bottom: 2rem;
         }
-
+        
         .sql-section h3 {
             font-size: 1.25rem;
             margin-bottom: 1rem;
+            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
+        
         .sql-tabs {
             display: flex;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 2px solid var(--gray-200);
             padding-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
-
+        
         .sql-tab {
             padding: 0.5rem 1rem;
             background: transparent;
             border: none;
             border-bottom: 2px solid transparent;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 500;
             transition: all 0.3s ease;
+            font-size: 0.875rem;
         }
-
+        
         .sql-tab:hover {
-            background: var(--gray-50);
+            background: var(--gray-100);
+            border-radius: 8px 8px 0 0;
         }
-
+        
         .sql-tab.active {
-            border-bottom-color: var(--black);
+            border-bottom-color: var(--accent-warm);
+            color: var(--accent-warm);
         }
-
+        
         .sql-query {
-            background: var(--black);
+            background: var(--dark);
             color: #00ff00;
             padding: 1.5rem;
             border-radius: 8px;
@@ -229,43 +449,37 @@
             line-height: 1.6;
             display: none;
         }
-
-        .sql-query.active {
-            display: block;
-        }
-
-        .sql-keyword {
-            color: #ff6b9d;
-        }
-
-        .sql-table {
-            color: #4fb3f6;
-        }
-
-        .sql-column {
-            color: #ffd900;
-        }
-
+        
+        .sql-query.active { display: block; }
+        
+        .sql-keyword { color: #ff6b9d; }
+        .sql-table { color: #4fb3f6; }
+        .sql-column { color: #ffd900; }
+        
         /* Data Table */
         .data-table-container {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
+            border: 2px solid var(--gray-200);
             border-radius: 16px;
             padding: 2rem;
             overflow-x: auto;
         }
-
+        
         .data-table-container h3 {
             font-size: 1.25rem;
             margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-
+        
         .data-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
         }
-
+        
         .data-table th {
             background: var(--gray-100);
             padding: 1rem;
@@ -273,16 +487,16 @@
             font-weight: 600;
             border-bottom: 2px solid var(--gray-200);
         }
-
+        
         .data-table td {
             padding: 1rem;
             border-bottom: 1px solid var(--gray-200);
         }
-
+        
         .data-table tr:hover {
-            background: var(--gray-50);
+            background: var(--gray-100);
         }
-
+        
         .sentiment-badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -290,50 +504,60 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-
+        
         .sentiment-positive {
-            background: rgba(0, 214, 143, 0.1);
-            color: var(--green);
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--accent);
         }
-
+        
         .sentiment-neutral {
             background: rgba(255, 165, 2, 0.1);
             color: var(--yellow);
         }
-
+        
         .sentiment-negative {
             background: rgba(255, 71, 87, 0.1);
             color: var(--red);
         }
-
+        
         .rating-stars {
-            color: var(--yellow);
+            color: var(--gold);
         }
-
+        
         /* Responsive */
         @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .naja-sidebar {
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+            
             .charts-grid {
                 grid-template-columns: 1fr;
             }
         }
-
+        
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
+            
             .dashboard-header h1 {
                 font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <header class="header">
         <div class="header-content">
             <a href="index.html" class="back-link">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -341,89 +565,125 @@
                 </svg>
                 Terug naar portfolio
             </a>
-            <div class="project-title-header">Project 03: Review Analytics</div>
+            <div class="project-title-header">📊 Review Analytics Dashboard</div>
         </div>
     </header>
 
     <div class="container">
-        <div class="dashboard-header">
-            <h1>📊 Product Review Analytics Dashboard</h1>
-            <p>Real-time inzichten uit klantreviews met SQL queries en data visualisatie</p>
-        </div>
+        <div class="main-grid">
+            <!-- Naja Sidebar -->
+            <div class="naja-sidebar">
+                <div class="naja-header">
+                    <div class="naja-info">
+                        <div class="naja-avatar">👩🏻</div>
+                        <div>
+                            <h4>Naja AI Analyst</h4>
+                            <p>Powered by Raspberry Pi 5</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="naja-section">
+                    <div class="chat-messages" id="messages"></div>
+                    
+                    <div class="chat-input-wrapper">
+                        <input 
+                            type="text" 
+                            class="chat-input" 
+                            id="input" 
+                            placeholder="Vraag Naja over de data..."
+                            onkeypress="if(event.key==='Enter')sendMsg()"
+                        >
+                        <button class="send-btn" onclick="sendMsg()" title="Verstuur">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                                <path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>
+                                <path d="M7 7L6 9L4 10l2 1 1 2 1-2 2-1-2-1-1-2z" opacity="0.6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Totaal Reviews</div>
-                <div class="stat-value">2,847</div>
-                <div class="stat-change positive">
-                    ↑ +12% deze maand
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div class="dashboard-header">
+                    <h1>📊 Product Review Analytics</h1>
+                    <p>Real-time inzichten uit klantreviews met SQL queries en AI-analyse</p>
                 </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Gemiddelde Rating</div>
-                <div class="stat-value">4.3</div>
-                <div class="stat-change positive">
-                    ↑ +0.2 t.o.v. vorige maand
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Positief Sentiment</div>
-                <div class="stat-value">68%</div>
-                <div class="stat-change positive">
-                    ↑ +5% deze maand
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Response Rate</div>
-                <div class="stat-value">91%</div>
-                <div class="stat-change negative">
-                    ↓ -3% deze maand
-                </div>
-            </div>
-        </div>
 
-        <!-- Charts -->
-        <div class="charts-grid">
-            <div class="chart-card">
-                <h3>Reviews per Categorie</h3>
-                <div class="chart-container">
-                    <canvas id="categoryChart"></canvas>
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Totaal Reviews</div>
+                        <div class="stat-value">2,847</div>
+                        <div class="stat-change positive">
+                            ↑ +12% deze maand
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Gemiddelde Rating</div>
+                        <div class="stat-value">4.3</div>
+                        <div class="stat-change positive">
+                            ↑ +0.2 t.o.v. vorige maand
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Positief Sentiment</div>
+                        <div class="stat-value">68%</div>
+                        <div class="stat-change positive">
+                            ↑ +5% deze maand
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Response Rate</div>
+                        <div class="stat-value">91%</div>
+                        <div class="stat-change negative">
+                            ↓ -3% deze maand
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="chart-card">
-                <h3>Sentiment Verdeling</h3>
-                <div class="chart-container">
-                    <canvas id="sentimentChart"></canvas>
-                </div>
-            </div>
-        </div>
 
-        <div class="charts-grid">
-            <div class="chart-card">
-                <h3>Reviews Over Tijd</h3>
-                <div class="chart-container">
-                    <canvas id="timelineChart"></canvas>
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Reviews per Categorie</h3>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Sentiment Verdeling</h3>
+                        <div class="chart-container">
+                            <canvas id="sentimentChart"></canvas>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="chart-card">
-                <h3>Rating Distributie</h3>
-                <div class="chart-container">
-                    <canvas id="ratingChart"></canvas>
-                </div>
-            </div>
-        </div>
 
-        <!-- SQL Queries Section -->
-        <div class="sql-section">
-            <h3>SQL Queries</h3>
-            <div class="sql-tabs">
-                <button class="sql-tab active" onclick="showQuery('query1')">Top Producten</button>
-                <button class="sql-tab" onclick="showQuery('query2')">Sentiment Analyse</button>
-                <button class="sql-tab" onclick="showQuery('query3')">Review Trends</button>
-            </div>
-            
-            <div id="query1" class="sql-query active">
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Reviews Over Tijd</h3>
+                        <div class="chart-container">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Rating Distributie</h3>
+                        <div class="chart-container">
+                            <canvas id="ratingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SQL Queries Section -->
+                <div class="sql-section">
+                    <h3>📝 SQL Queries</h3>
+                    <div class="sql-tabs">
+                        <button class="sql-tab active" onclick="showQuery('query1')">Top Producten</button>
+                        <button class="sql-tab" onclick="showQuery('query2')">Sentiment Analyse</button>
+                        <button class="sql-tab" onclick="showQuery('query3')">Review Trends</button>
+                    </div>
+                    
+                    <div id="query1" class="sql-query active">
 <span class="sql-keyword">SELECT</span> 
     <span class="sql-column">product_name</span>,
     <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">total_reviews</span>,
@@ -434,9 +694,9 @@
 <span class="sql-keyword">GROUP BY</span> <span class="sql-column">product_name</span>
 <span class="sql-keyword">ORDER BY</span> <span class="sql-column">avg_rating</span> <span class="sql-keyword">DESC</span>, <span class="sql-column">total_reviews</span> <span class="sql-keyword">DESC</span>
 <span class="sql-keyword">LIMIT</span> 10;
-            </div>
-            
-            <div id="query2" class="sql-query">
+                    </div>
+                    
+                    <div id="query2" class="sql-query">
 <span class="sql-keyword">SELECT</span>
     <span class="sql-column">category</span>,
     <span class="sql-column">sentiment</span>,
@@ -446,9 +706,9 @@
 <span class="sql-keyword">JOIN</span> <span class="sql-table">products</span> p <span class="sql-keyword">ON</span> r.<span class="sql-column">product_id</span> = p.<span class="sql-column">id</span>
 <span class="sql-keyword">GROUP BY</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>
 <span class="sql-keyword">ORDER BY</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>;
-            </div>
-            
-            <div id="query3" class="sql-query">
+                    </div>
+                    
+                    <div id="query3" class="sql-query">
 <span class="sql-keyword">SELECT</span>
     <span class="sql-keyword">DATE_FORMAT</span>(<span class="sql-column">created_at</span>, '%Y-%m') <span class="sql-keyword">AS</span> <span class="sql-column">month</span>,
     <span class="sql-keyword">AVG</span>(<span class="sql-column">rating</span>) <span class="sql-keyword">AS</span> <span class="sql-column">avg_rating</span>,
@@ -458,71 +718,186 @@
 <span class="sql-keyword">WHERE</span> <span class="sql-column">created_at</span> >= <span class="sql-keyword">DATE_SUB</span>(<span class="sql-keyword">NOW</span>(), <span class="sql-keyword">INTERVAL</span> 12 <span class="sql-keyword">MONTH</span>)
 <span class="sql-keyword">GROUP BY</span> <span class="sql-keyword">DATE_FORMAT</span>(<span class="sql-column">created_at</span>, '%Y-%m')
 <span class="sql-keyword">ORDER BY</span> <span class="sql-column">month</span> <span class="sql-keyword">ASC</span>;
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Data Table -->
-        <div class="data-table-container">
-            <h3>Recent Reviews</h3>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Rating</th>
-                        <th>Sentiment</th>
-                        <th>Review Text</th>
-                        <th>Datum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Gaming Laptop Pro</td>
-                        <td><span class="rating-stars">★★★★★</span></td>
-                        <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                        <td>Geweldige laptop! Draait alle games op ultra settings.</td>
-                        <td>4 feb 2026</td>
-                    </tr>
-                    <tr>
-                        <td>Wasmachine EcoWash</td>
-                        <td><span class="rating-stars">★★★★☆</span></td>
-                        <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                        <td>Zeer energiezuinig en stil. Aanrader!</td>
-                        <td>3 feb 2026</td>
-                    </tr>
-                    <tr>
-                        <td>4K Smart TV 55"</td>
-                        <td><span class="rating-stars">★★★☆☆</span></td>
-                        <td><span class="sentiment-badge sentiment-neutral">Neutraal</span></td>
-                        <td>Goede kwaliteit, maar interface is wat traag.</td>
-                        <td>2 feb 2026</td>
-                    </tr>
-                    <tr>
-                        <td>UltraBook Student</td>
-                        <td><span class="rating-stars">★★★★★</span></td>
-                        <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                        <td>Perfect voor de uni. Licht en lange batterijduur!</td>
-                        <td>2 feb 2026</td>
-                    </tr>
-                    <tr>
-                        <td>Noise Cancelling Koptelefoon</td>
-                        <td><span class="rating-stars">★★☆☆☆</span></td>
-                        <td><span class="sentiment-badge sentiment-negative">Negatief</span></td>
-                        <td>Noise cancelling werkt niet goed genoeg voor de prijs.</td>
-                        <td>1 feb 2026</td>
-                    </tr>
-                    <tr>
-                        <td>Gaming Laptop Pro</td>
-                        <td><span class="rating-stars">★★★★☆</span></td>
-                        <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                        <td>Goed product, alleen de ventilator is soms wat luid.</td>
-                        <td>1 feb 2026</td>
-                    </tr>
-                </tbody>
-            </table>
+                <!-- Data Table -->
+                <div class="data-table-container">
+                    <h3>📋 Recent Reviews</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Rating</th>
+                                <th>Sentiment</th>
+                                <th>Review Text</th>
+                                <th>Datum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Gaming Laptop Pro</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Geweldige laptop! Draait alle games op ultra settings.</td>
+                                <td>4 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Wasmachine EcoWash</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Zeer energiezuinig en stil. Aanrader!</td>
+                                <td>3 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>4K Smart TV 55"</td>
+                                <td><span class="rating-stars">★★★☆☆</span></td>
+                                <td><span class="sentiment-badge sentiment-neutral">Neutraal</span></td>
+                                <td>Goede kwaliteit, maar interface is wat traag.</td>
+                                <td>2 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>UltraBook Student</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Perfect voor de uni. Licht en lange batterijduur!</td>
+                                <td>2 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Noise Cancelling Koptelefoon</td>
+                                <td><span class="rating-stars">★★☆☆☆</span></td>
+                                <td><span class="sentiment-badge sentiment-negative">Negatief</span></td>
+                                <td>Noise cancelling werkt niet goed genoeg voor de prijs.</td>
+                                <td>1 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Gaming Laptop Pro</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Goed product, alleen de ventilator is soms wat luid.</td>
+                                <td>1 feb 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        const API = 'https://cleo.alanokricha.com/chat';
+        let history = [];
+        
+        // Naja Chatbot Functions
+        function addMsg(txt, user=false) {
+            const div = document.createElement('div');
+            div.className = `message ${user?'user':'assistant'}`;
+            div.innerHTML = `<div class="message-bubble">${txt}</div>`;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+        
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'message assistant';
+            div.id = 'typing';
+            div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+        
+        function removeTyping() {
+            const t = document.getElementById('typing');
+            if(t) t.remove();
+        }
+        
+        function showError(msg) {
+            const div = document.createElement('div');
+            div.className = 'error-message';
+            div.innerHTML = msg;
+            document.getElementById('messages').appendChild(div);
+            document.getElementById('messages').scrollTop = 999999;
+        }
+        
+        async function sendMsg() {
+            const inp = document.getElementById('input');
+            const msg = inp.value.trim();
+            if(!msg) return;
+            
+            addMsg(msg, true);
+            inp.value = '';
+            
+            // Add context about the dashboard
+            const contextMsg = `[Dashboard Context: Review Analytics met 2,847 reviews, gemiddelde rating 4.3, 68% positief sentiment, 91% response rate. Categorieën: Laptops (847), Gaming (634), Witgoed (512), Audio (456), TV & Beeld (398). SQL queries beschikbaar voor analyse.]\n\nVraag: ${msg}`;
+            
+            history.push({role:'user', content: contextMsg});
+            showTyping();
+            
+            try {
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        message: contextMsg, 
+                        history: history,
+                        model: 'Naja'
+                    })
+                });
+                
+                removeTyping();
+                
+                if(!res.ok) throw new Error(`API error: ${res.status}`);
+                
+                const data = await res.json();
+                
+                if(data.reply) {
+                    addMsg(data.reply);
+                    history.push({role:'assistant', content: data.reply});
+                } else if (data.error) {
+                    throw new Error(data.error);
+                } else {
+                    throw new Error("Geen geldig antwoord ontvangen");
+                }
+                
+            } catch(e) {
+                removeTyping();
+                console.error(e);
+                showError(`❌ Kon niet verbinden met Naja. <br><small>${e.message}</small>`);
+            }
+        }
+        
+        async function checkAPI() {
+            try {
+                const res = await fetch('https://cleo.alanokricha.com/health');
+                if(res.ok) {
+                    addMsg('👋 Hoi! Ik ben Naja, je AI data-analist. Ik kan je helpen met vragen over de review data en SQL queries. Wat wil je weten?');
+                }
+            } catch(e) {
+                showError('⚠️ Naja API niet bereikbaar. Chatbot is offline.');
+            }
+        }
+        
+        // SQL Query Tabs
+        function showQuery(queryId) {
+            document.querySelectorAll('.sql-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.sql-query').forEach(query => query.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(queryId).classList.add('active');
+        }
+        
+        // Chart.js Configuration with Nature Gradient Colors
+        const natureGradientColors = {
+            primary: 'rgba(45, 95, 63, 0.8)',
+            primaryBorder: 'rgba(45, 95, 63, 1)',
+            accent: 'rgba(76, 175, 80, 0.8)',
+            accentBorder: 'rgba(76, 175, 80, 1)',
+            warm: 'rgba(245, 158, 11, 0.8)',
+            warmBorder: 'rgba(245, 158, 11, 1)',
+            gold: 'rgba(217, 119, 6, 0.8)',
+            goldBorder: 'rgba(217, 119, 6, 1)'
+        };
+        
         // Category Chart
         const ctxCategory = document.getElementById('categoryChart').getContext('2d');
         new Chart(ctxCategory, {
@@ -532,9 +907,10 @@
                 datasets: [{
                     label: 'Aantal Reviews',
                     data: [847, 512, 398, 456, 634],
-                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
-                    borderColor: 'rgba(102, 126, 234, 1)',
-                    borderWidth: 1
+                    backgroundColor: natureGradientColors.primary,
+                    borderColor: natureGradientColors.primaryBorder,
+                    borderWidth: 2,
+                    borderRadius: 8
                 }]
             },
             options: {
@@ -544,11 +920,21 @@
                     legend: { display: false }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    y: { 
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
                 }
             }
         });
-
+        
         // Sentiment Chart
         const ctxSentiment = document.getElementById('sentimentChart').getContext('2d');
         new Chart(ctxSentiment, {
@@ -558,11 +944,11 @@
                 datasets: [{
                     data: [68, 22, 10],
                     backgroundColor: [
-                        'rgba(0, 214, 143, 0.8)',
-                        'rgba(255, 165, 2, 0.8)',
+                        natureGradientColors.accent,
+                        natureGradientColors.warm,
                         'rgba(255, 71, 87, 0.8)'
                     ],
-                    borderWidth: 2,
+                    borderWidth: 3,
                     borderColor: '#fff'
                 }]
             },
@@ -571,14 +957,25 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12,
+                                family: 'Inter'
+                            }
+                        }
                     }
                 }
             }
         });
-
+        
         // Timeline Chart
         const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+        const timelineGradient = ctxTimeline.createLinearGradient(0, 0, 0, 300);
+        timelineGradient.addColorStop(0, 'rgba(76, 175, 80, 0.3)');
+        timelineGradient.addColorStop(1, 'rgba(245, 158, 11, 0.1)');
+        
         new Chart(ctxTimeline, {
             type: 'line',
             data: {
@@ -586,10 +983,16 @@
                 datasets: [{
                     label: 'Reviews',
                     data: [420, 485, 512, 478, 534, 612],
-                    borderColor: 'rgba(102, 126, 234, 1)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderColor: natureGradientColors.accentBorder,
+                    backgroundColor: timelineGradient,
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    borderWidth: 3,
+                    pointBackgroundColor: natureGradientColors.warmBorder,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
                 }]
             },
             options: {
@@ -599,11 +1002,21 @@
                     legend: { display: false }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    y: { 
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
                 }
             }
         });
-
+        
         // Rating Chart
         const ctxRating = document.getElementById('ratingChart').getContext('2d');
         new Chart(ctxRating, {
@@ -617,9 +1030,18 @@
                         'rgba(255, 71, 87, 0.8)',
                         'rgba(255, 165, 2, 0.8)',
                         'rgba(255, 215, 0, 0.8)',
-                        'rgba(144, 238, 144, 0.8)',
-                        'rgba(0, 214, 143, 0.8)'
-                    ]
+                        natureGradientColors.accent,
+                        natureGradientColors.primary
+                    ],
+                    borderWidth: 2,
+                    borderColor: [
+                        'rgba(255, 71, 87, 1)',
+                        'rgba(255, 165, 2, 1)',
+                        'rgba(255, 215, 0, 1)',
+                        natureGradientColors.accentBorder,
+                        natureGradientColors.primaryBorder
+                    ],
+                    borderRadius: 8
                 }]
             },
             options: {
@@ -629,20 +1051,23 @@
                     legend: { display: false }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    y: { 
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
                 }
             }
         });
-
-        function showQuery(queryId) {
-            // Remove active class from all tabs and queries
-            document.querySelectorAll('.sql-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.sql-query').forEach(query => query.classList.remove('active'));
-            
-            // Add active class to selected
-            event.target.classList.add('active');
-            document.getElementById(queryId).classList.add('active');
-        }
+        
+        // Initialize
+        checkAPI();
     </script>
 </body>
 </html>
