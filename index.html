@@ -20,6 +20,9 @@
             --gray-2: #e8e8ed;
             --gray-3: #86868b;
             --gray-4: #424245;
+            --accent: #2D5F3F;
+            --accent-light: #4A7C59;
+            --warm: #F59E0B;
         }
 
         body {
@@ -53,6 +56,10 @@
             font-size: 1.25rem;
             font-weight: 600;
             letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--warm) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         nav a {
@@ -65,10 +72,10 @@
         }
 
         nav a:hover {
-            color: var(--black);
+            color: var(--accent);
         }
 
-        /* Hero — Apple-style: name + one clear statement */
+        /* Hero */
         .hero {
             padding: 6rem 0 7rem;
         }
@@ -112,6 +119,7 @@
             font-weight: 600;
             letter-spacing: -0.02em;
             margin-bottom: 0.35rem;
+            color: var(--accent);
         }
 
         .section-header p {
@@ -133,8 +141,8 @@
         }
 
         .project-card:hover {
-            border-color: var(--gray-3);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            border-color: var(--accent-light);
+            box-shadow: 0 4px 24px rgba(45, 95, 63, 0.12);
         }
 
         .project-header {
@@ -145,7 +153,7 @@
         .project-number {
             font-size: 0.75rem;
             font-weight: 500;
-            color: var(--gray-3);
+            color: var(--warm);
             margin-bottom: 0.6rem;
             letter-spacing: 0.06em;
         }
@@ -206,7 +214,7 @@
             position: absolute;
             left: 0;
             font-weight: 700;
-            color: var(--black);
+            color: var(--accent);
         }
 
         .project-link {
@@ -214,69 +222,23 @@
             align-items: center;
             gap: 0.4rem;
             padding: 0.6rem 1.25rem;
-            background: var(--black);
+            background: var(--accent);
             color: var(--white);
             text-decoration: none;
             border-radius: 6px;
             font-weight: 500;
             font-size: 0.9rem;
-            transition: opacity 0.2s;
+            transition: all 0.3s ease;
         }
 
         .project-link:hover {
-            opacity: 0.88;
+            background: var(--warm);
+            transform: translateY(-1px);
         }
 
         .project-link svg {
             width: 14px;
             height: 14px;
-        }
-
-        /* Placeholder Projects */
-        .placeholder-card {
-            background: var(--white);
-            border: 2px dashed var(--gray-2);
-            border-radius: 16px;
-            padding: 4rem 2.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            animation: fadeIn 1s ease-out backwards;
-        }
-
-        .placeholder-card:nth-child(2) { animation-delay: 0.2s; }
-        .placeholder-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .placeholder-card:hover {
-            border-color: var(--black);
-            background: var(--gray-1);
-        }
-
-        .placeholder-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 2rem;
-            background: var(--gray-1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-
-        .placeholder-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .placeholder-card p {
-            color: var(--gray-4);
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Footer */
@@ -303,11 +265,11 @@
             text-decoration: none;
             color: var(--black);
             font-weight: 500;
-            transition: opacity 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            opacity: 0.6;
+            color: var(--accent);
         }
 
         .footer-copy {
@@ -340,30 +302,35 @@
                 font-size: 2.5rem;
             }
 
-            .hero p {
-                font-size: 1.1rem;
+            .hero .hero-lead {
+                font-size: 1.25rem;
             }
 
             .section-header h2 {
-                font-size: 2rem;
+                font-size: 1.25rem;
             }
 
             .project-header {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem;
             }
 
             .project-content {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem;
             }
 
             .project-title {
-                font-size: 1.5rem;
+                font-size: 1.25rem;
             }
 
             .footer-content {
                 flex-direction: column;
                 align-items: flex-start;
             }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .fade-in {
@@ -385,9 +352,9 @@
 
     <section class="hero">
         <div class="container">
-        <h1>Hardware tot Intelligentie</h1>
+            <h1>Hardware tot Intelligentie</h1>
             <p class="hero-lead">Ik bouw slimme, self-hosted oplossingen met Raspberry Pi en lokale AI.</p>
-            <p class="hero-support">Raspberry Pi home server, AK's Elektronica met Naja AI advisor, en een analytics dashboard. Self-hosted, privacy-first architectuur.</p>
+            <p class="hero-support">Van home server tot AI-powered dashboards. Self-hosted, privacy-first architectuur.</p>
         </div>
     </section>
 
@@ -402,30 +369,30 @@
                 <!-- Project 1: Raspberry Pi -->
                 <div class="project-card">
                     <div class="project-header">
-                        <div class="project-number">01</div>
-                        <h3 class="project-title">Raspberry Pi Smart Home Server</h3>
-                        <p class="project-subtitle">Server voor cloud storage, home automation en lokale AI</p>
+                        <div class="project-number">PROJECT 01</div>
+                        <h3 class="project-title">Raspberry Pi AI Infrastructuur</h3>
+                        <p class="project-subtitle">Self-hosted server voor AI, automation en monitoring</p>
                     </div>
                     <div class="project-content">
                         <div class="tech-stack">
-                            <span class="tech-tag">Raspberry Pi</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Home Assistant</span>
-                            <span class="tech-tag">LLM</span>
-                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Raspberry Pi 5</span>
+                            <span class="tech-tag">Python 3.13</span>
+                            <span class="tech-tag">Ollama</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Cloudflare Tunnel</span>
                         </div>
                         <p class="project-description">
-                            Multifunctionele server: eigen cloud storage, Home Assistant voor slimme apparaten, 
-                            lokaal LLM voor AI-assistentie. Infrastructuur met Docker.
+                            Complete infrastructuur met lokale AI modellen (Qwen 2.5), FastAPI dashboard, 
+                            Homebridge smart home hub en zero-trust beveiliging. Draait 24/7 met 99.9% uptime.
                         </p>
                         <ul class="project-features">
-                            <li>Cloud storage voor eigen data</li>
-                            <li>Home Assistant voor automatisering</li>
-                            <li>Lokaal LLM (privacy-vriendelijk)</li>
-                            <li>Containerized setup</li>
+                            <li>Lokale AI inference met Ollama</li>
+                            <li>Zero-trust security architectuur</li>
+                            <li>Apple HomeKit integratie</li>
+                            <li>Real-time monitoring dashboard</li>
                         </ul>
                         <a href="raspberry-pi.html" class="project-link">
-                            Details
+                            Bekijk project
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
@@ -436,30 +403,30 @@
                 <!-- Project 2: AK's Elektronica -->
                 <div class="project-card">
                     <div class="project-header">
-                        <div class="project-number">02</div>
-                        <h3 class="project-title">AK's Elektronica - AI Product Store</h3>
-                        <p class="project-subtitle">E-commerce site met Naja AI advisor, lokaal draaiend op m'n Raspberry Pi server</p>
+                        <div class="project-number">PROJECT 02</div>
+                        <h3 class="project-title">AK's Elektronica - AI Product Advisor</h3>
+                        <p class="project-subtitle">E-commerce demo met Naja AI chatbot powered by Raspberry Pi</p>
                     </div>
                     <div class="project-content">
                         <div class="tech-stack">
-                            <span class="tech-tag">Raspberry Pi 5 (16GB)</span>
-                            <span class="tech-tag">Python Flask</span>
-                            <span class="tech-tag">Qwen 2 (1.5B & 3B)</span>
+                            <span class="tech-tag">Flask API</span>
+                            <span class="tech-tag">Qwen 2.5 (3B)</span>
                             <span class="tech-tag">Ollama</span>
-                            <span class="tech-tag">Tailscale VPN</span>
+                            <span class="tech-tag">Rate Limiting</span>
+                            <span class="tech-tag">CORS Security</span>
                         </div>
                         <p class="project-description">
-                            Complete productpagina met 18 echte elektronica producten. Naja AI chatbot draait lokaal op Raspberry Pi 5 
-                            en geeft realtime productadvies via Flask API. Self-hosted, privacy-first architectuur.
+                            Interactieve productpagina met 70+ elektronica items. Naja AI chatbot draait volledig 
+                            lokaal op mijn Raspberry Pi en geeft real-time productadvies via een Flask API.
                         </p>
                         <ul class="project-features">
-                            <li>Qwen 2 (1.5B & 3B) LLM via Ollama op Pi</li>
-                            <li>Python Flask REST API backend</li>
-                            <li>Real-time AI productadvies</li>
-                            <li>Veilige Tailscale VPN verbinding</li>
+                            <li>AI chatbot met 10-20s response tijd</li>
+                            <li>Flask REST API met rate limiting</li>
+                            <li>Cloudflare Tunnel voor veilige toegang</li>
+                            <li>100% self-hosted, privacy-first</li>
                         </ul>
                         <a href="chatbot.html" class="project-link">
-                            Bezoek AK's Elektronica
+                            Probeer live demo
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
@@ -467,32 +434,64 @@
                     </div>
                 </div>
 
-                <!-- Project 3: SQL Dashboard -->
+                <!-- Project 3: Review Analytics -->
                 <div class="project-card">
                     <div class="project-header">
-                        <div class="project-number">03</div>
-                        <h3 class="project-title">Product Review Analytics Dashboard</h3>
-                        <p class="project-subtitle">Dashboard met SQL, sentiment en visualisaties van reviews</p>
+                        <div class="project-number">PROJECT 03</div>
+                        <h3 class="project-title">Review Analytics Dashboard</h3>
+                        <p class="project-subtitle">Data analytics platform met SQL, AI insights en visualisaties</p>
                     </div>
                     <div class="project-content">
                         <div class="tech-stack">
                             <span class="tech-tag">SQL</span>
                             <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Pandas</span>
                             <span class="tech-tag">Chart.js</span>
+                            <span class="tech-tag">AI Analysis</span>
                         </div>
                         <p class="project-description">
-                            Interactief dashboard: SQL voor filtering en aggregatie, sentimentanalyse op reviews, 
-                            grafieken en productvergelijkingen.
+                            Interactief dashboard voor product review analyse. SQL queries voor data aggregatie, 
+                            sentiment analyse, AI-gegenereerde insights en real-time visualisaties.
                         </p>
                         <ul class="project-features">
-                            <li>SQL-queries op reviewdata</li>
-                            <li>Sentimentanalyse</li>
-                            <li>Interactieve grafieken</li>
-                            <li>Filtering en zoeken</li>
+                            <li>SQL-based data queries</li>
+                            <li>Sentiment & trend analyse</li>
+                            <li>AI-powered insights met Naja</li>
+                            <li>Interactieve grafieken & metrics</li>
                         </ul>
                         <a href="dashboard.html" class="project-link">
-                            Naar dashboard
+                            Bekijk dashboard
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4: System Architecture -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-number">PROJECT 04</div>
+                        <h3 class="project-title">Systeem Architectuur</h3>
+                        <p class="project-subtitle">Interactieve visualisatie van mijn tech stack</p>
+                    </div>
+                    <div class="project-content">
+                        <div class="tech-stack">
+                            <span class="tech-tag">5 Layers</span>
+                            <span class="tech-tag">8+ Services</span>
+                            <span class="tech-tag">Security Focus</span>
+                        </div>
+                        <p class="project-description">
+                            Visueel overzicht van mijn complete infrastructuur. Van hardware tot applicaties, 
+                            met focus op beveiliging, performance en schaalbaarheid.
+                        </p>
+                        <ul class="project-features">
+                            <li>5-layer architectuur diagram</li>
+                            <li>Security & deployment details</li>
+                            <li>Tech stack overzicht</li>
+                            <li>Performance metrics</li>
+                        </ul>
+                        <a href="system-architecture.html" class="project-link">
+                            Bekijk architectuur
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                             </svg>
@@ -507,8 +506,9 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-links">
-                    <a href="/cdn-cgi/l/email-protection#67060b0609080c150e040f06270e040b0812034904080a">Email</a>
+                    <a href="mailto:alano.kricha@gmail.com">Email</a>
                     <a href="https://linkedin.com/in/alanoafk" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://github.com/AAF-K" target="_blank" rel="noopener">GitHub</a>
                 </div>
                 <div class="footer-copy">
                     © 2026 Alano Kricha
@@ -516,3 +516,5 @@
             </div>
         </div>
     </footer>
+</body>
+</html>
