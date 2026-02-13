@@ -63,7 +63,7 @@
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
         }
         
@@ -135,16 +135,17 @@
             align-items: center;
             gap: 0.75rem;
         }
-
+        
         .naja-avatar {
             width: 50px;
             height: 50px;
-            background: var(--primary);
+            background: linear-gradient(135deg, #2D5F3F 0%, #1E4029 100%);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(45, 95, 63, 0.3);
         }
         
         .naja-info h4 { 
@@ -218,10 +219,12 @@
             display: flex;
             gap: 0.75rem;
             align-items: center;
+            width: 100%;
         }
         
         .chat-input {
             flex: 1;
+            min-width: 0;
             padding: 0.75rem 1rem;
             border: 2px solid var(--gray-200);
             border-radius: 12px;
@@ -237,6 +240,8 @@
         .send-btn {
             width: 48px;
             height: 48px;
+            min-width: 48px;
+            min-height: 48px;
             background: linear-gradient(135deg, #4CAF50 0%, #F59E0B 50%, #D97706 100%);
             background-size: 200% 200%;
             animation: buttonGlow 3s ease infinite;
@@ -248,6 +253,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+            flex-shrink: 0;
         }
         
         @keyframes buttonGlow {
@@ -594,7 +600,7 @@
                             onkeypress="if(event.key==='Enter')sendMsg()"
                         >
                         <button class="send-btn" onclick="sendMsg()" title="Verstuur">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
                                 <path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>
                                 <path d="M7 7L6 9L4 10l2 1 1 2 1-2 2-1-2-1-1-2z" opacity="0.6"/>
                             </svg>
@@ -640,6 +646,20 @@
                             ↓ -3% deze maand
                         </div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Gem. Response Tijd</div>
+                        <div class="stat-value">4.2u</div>
+                        <div class="stat-change positive">
+                            ↑ 15% sneller
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Trending Product</div>
+                        <div class="stat-value">+234</div>
+                        <div class="stat-change positive">
+                            ASUS ROG Strix G16
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Charts -->
@@ -669,6 +689,72 @@
                         <h3>Rating Distributie</h3>
                         <div class="chart-container">
                             <canvas id="ratingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Section -->
+                <div class="sql-section" style="margin-bottom: 2rem;">
+                    <h3>💡 AI-gegenereerde Insights</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 4px solid #4CAF50; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #4CAF50;">🚀 Positieve Trend</strong>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">ASUS ROG Strix G16 laat een sterke groei zien met +234 reviews deze maand. Het sentiment is 87% positief, hoofdzakelijk door de uitstekende gaming prestaties en RTX 4070 graphics card.</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(255, 165, 2, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 4px solid #FFA502; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #FFA502;">⚠️ Aandachtspunt</strong>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Noise Cancelling Koptelefoon heeft een stijging van 23% negatieve reviews. Klanten klagen vooral over de prijs-kwaliteit verhouding en de effectiviteit van noise cancelling.</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(45, 95, 63, 0.1) 0%, rgba(74, 124, 89, 0.05) 100%); border-left: 4px solid #2D5F3F; padding: 1rem; border-radius: 8px;">
+                            <strong style="color: #2D5F3F;">📊 Data Patroon</strong>
+                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Peak review tijden zijn dinsdag en woensdag tussen 19:00-22:00 uur. Dit suggereert dat klanten voornamelijk 's avonds na het uitproberen van producten reviews schrijven.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges/Awards Section -->
+                <div style="background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%); border: 2px solid var(--gray-200); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏆 Product Awards</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%); border: 2px solid #FFD700; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🥇</div>
+                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #D97706;">Product van de Maand</div>
+                            <div style="font-size: 0.9375rem; color: var(--gray-700);">ASUS ROG Strix G16</div>
+                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">4.9★ | 234 reviews</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.05) 100%); border: 2px solid #4CAF50; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📈</div>
+                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #2D5F3F;">Most Improved</div>
+                            <div style="font-size: 0.9375rem; color: var(--gray-700);">Wasmachine EcoWash</div>
+                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">+0.8★ verbetering</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%); border: 2px solid #F59E0B; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">⭐</div>
+                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #D97706;">Best Value</div>
+                            <div style="font-size: 0.9375rem; color: var(--gray-700);">HP Pavilion 15</div>
+                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">Beste prijs-kwaliteit</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(109, 40, 217, 0.05) 100%); border: 2px solid #8B5CF6; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
+                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #7C3AED;">Meest Besproken</div>
+                            <div style="font-size: 0.9375rem; color: var(--gray-700);">iPhone 16 Pro</div>
+                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">1,234 reviews</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Analysis Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>📅 Reviews per Dag van de Week</h3>
+                        <div class="chart-container">
+                            <canvas id="weekdayChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>🕐 Reviews per Uur van de Dag</h3>
+                        <div class="chart-container">
+                            <canvas id="hourChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -735,46 +821,144 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Gaming Laptop Pro</td>
+                                <td>ASUS ROG Strix G16</td>
                                 <td><span class="rating-stars">★★★★★</span></td>
                                 <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Geweldige laptop! Draait alle games op ultra settings.</td>
-                                <td>4 feb 2026</td>
+                                <td>Geweldige laptop! RTX 4070 draait alle games op ultra settings.</td>
+                                <td>13 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>iPhone 16 Pro</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Camera is next-level. Titanium design voelt premium aan.</td>
+                                <td>13 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Sony WH-1000XM5</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Beste noise cancelling die ik ooit heb gehad. Aanrader!</td>
+                                <td>12 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>LG OLED C4 65"</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Prachtig beeld voor films en gaming. HDR is fantastisch.</td>
+                                <td>12 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Dyson V15 Detect</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Laser detectie is cool, wel prijzig maar het werkt perfect.</td>
+                                <td>11 feb 2026</td>
                             </tr>
                             <tr>
                                 <td>Wasmachine EcoWash</td>
                                 <td><span class="rating-stars">★★★★☆</span></td>
                                 <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
                                 <td>Zeer energiezuinig en stil. Aanrader!</td>
-                                <td>3 feb 2026</td>
+                                <td>11 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>MacBook Pro 14" M4</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>M4 chip is belachelijk snel. Battery life van 20+ uur.</td>
+                                <td>10 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Samsung Galaxy S24 Ultra</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>S Pen is handig, camera zoom is indrukwekkend.</td>
+                                <td>10 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>PlayStation 5 Slim</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Mooie games, SSD is supersnel. Controller is comfortabel.</td>
+                                <td>9 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Philips Hue Starter Kit</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Makkelijk te installeren, app werkt goed. Wel prijzig.</td>
+                                <td>9 feb 2026</td>
                             </tr>
                             <tr>
                                 <td>4K Smart TV 55"</td>
                                 <td><span class="rating-stars">★★★☆☆</span></td>
                                 <td><span class="sentiment-badge sentiment-neutral">Neutraal</span></td>
                                 <td>Goede kwaliteit, maar interface is wat traag.</td>
-                                <td>2 feb 2026</td>
+                                <td>8 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Dell XPS 15</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Mooi scherm, goede specs. Wel wat zwaar voor dagelijks gebruik.</td>
+                                <td>8 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>AirPods Pro (2e gen)</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Transparantie modus is top. ANC werkt uitstekend.</td>
+                                <td>7 feb 2026</td>
                             </tr>
                             <tr>
                                 <td>UltraBook Student</td>
                                 <td><span class="rating-stars">★★★★★</span></td>
                                 <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
                                 <td>Perfect voor de uni. Licht en lange batterijduur!</td>
-                                <td>2 feb 2026</td>
+                                <td>7 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Miele WEG 675 WCS</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Premium wasmachine, stil en grondig. Investering waard.</td>
+                                <td>6 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>iPad Pro 12.9" M4</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>ProMotion display is prachtig. Ideaal voor creative work.</td>
+                                <td>6 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Bosch Serie 8</td>
+                                <td><span class="rating-stars">★★★★☆</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>Betrouwbaar merk, wast goed. Wel duur in aanschaf.</td>
+                                <td>5 feb 2026</td>
                             </tr>
                             <tr>
                                 <td>Noise Cancelling Koptelefoon</td>
                                 <td><span class="rating-stars">★★☆☆☆</span></td>
                                 <td><span class="sentiment-badge sentiment-negative">Negatief</span></td>
                                 <td>Noise cancelling werkt niet goed genoeg voor de prijs.</td>
-                                <td>1 feb 2026</td>
+                                <td>5 feb 2026</td>
                             </tr>
                             <tr>
-                                <td>Gaming Laptop Pro</td>
+                                <td>Google Pixel 9 Pro</td>
                                 <td><span class="rating-stars">★★★★☆</span></td>
                                 <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Goed product, alleen de ventilator is soms wat luid.</td>
-                                <td>1 feb 2026</td>
+                                <td>Pure Android ervaring, camera is excellent. Prijs is goed.</td>
+                                <td>4 feb 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Nintendo Switch OLED</td>
+                                <td><span class="rating-stars">★★★★★</span></td>
+                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
+                                <td>OLED scherm maakt groot verschil. Perfecte handheld.</td>
+                                <td>4 feb 2026</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1041,6 +1225,90 @@
                         natureGradientColors.primaryBorder
                     ],
                     borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Weekday Chart
+        const ctxWeekday = document.getElementById('weekdayChart').getContext('2d');
+        new Chart(ctxWeekday, {
+            type: 'bar',
+            data: {
+                labels: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
+                datasets: [{
+                    label: 'Aantal Reviews',
+                    data: [312, 445, 478, 398, 356, 287, 312],
+                    backgroundColor: natureGradientColors.warm,
+                    borderColor: natureGradientColors.warmBorder,
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Hour Chart
+        const ctxHour = document.getElementById('hourChart').getContext('2d');
+        const hourGradient = ctxHour.createLinearGradient(0, 0, 0, 300);
+        hourGradient.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
+        hourGradient.addColorStop(1, 'rgba(76, 175, 80, 0.1)');
+        
+        new Chart(ctxHour, {
+            type: 'line',
+            data: {
+                labels: ['00', '02', '04', '06', '08', '10', '12', '14', '16', '18', '20', '22'],
+                datasets: [{
+                    label: 'Reviews per Uur',
+                    data: [12, 8, 5, 15, 45, 78, 112, 98, 134, 189, 167, 89],
+                    borderColor: natureGradientColors.warmBorder,
+                    backgroundColor: hourGradient,
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointBackgroundColor: natureGradientColors.goldBorder,
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
                 }]
             },
             options: {
