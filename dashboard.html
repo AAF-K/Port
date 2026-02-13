@@ -137,21 +137,21 @@
         }
         
 .naja-avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;  /* Maak het rond! */
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: transparent;
+    background: transparent !important;  /* FORCE transparent! */
+    /* VERWIJDER elke background regel! */
 }
 
 .naja-avatar img {
-    width: 200%;      /* Zoom IN op de image */
-    height: 200%;     /* Zoom IN op de image */
+    width: 180%;
+    height: 180%;
     object-fit: cover;
-    object-position: center;  /* Centreer het gezicht */
 }
         
         .naja-info h4 { 
