@@ -15,10 +15,6 @@ Portfolio website met AI, data en hardware projecten.
 - Raspberry Pi, Docker
 - Claude API, LLM
 
-## 📦 Deployment
-
-Gehost op Vercel: [Link komt hier]
-
 ---
 
 © 2026 Alano Kricha
