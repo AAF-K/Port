@@ -8,966 +8,204 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #2D5F3F;
-            --primary-dark: #1E4029;
-            --primary-light: #4A7C59;
-            --accent: #4CAF50;
-            --accent-warm: #F59E0B;
-            --gold: #D97706;
-            --warm-orange: #FB923C;
-            --warm-peach: #FED7AA;
-            --dark: #1A1A1A;
-            --gray-50: #FFFBF5;
-            --gray-100: #FFF8F0;
-            --gray-200: #F5EFE7;
-            --gray-300: #E7E0D8;
-            --gray-700: #404040;
-            --white: #FFFFFF;
-            --green: #00D68F;
-            --red: #FF4757;
-            --yellow: #FFA502;
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #FFFBF5 0%, #FFF4E6 30%, #FFF8F0 60%, #F5EFE7 100%);
-            background-attachment: fixed;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-        
-        /* Header with warm nature gradient */
-        .header {
-            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 30%, #4CAF50 60%, #F59E0B 100%);
-            background-size: 300% 300%;
-            animation: gradientShift 12s ease infinite;
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(45, 95, 63, 0.25);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        
-        .back-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s ease;
-        }
-        
-        .back-link:hover { opacity: 0.8; }
-        
-        .project-title-header {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        /* Main Grid Layout */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        /* Naja Sidebar */
-        .naja-sidebar {
-            background: linear-gradient(180deg, 
-                rgba(255,255,255,0.95) 0%, 
-                rgba(255,251,245,0.9) 50%,
-                rgba(255,244,230,0.85) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 158, 11, 0.15);
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(45, 95, 63, 0.12), 
-                        0 4px 16px rgba(245, 158, 11, 0.08);
-            position: sticky;
-            top: 100px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-        }
-        
-        .naja-header {
-            padding: 1rem 1.25rem;
-            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 40%, #F59E0B 100%);
-            background-size: 200% 200%;
-            animation: techGradient 8s ease infinite;
-            color: white;
-            border-radius: 16px 16px 0 0;
-        }
-        
-        @keyframes techGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .naja-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-.naja-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .naja-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #2D5F3F 0%, #1E4029 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 2px 8px rgba(45, 95, 63, 0.3);
-        }
-        
-        .naja-info h4 { 
-            font-size: 1rem; 
-            font-weight: 700; 
-            margin-bottom: 0.25rem;
-        }
-        
-        .naja-info p { 
-            font-size: 0.8125rem; 
-            opacity: 0.9;
-        }
-        
-        .naja-section { padding: 1.25rem; }
-        
-        .chat-messages {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            padding-right: 0.5rem;
-        }
-        
-        .message { margin-bottom: 0.75rem; }
-        .message.user { text-align: right; }
-        
-        .message-bubble {
-            display: inline-block;
-            padding: 0.65rem 0.85rem;
-            border-radius: 10px;
-            max-width: 85%;
-            font-size: 0.875rem;
-        }
-        
-        .message.user .message-bubble {
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 3px;
-        }
-        
-        .message.assistant .message-bubble {
-            background: var(--gray-100);
-            color: var(--dark);
-            border-bottom-left-radius: 3px;
-        }
-        
-        .typing-indicator {
-            display: inline-flex;
-            gap: 4px;
-            padding: 0.65rem 0.85rem;
-            background: var(--gray-100);
-            border-radius: 10px;
-        }
-        
-        .typing-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--gray-700);
-            animation: typing 1.4s infinite;
-        }
-        
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-8px); }
-        }
-        
-        .chat-input-wrapper {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-            width: 100%;
-        }
-        
-        .chat-input {
-            flex: 1;
-            min-width: 0;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            font-size: 0.875rem;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .send-btn {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            min-height: 48px;
-            background: linear-gradient(135deg, #4CAF50 0%, #F59E0B 50%, #D97706 100%);
-            background-size: 200% 200%;
-            animation: buttonGlow 3s ease infinite;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
-            flex-shrink: 0;
-        }
-        
-        @keyframes buttonGlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .send-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 24px rgba(245, 158, 11, 0.5);
-        }
-        
-        .send-btn svg {
-            width: 24px;
-            height: 24px;
-        }
-        
-        .error-message {
-            background: #FEE2E2;
-            border: 1px solid #FCA5A5;
-            color: #991B1B;
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-        }
-        
-        /* Dashboard Content */
-        .dashboard-content {
-            min-width: 0;
-        }
-        
-        .dashboard-header {
-            background: linear-gradient(135deg, #2D5F3F 0%, #4A7C59 50%, #F59E0B 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 24px rgba(45, 95, 63, 0.2);
-        }
-        
-        .dashboard-header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .dashboard-header p {
-            opacity: 0.9;
-            font-size: 1.05rem;
-        }
-        
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
-            border: 2px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(245, 158, 11, 0.15);
-            border-color: var(--accent-warm);
-        }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--gray-700);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 0.25rem;
-            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .stat-change {
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            font-weight: 500;
-        }
-        
-        .stat-change.positive { color: var(--accent); }
-        .stat-change.negative { color: var(--red); }
-        
-        /* Charts Grid */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .chart-card {
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
-            border: 2px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-card:hover {
-            border-color: var(--accent-warm);
-            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.1);
-        }
-        
-        .chart-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--gray-200);
-            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-        
-        /* SQL Section */
-        .sql-section {
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
-            border: 2px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .sql-section h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .sql-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--gray-200);
-            padding-bottom: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .sql-tab {
-            padding: 0.5rem 1rem;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            font-size: 0.875rem;
-        }
-        
-        .sql-tab:hover {
-            background: var(--gray-100);
-            border-radius: 8px 8px 0 0;
-        }
-        
-        .sql-tab.active {
-            border-bottom-color: var(--accent-warm);
-            color: var(--accent-warm);
-        }
-        
-        .sql-query {
-            background: var(--dark);
-            color: #00ff00;
-            padding: 1.5rem;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            line-height: 1.6;
-            display: none;
-        }
-        
-        .sql-query.active { display: block; }
-        
-        .sql-keyword { color: #ff6b9d; }
-        .sql-table { color: #4fb3f6; }
-        .sql-column { color: #ffd900; }
-        
-        /* Data Table */
-        .data-table-container {
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%);
-            border: 2px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 2rem;
-            overflow-x: auto;
-        }
-        
-        .data-table-container h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        
-        .data-table th {
-            background: var(--gray-100);
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid var(--gray-200);
-        }
-        
-        .data-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--gray-200);
-        }
-        
-        .data-table tr:hover {
-            background: var(--gray-100);
-        }
-        
-        .sentiment-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        .sentiment-positive {
-            background: rgba(76, 175, 80, 0.1);
-            color: var(--accent);
-        }
-        
-        .sentiment-neutral {
-            background: rgba(255, 165, 2, 0.1);
-            color: var(--yellow);
-        }
-        
-        .sentiment-negative {
-            background: rgba(255, 71, 87, 0.1);
-            color: var(--red);
-        }
-        
-        .rating-stars {
-            color: var(--gold);
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .naja-sidebar {
-                position: relative;
-                top: 0;
-                max-height: none;
-            }
-            
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .dashboard-header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary:#2D5F3F;--primary-light:#4A7C59;--accent:#4CAF50;--accent-warm:#F59E0B;--gold:#D97706;--dark:#1A1A1A;--gray-50:#FFFBF5;--gray-100:#FFF8F0;--gray-200:#F5EFE7;--gray-300:#E7E0D8;--gray-700:#404040;--green:#00D68F;--red:#FF4757;--yellow:#FFA502}
+        body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#FFFBF5 0%,#FFF4E6 30%,#FFF8F0 60%,#F5EFE7 100%);background-attachment:fixed;color:var(--dark);line-height:1.6}
+        .header{background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 30%,#4CAF50 60%,#F59E0B 100%);background-size:300% 300%;animation:gradientShift 12s ease infinite;color:white;padding:1rem 0;box-shadow:0 4px 20px rgba(45,95,63,0.25);position:sticky;top:0;z-index:100}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        .header-content{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
+        .back-link{display:flex;align-items:center;gap:0.5rem;color:white;text-decoration:none;font-weight:500;transition:opacity .3s}
+        .back-link:hover{opacity:.8}
+        .lang-toggle{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:6px;padding:.3rem .7rem;color:white;font-size:.875rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s}
+        .lang-toggle:hover{background:rgba(255,255,255,0.25)}
+        .container{max-width:1400px;margin:0 auto;padding:2rem}
+        .main-grid{display:grid;grid-template-columns:320px 1fr;gap:2rem;margin-top:2rem}
+        .naja-sidebar{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,251,245,.9) 50%,rgba(255,244,230,.85) 100%);backdrop-filter:blur(12px);border:1px solid rgba(245,158,11,.15);border-radius:20px;box-shadow:0 12px 40px rgba(45,95,63,.12);position:sticky;top:100px;max-height:calc(100vh - 120px);overflow-y:auto}
+        .naja-header{padding:1rem 1.25rem;background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 40%,#F59E0B 100%);background-size:200% 200%;animation:techGradient 8s ease infinite;color:white;border-radius:16px 16px 0 0}
+        @keyframes techGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        .naja-info{display:flex;align-items:center;gap:.75rem}
+        .naja-avatar{width:50px;height:50px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+        .naja-info h4{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+        .naja-info p{font-size:.8125rem;opacity:.9}
+        .naja-section{padding:1.25rem}
+        .chat-messages{max-height:400px;overflow-y:auto;margin-bottom:1rem;padding-right:.5rem}
+        .message{margin-bottom:.75rem}
+        .message.user{text-align:right}
+        .message-bubble{display:inline-block;padding:.65rem .85rem;border-radius:10px;max-width:85%;font-size:.875rem}
+        .message.user .message-bubble{background:var(--primary);color:white;border-bottom-right-radius:3px}
+        .message.assistant .message-bubble{background:var(--gray-100);color:var(--dark);border-bottom-left-radius:3px}
+        .typing-indicator{display:inline-flex;gap:4px;padding:.65rem .85rem;background:var(--gray-100);border-radius:10px}
+        .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--gray-700);animation:typing 1.4s infinite}
+        .typing-dot:nth-child(2){animation-delay:.2s}
+        .typing-dot:nth-child(3){animation-delay:.4s}
+        @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
+        .chat-input-wrapper{display:flex;gap:.75rem;align-items:center;width:100%}
+        .chat-input{flex:1;min-width:0;padding:.75rem 1rem;border:2px solid var(--gray-200);border-radius:12px;font-size:.875rem;font-family:'Inter',sans-serif}
+        .chat-input:focus{outline:none;border-color:var(--primary)}
+        .send-btn{width:48px;height:48px;min-width:48px;background:linear-gradient(135deg,#4CAF50 0%,#F59E0B 50%,#D97706 100%);background-size:200% 200%;animation:buttonGlow 3s ease infinite;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 16px rgba(245,158,11,.4);flex-shrink:0}
+        @keyframes buttonGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+        .send-btn:hover{transform:scale(1.08)}
+        .send-btn svg{width:24px;height:24px}
+        .error-message{background:#FEE2E2;border:1px solid #FCA5A5;color:#991B1B;padding:.75rem;border-radius:8px;margin-bottom:1rem;font-size:.875rem}
+        .dashboard-content{min-width:0}
+        .dashboard-header{background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 50%,#F59E0B 100%);color:white;padding:2rem;border-radius:16px;margin-bottom:2rem;box-shadow:0 8px 24px rgba(45,95,63,.2)}
+        .dashboard-header h1{font-size:2rem;margin-bottom:.5rem}
+        .dashboard-header p{opacity:.9;font-size:1.05rem}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .stat-card{background:linear-gradient(135deg,#FFF 0%,#FFFBF5 100%);border:2px solid var(--gray-200);border-radius:12px;padding:1.5rem;transition:all .3s}
+        .stat-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(245,158,11,.15);border-color:var(--accent-warm)}
+        .stat-label{font-size:.85rem;color:var(--gray-700);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+        .stat-value{font-size:2rem;font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:.25rem;background:linear-gradient(135deg,#2D5F3F,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .stat-change{font-size:.85rem;display:flex;align-items:center;gap:.25rem;font-weight:500}
+        .stat-change.positive{color:var(--accent)}
+        .stat-change.negative{color:var(--red)}
+        .charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:2rem;margin-bottom:2rem}
+        .chart-card{background:linear-gradient(135deg,#FFF,#FFFBF5);border:2px solid var(--gray-200);border-radius:16px;padding:2rem;transition:all .3s}
+        .chart-card:hover{border-color:var(--accent-warm);box-shadow:0 8px 24px rgba(245,158,11,.1)}
+        .chart-card h3{font-size:1.25rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:2px solid var(--gray-200);background:linear-gradient(135deg,#2D5F3F,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .chart-container{position:relative;height:300px}
+        .sql-section{background:linear-gradient(135deg,#FFF,#FFFBF5);border:2px solid var(--gray-200);border-radius:16px;padding:2rem;margin-bottom:2rem}
+        .sql-section h3{font-size:1.25rem;margin-bottom:1rem;background:linear-gradient(135deg,#2D5F3F,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .sql-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:2px solid var(--gray-200);padding-bottom:.5rem;flex-wrap:wrap}
+        .sql-tab{padding:.5rem 1rem;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:all .3s;font-size:.875rem}
+        .sql-tab:hover{background:var(--gray-100);border-radius:8px 8px 0 0}
+        .sql-tab.active{border-bottom-color:var(--accent-warm);color:var(--accent-warm)}
+        .sql-query{background:var(--dark);color:#00ff00;padding:1.5rem;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.9rem;overflow-x:auto;line-height:1.6;display:none}
+        .sql-query.active{display:block}
+        .sql-keyword{color:#ff6b9d}.sql-table{color:#4fb3f6}.sql-column{color:#ffd900}
+        .data-table-container{background:linear-gradient(135deg,#FFF,#FFFBF5);border:2px solid var(--gray-200);border-radius:16px;padding:2rem;overflow-x:auto}
+        .data-table-container h3{font-size:1.25rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#2D5F3F,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .data-table{width:100%;border-collapse:collapse;font-size:.9rem}
+        .data-table th{background:var(--gray-100);padding:1rem;text-align:left;font-weight:600;border-bottom:2px solid var(--gray-200)}
+        .data-table td{padding:1rem;border-bottom:1px solid var(--gray-200)}
+        .data-table tr:hover{background:var(--gray-100)}
+        .sentiment-badge{display:inline-block;padding:.25rem .75rem;border-radius:20px;font-size:.8rem;font-weight:600}
+        .sentiment-positive{background:rgba(76,175,80,.1);color:var(--accent)}
+        .sentiment-neutral{background:rgba(255,165,2,.1);color:var(--yellow)}
+        .sentiment-negative{background:rgba(255,71,87,.1);color:var(--red)}
+        .rating-stars{color:var(--gold)}
+        @media(max-width:1024px){.main-grid{grid-template-columns:1fr}.naja-sidebar{position:relative;top:0;max-height:none}.charts-grid{grid-template-columns:1fr}}
+        @media(max-width:768px){.container{padding:1rem}.dashboard-header h1{font-size:1.5rem}.stats-grid{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
             <a href="index.html" class="back-link">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                </svg>
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Terug naar portfolio
             </a>
+            <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
         </div>
     </header>
 
     <div class="container">
         <div class="main-grid">
-            <!-- Naja Sidebar -->
             <div class="naja-sidebar">
                 <div class="naja-header">
-               <div class="naja-info">
-   <div class="naja-avatar">
-        <div style="width: 50px; height: 50px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">👩🏻</div>
-   </div>
-   <div>
-       <h4>Naja AI Analyst</h4>
-       <p>Powered by Raspberry Pi 5</p>
-   </div>
-</div>
+                    <div class="naja-info">
+                        <div class="naja-avatar">&#x1F469;&#x1F3FB;</div>
+                        <div>
+                            <h4 id="naja-name">Naja AI Analyst</h4>
+                            <p id="naja-sub">Powered by Raspberry Pi 5</p>
+                        </div>
+                    </div>
                 </div>
-                
                 <div class="naja-section">
                     <div class="chat-messages" id="messages"></div>
-                    
                     <div class="chat-input-wrapper">
-                        <input 
-                            type="text" 
-                            class="chat-input" 
-                            id="input" 
-                            placeholder="Vraag Naja over de data..."
-                            onkeypress="if(event.key==='Enter')sendMsg()"
-                        >
-                        <button class="send-btn" onclick="sendMsg()" title="Verstuur">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-                                <path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>
-                                <path d="M7 7L6 9L4 10l2 1 1 2 1-2 2-1-2-1-1-2z" opacity="0.6"/>
-                            </svg>
+                        <input type="text" class="chat-input" id="input" placeholder="Vraag Naja over de data..." onkeypress="if(event.key==='Enter')sendMsg()">
+                        <button class="send-btn" onclick="sendMsg()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/></svg>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Dashboard Content -->
             <div class="dashboard-content">
                 <div class="dashboard-header">
-                    <h1>📊 Product Review Analytics</h1>
-                    <p>Real-time inzichten uit klantreviews met SQL queries en AI-analyse</p>
+                    <h1>&#x1F4CA; Product Review Analytics</h1>
+                    <p id="dash-sub">Real-time inzichten uit klantreviews met SQL queries en AI-analyse</p>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Totaal Reviews</div>
-                        <div class="stat-value">2,847</div>
-                        <div class="stat-change positive">
-                            ↑ +12% deze maand
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Gemiddelde Rating</div>
-                        <div class="stat-value">4.3</div>
-                        <div class="stat-change positive">
-                            ↑ +0.2 t.o.v. vorige maand
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Positief Sentiment</div>
-                        <div class="stat-value">68%</div>
-                        <div class="stat-change positive">
-                            ↑ +5% deze maand
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Response Rate</div>
-                        <div class="stat-value">91%</div>
-                        <div class="stat-change negative">
-                            ↓ -3% deze maand
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Gem. Response Tijd</div>
-                        <div class="stat-value">4.2u</div>
-                        <div class="stat-change positive">
-                            ↑ 15% sneller
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Trending Product</div>
-                        <div class="stat-value">+234</div>
-                        <div class="stat-change positive">
-                            ASUS ROG Strix G16
-                        </div>
+                    <div class="stat-card"><div class="stat-label" id="sl1">Totaal Reviews</div><div class="stat-value">2,847</div><div class="stat-change positive" id="sc1">&#x2191; +12% deze maand</div></div>
+                    <div class="stat-card"><div class="stat-label" id="sl2">Gemiddelde Rating</div><div class="stat-value">4.3</div><div class="stat-change positive" id="sc2">&#x2191; +0.2 t.o.v. vorige maand</div></div>
+                    <div class="stat-card"><div class="stat-label" id="sl3">Positief Sentiment</div><div class="stat-value">68%</div><div class="stat-change positive" id="sc3">&#x2191; +5% deze maand</div></div>
+                    <div class="stat-card"><div class="stat-label" id="sl4">Response Rate</div><div class="stat-value">91%</div><div class="stat-change negative" id="sc4">&#x2193; -3% deze maand</div></div>
+                    <div class="stat-card"><div class="stat-label" id="sl5">Gem. Response Tijd</div><div class="stat-value">4.2u</div><div class="stat-change positive" id="sc5">&#x2191; 15% sneller</div></div>
+                    <div class="stat-card"><div class="stat-label" id="sl6">Trending Product</div><div class="stat-value">+234</div><div class="stat-change positive">ASUS ROG Strix G16</div></div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card"><h3 id="ch1">Reviews per Categorie</h3><div class="chart-container"><canvas id="categoryChart"></canvas></div></div>
+                    <div class="chart-card"><h3 id="ch2">Sentiment Verdeling</h3><div class="chart-container"><canvas id="sentimentChart"></canvas></div></div>
+                </div>
+                <div class="charts-grid">
+                    <div class="chart-card"><h3 id="ch3">Reviews Over Tijd</h3><div class="chart-container"><canvas id="timelineChart"></canvas></div></div>
+                    <div class="chart-card"><h3 id="ch4">Rating Distributie</h3><div class="chart-container"><canvas id="ratingChart"></canvas></div></div>
+                </div>
+
+                <div class="sql-section" style="margin-bottom:2rem">
+                    <h3 id="insights-h">&#x1F4A1; AI-gegenereerde Insights</h3>
+                    <div style="display:grid;gap:1rem;margin-top:1rem">
+                        <div style="background:linear-gradient(135deg,rgba(76,175,80,.1),rgba(245,158,11,.05));border-left:4px solid #4CAF50;padding:1rem;border-radius:8px"><strong style="color:#4CAF50">&#x1F680; <span id="ins1-t">Positieve Trend</span></strong><p style="margin-top:.5rem;font-size:.9rem" id="ins1-p">ASUS ROG Strix G16 laat een sterke groei zien met +234 reviews deze maand. Het sentiment is 87% positief, hoofdzakelijk door de uitstekende gaming prestaties en RTX 4070 graphics card.</p></div>
+                        <div style="background:linear-gradient(135deg,rgba(255,165,2,.1),rgba(245,158,11,.05));border-left:4px solid #FFA502;padding:1rem;border-radius:8px"><strong style="color:#FFA502">&#x26A0;&#xFE0F; <span id="ins2-t">Aandachtspunt</span></strong><p style="margin-top:.5rem;font-size:.9rem" id="ins2-p">Noise Cancelling Koptelefoon heeft een stijging van 23% negatieve reviews. Klanten klagen vooral over de prijs-kwaliteit verhouding en de effectiviteit van noise cancelling.</p></div>
+                        <div style="background:linear-gradient(135deg,rgba(45,95,63,.1),rgba(74,124,89,.05));border-left:4px solid #2D5F3F;padding:1rem;border-radius:8px"><strong style="color:#2D5F3F">&#x1F4CA; <span id="ins3-t">Data Patroon</span></strong><p style="margin-top:.5rem;font-size:.9rem" id="ins3-p">Peak review tijden zijn dinsdag en woensdag tussen 19:00-22:00 uur. Dit suggereert dat klanten voornamelijk 's avonds na het uitproberen van producten reviews schrijven.</p></div>
                     </div>
                 </div>
 
-                <!-- Charts -->
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3>Reviews per Categorie</h3>
-                        <div class="chart-container">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h3>Sentiment Verdeling</h3>
-                        <div class="chart-container">
-                            <canvas id="sentimentChart"></canvas>
-                        </div>
+                <div style="background:linear-gradient(135deg,#FFF,#FFFBF5);border:2px solid var(--gray-200);border-radius:16px;padding:2rem;margin-bottom:2rem">
+                    <h3 id="awards-h" style="font-size:1.25rem;margin-bottom:1.5rem;background:linear-gradient(135deg,#2D5F3F,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">&#x1F3C6; Product Awards</h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem">
+                        <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,193,7,.05));border:2px solid #FFD700;border-radius:12px;padding:1.5rem;text-align:center"><div style="font-size:3rem;margin-bottom:.5rem">&#x1F947;</div><div style="font-weight:700;font-size:1.125rem;margin-bottom:.5rem;color:#D97706" id="aw1">Product van de Maand</div><div style="font-size:.9375rem;color:#404040">ASUS ROG Strix G16</div><div style="font-size:.8125rem;color:#404040;margin-top:.25rem">4.9&#x2605; | 234 reviews</div></div>
+                        <div style="background:linear-gradient(135deg,rgba(76,175,80,.1),rgba(46,125,50,.05));border:2px solid #4CAF50;border-radius:12px;padding:1.5rem;text-align:center"><div style="font-size:3rem;margin-bottom:.5rem">&#x1F4C8;</div><div style="font-weight:700;font-size:1.125rem;margin-bottom:.5rem;color:#2D5F3F" id="aw2">Most Improved</div><div style="font-size:.9375rem;color:#404040">Wasmachine EcoWash</div><div style="font-size:.8125rem;color:#404040;margin-top:.25rem" id="aw2-sub">+0.8&#x2605; verbetering</div></div>
+                        <div style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(217,119,6,.05));border:2px solid #F59E0B;border-radius:12px;padding:1.5rem;text-align:center"><div style="font-size:3rem;margin-bottom:.5rem">&#x2B50;</div><div style="font-weight:700;font-size:1.125rem;margin-bottom:.5rem;color:#D97706" id="aw3">Best Value</div><div style="font-size:.9375rem;color:#404040">HP Pavilion 15</div><div style="font-size:.8125rem;color:#404040;margin-top:.25rem" id="aw3-sub">Beste prijs-kwaliteit</div></div>
+                        <div style="background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(109,40,217,.05));border:2px solid #8B5CF6;border-radius:12px;padding:1.5rem;text-align:center"><div style="font-size:3rem;margin-bottom:.5rem">&#x1F4AC;</div><div style="font-weight:700;font-size:1.125rem;margin-bottom:.5rem;color:#7C3AED" id="aw4">Meest Besproken</div><div style="font-size:.9375rem;color:#404040">iPhone 16 Pro</div><div style="font-size:.8125rem;color:#404040;margin-top:.25rem">1,234 reviews</div></div>
                     </div>
                 </div>
 
                 <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3>Reviews Over Tijd</h3>
-                        <div class="chart-container">
-                            <canvas id="timelineChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h3>Rating Distributie</h3>
-                        <div class="chart-container">
-                            <canvas id="ratingChart"></canvas>
-                        </div>
-                    </div>
+                    <div class="chart-card"><h3 id="ch5">&#x1F4C5; Reviews per Dag van de Week</h3><div class="chart-container"><canvas id="weekdayChart"></canvas></div></div>
+                    <div class="chart-card"><h3 id="ch6">&#x1F550; Reviews per Uur van de Dag</h3><div class="chart-container"><canvas id="hourChart"></canvas></div></div>
                 </div>
 
-                <!-- AI Insights Section -->
-                <div class="sql-section" style="margin-bottom: 2rem;">
-                    <h3>💡 AI-gegenereerde Insights</h3>
-                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
-                        <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 4px solid #4CAF50; padding: 1rem; border-radius: 8px;">
-                            <strong style="color: #4CAF50;">🚀 Positieve Trend</strong>
-                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">ASUS ROG Strix G16 laat een sterke groei zien met +234 reviews deze maand. Het sentiment is 87% positief, hoofdzakelijk door de uitstekende gaming prestaties en RTX 4070 graphics card.</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, rgba(255, 165, 2, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border-left: 4px solid #FFA502; padding: 1rem; border-radius: 8px;">
-                            <strong style="color: #FFA502;">⚠️ Aandachtspunt</strong>
-                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Noise Cancelling Koptelefoon heeft een stijging van 23% negatieve reviews. Klanten klagen vooral over de prijs-kwaliteit verhouding en de effectiviteit van noise cancelling.</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, rgba(45, 95, 63, 0.1) 0%, rgba(74, 124, 89, 0.05) 100%); border-left: 4px solid #2D5F3F; padding: 1rem; border-radius: 8px;">
-                            <strong style="color: #2D5F3F;">📊 Data Patroon</strong>
-                            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Peak review tijden zijn dinsdag en woensdag tussen 19:00-22:00 uur. Dit suggereert dat klanten voornamelijk 's avonds na het uitproberen van producten reviews schrijven.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Badges/Awards Section -->
-                <div style="background: linear-gradient(135deg, #FFFFFF 0%, #FFFBF5 100%); border: 2px solid var(--gray-200); border-radius: 16px; padding: 2rem; margin-bottom: 2rem;">
-                    <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, #2D5F3F 0%, #F59E0B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">🏆 Product Awards</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                        <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%); border: 2px solid #FFD700; border-radius: 12px; padding: 1.5rem; text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🥇</div>
-                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #D97706;">Product van de Maand</div>
-                            <div style="font-size: 0.9375rem; color: var(--gray-700);">ASUS ROG Strix G16</div>
-                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">4.9★ | 234 reviews</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(46, 125, 50, 0.05) 100%); border: 2px solid #4CAF50; border-radius: 12px; padding: 1.5rem; text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📈</div>
-                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #2D5F3F;">Most Improved</div>
-                            <div style="font-size: 0.9375rem; color: var(--gray-700);">Wasmachine EcoWash</div>
-                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">+0.8★ verbetering</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%); border: 2px solid #F59E0B; border-radius: 12px; padding: 1.5rem; text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">⭐</div>
-                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #D97706;">Best Value</div>
-                            <div style="font-size: 0.9375rem; color: var(--gray-700);">HP Pavilion 15</div>
-                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">Beste prijs-kwaliteit</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(109, 40, 217, 0.05) 100%); border: 2px solid #8B5CF6; border-radius: 12px; padding: 1.5rem; text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">💬</div>
-                            <div style="font-weight: 700; font-size: 1.125rem; margin-bottom: 0.5rem; color: #7C3AED;">Meest Besproken</div>
-                            <div style="font-size: 0.9375rem; color: var(--gray-700);">iPhone 16 Pro</div>
-                            <div style="font-size: 0.8125rem; color: var(--gray-700); margin-top: 0.25rem;">1,234 reviews</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Time Analysis Charts -->
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3>📅 Reviews per Dag van de Week</h3>
-                        <div class="chart-container">
-                            <canvas id="weekdayChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <h3>🕐 Reviews per Uur van de Dag</h3>
-                        <div class="chart-container">
-                            <canvas id="hourChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SQL Queries Section -->
                 <div class="sql-section">
-                    <h3>📝 SQL Queries</h3>
+                    <h3 id="sql-h">&#x1F4DD; SQL Queries</h3>
                     <div class="sql-tabs">
-                        <button class="sql-tab active" onclick="showQuery('query1')">Top Producten</button>
-                        <button class="sql-tab" onclick="showQuery('query2')">Sentiment Analyse</button>
-                        <button class="sql-tab" onclick="showQuery('query3')">Review Trends</button>
+                        <button class="sql-tab active" id="tab1" onclick="showQuery('query1')">Top Producten</button>
+                        <button class="sql-tab" id="tab2" onclick="showQuery('query2')">Sentiment Analyse</button>
+                        <button class="sql-tab" id="tab3" onclick="showQuery('query3')">Review Trends</button>
                     </div>
-                    
-                    <div id="query1" class="sql-query active">
-<span class="sql-keyword">SELECT</span> 
-    <span class="sql-column">product_name</span>,
-    <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">total_reviews</span>,
-    <span class="sql-keyword">AVG</span>(<span class="sql-column">rating</span>) <span class="sql-keyword">AS</span> <span class="sql-column">avg_rating</span>,
-    <span class="sql-keyword">SUM</span>(<span class="sql-keyword">CASE WHEN</span> <span class="sql-column">sentiment</span> = 'positive' <span class="sql-keyword">THEN</span> 1 <span class="sql-keyword">ELSE</span> 0 <span class="sql-keyword">END</span>) <span class="sql-keyword">AS</span> <span class="sql-column">positive_count</span>
+                    <div id="query1" class="sql-query active"><span class="sql-keyword">SELECT</span> <span class="sql-column">product_name</span>, <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">total_reviews</span>, <span class="sql-keyword">AVG</span>(<span class="sql-column">rating</span>) <span class="sql-keyword">AS</span> <span class="sql-column">avg_rating</span>
 <span class="sql-keyword">FROM</span> <span class="sql-table">reviews</span>
 <span class="sql-keyword">WHERE</span> <span class="sql-column">created_at</span> >= <span class="sql-keyword">DATE_SUB</span>(<span class="sql-keyword">NOW</span>(), <span class="sql-keyword">INTERVAL</span> 30 <span class="sql-keyword">DAY</span>)
 <span class="sql-keyword">GROUP BY</span> <span class="sql-column">product_name</span>
-<span class="sql-keyword">ORDER BY</span> <span class="sql-column">avg_rating</span> <span class="sql-keyword">DESC</span>, <span class="sql-column">total_reviews</span> <span class="sql-keyword">DESC</span>
-<span class="sql-keyword">LIMIT</span> 10;
-                    </div>
-                    
-                    <div id="query2" class="sql-query">
-<span class="sql-keyword">SELECT</span>
-    <span class="sql-column">category</span>,
-    <span class="sql-column">sentiment</span>,
-    <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">count</span>,
+<span class="sql-keyword">ORDER BY</span> <span class="sql-column">avg_rating</span> <span class="sql-keyword">DESC</span>
+<span class="sql-keyword">LIMIT</span> 10;</div>
+                    <div id="query2" class="sql-query"><span class="sql-keyword">SELECT</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>, <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">count</span>,
     <span class="sql-keyword">ROUND</span>(<span class="sql-keyword">COUNT</span>(*) * 100.0 / <span class="sql-keyword">SUM</span>(<span class="sql-keyword">COUNT</span>(*)) <span class="sql-keyword">OVER</span> (<span class="sql-keyword">PARTITION BY</span> <span class="sql-column">category</span>), 2) <span class="sql-keyword">AS</span> <span class="sql-column">percentage</span>
-<span class="sql-keyword">FROM</span> <span class="sql-table">reviews</span> r
-<span class="sql-keyword">JOIN</span> <span class="sql-table">products</span> p <span class="sql-keyword">ON</span> r.<span class="sql-column">product_id</span> = p.<span class="sql-column">id</span>
+<span class="sql-keyword">FROM</span> <span class="sql-table">reviews</span> r <span class="sql-keyword">JOIN</span> <span class="sql-table">products</span> p <span class="sql-keyword">ON</span> r.<span class="sql-column">product_id</span> = p.<span class="sql-column">id</span>
 <span class="sql-keyword">GROUP BY</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>
-<span class="sql-keyword">ORDER BY</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>;
-                    </div>
-                    
-                    <div id="query3" class="sql-query">
-<span class="sql-keyword">SELECT</span>
-    <span class="sql-keyword">DATE_FORMAT</span>(<span class="sql-column">created_at</span>, '%Y-%m') <span class="sql-keyword">AS</span> <span class="sql-column">month</span>,
-    <span class="sql-keyword">AVG</span>(<span class="sql-column">rating</span>) <span class="sql-keyword">AS</span> <span class="sql-column">avg_rating</span>,
-    <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">review_count</span>,
-    <span class="sql-keyword">AVG</span>(<span class="sql-keyword">CASE WHEN</span> <span class="sql-column">sentiment</span> = 'positive' <span class="sql-keyword">THEN</span> 1.0 <span class="sql-keyword">ELSE</span> 0.0 <span class="sql-keyword">END</span>) <span class="sql-keyword">AS</span> <span class="sql-column">positive_rate</span>
+<span class="sql-keyword">ORDER BY</span> <span class="sql-column">category</span>, <span class="sql-column">sentiment</span>;</div>
+                    <div id="query3" class="sql-query"><span class="sql-keyword">SELECT</span> <span class="sql-keyword">DATE_FORMAT</span>(<span class="sql-column">created_at</span>, '%Y-%m') <span class="sql-keyword">AS</span> <span class="sql-column">month</span>,
+    <span class="sql-keyword">AVG</span>(<span class="sql-column">rating</span>) <span class="sql-keyword">AS</span> <span class="sql-column">avg_rating</span>, <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> <span class="sql-column">review_count</span>
 <span class="sql-keyword">FROM</span> <span class="sql-table">reviews</span>
 <span class="sql-keyword">WHERE</span> <span class="sql-column">created_at</span> >= <span class="sql-keyword">DATE_SUB</span>(<span class="sql-keyword">NOW</span>(), <span class="sql-keyword">INTERVAL</span> 12 <span class="sql-keyword">MONTH</span>)
 <span class="sql-keyword">GROUP BY</span> <span class="sql-keyword">DATE_FORMAT</span>(<span class="sql-column">created_at</span>, '%Y-%m')
-<span class="sql-keyword">ORDER BY</span> <span class="sql-column">month</span> <span class="sql-keyword">ASC</span>;
-                    </div>
+<span class="sql-keyword">ORDER BY</span> <span class="sql-column">month</span> <span class="sql-keyword">ASC</span>;</div>
                 </div>
 
-                <!-- Data Table -->
                 <div class="data-table-container">
-                    <h3>📋 Recent Reviews</h3>
+                    <h3 id="table-h">&#x1F4CB; Recent Reviews</h3>
                     <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Rating</th>
-                                <th>Sentiment</th>
-                                <th>Review Text</th>
-                                <th>Datum</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th id="th1">Product</th><th id="th2">Rating</th><th id="th3">Sentiment</th><th id="th4">Review Text</th><th id="th5">Datum</th></tr></thead>
                         <tbody>
-                            <tr>
-                                <td>ASUS ROG Strix G16</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Geweldige laptop! RTX 4070 draait alle games op ultra settings.</td>
-                                <td>13 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>iPhone 16 Pro</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Camera is next-level. Titanium design voelt premium aan.</td>
-                                <td>13 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Sony WH-1000XM5</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Beste noise cancelling die ik ooit heb gehad. Aanrader!</td>
-                                <td>12 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>LG OLED C4 65"</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Prachtig beeld voor films en gaming. HDR is fantastisch.</td>
-                                <td>12 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Dyson V15 Detect</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Laser detectie is cool, wel prijzig maar het werkt perfect.</td>
-                                <td>11 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Wasmachine EcoWash</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Zeer energiezuinig en stil. Aanrader!</td>
-                                <td>11 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>MacBook Pro 14" M4</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>M4 chip is belachelijk snel. Battery life van 20+ uur.</td>
-                                <td>10 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Samsung Galaxy S24 Ultra</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>S Pen is handig, camera zoom is indrukwekkend.</td>
-                                <td>10 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>PlayStation 5 Slim</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Mooie games, SSD is supersnel. Controller is comfortabel.</td>
-                                <td>9 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Philips Hue Starter Kit</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Makkelijk te installeren, app werkt goed. Wel prijzig.</td>
-                                <td>9 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>4K Smart TV 55"</td>
-                                <td><span class="rating-stars">★★★☆☆</span></td>
-                                <td><span class="sentiment-badge sentiment-neutral">Neutraal</span></td>
-                                <td>Goede kwaliteit, maar interface is wat traag.</td>
-                                <td>8 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Dell XPS 15</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Mooi scherm, goede specs. Wel wat zwaar voor dagelijks gebruik.</td>
-                                <td>8 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>AirPods Pro (2e gen)</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Transparantie modus is top. ANC werkt uitstekend.</td>
-                                <td>7 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>UltraBook Student</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Perfect voor de uni. Licht en lange batterijduur!</td>
-                                <td>7 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Miele WEG 675 WCS</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Premium wasmachine, stil en grondig. Investering waard.</td>
-                                <td>6 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>iPad Pro 12.9" M4</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>ProMotion display is prachtig. Ideaal voor creative work.</td>
-                                <td>6 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Bosch Serie 8</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Betrouwbaar merk, wast goed. Wel duur in aanschaf.</td>
-                                <td>5 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Noise Cancelling Koptelefoon</td>
-                                <td><span class="rating-stars">★★☆☆☆</span></td>
-                                <td><span class="sentiment-badge sentiment-negative">Negatief</span></td>
-                                <td>Noise cancelling werkt niet goed genoeg voor de prijs.</td>
-                                <td>5 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Google Pixel 9 Pro</td>
-                                <td><span class="rating-stars">★★★★☆</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>Pure Android ervaring, camera is excellent. Prijs is goed.</td>
-                                <td>4 feb 2026</td>
-                            </tr>
-                            <tr>
-                                <td>Nintendo Switch OLED</td>
-                                <td><span class="rating-stars">★★★★★</span></td>
-                                <td><span class="sentiment-badge sentiment-positive">Positief</span></td>
-                                <td>OLED scherm maakt groot verschil. Perfecte handheld.</td>
-                                <td>4 feb 2026</td>
-                            </tr>
+                            <tr><td>ASUS ROG Strix G16</td><td><span class="rating-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span></td><td><span class="sentiment-badge sentiment-positive" id="pos-label">Positief</span></td><td id="r1">Geweldige laptop! RTX 4070 draait alle games op ultra settings.</td><td>13 feb 2026</td></tr>
+                            <tr><td>iPhone 16 Pro</td><td><span class="rating-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span></td><td><span class="sentiment-badge sentiment-positive">Positief</span></td><td id="r2">Camera is next-level. Titanium design voelt premium aan.</td><td>13 feb 2026</td></tr>
+                            <tr><td>Sony WH-1000XM5</td><td><span class="rating-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span></td><td><span class="sentiment-badge sentiment-positive">Positief</span></td><td id="r3">Beste noise cancelling die ik ooit heb gehad. Aanrader!</td><td>12 feb 2026</td></tr>
+                            <tr><td>Noise Cancelling Koptelefoon</td><td><span class="rating-stars">&#x2605;&#x2605;&#x2606;&#x2606;&#x2606;</span></td><td><span class="sentiment-badge sentiment-negative" id="neg-label">Negatief</span></td><td id="r4">Noise cancelling werkt niet goed genoeg voor de prijs.</td><td>5 feb 2026</td></tr>
+                            <tr><td>Nintendo Switch OLED</td><td><span class="rating-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</span></td><td><span class="sentiment-badge sentiment-positive">Positief</span></td><td id="r5">OLED scherm maakt groot verschil. Perfecte handheld.</td><td>4 feb 2026</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -978,8 +216,7 @@
     <script>
         const API = 'https://cleo.alanokricha.com/chat';
         let history = [];
-        
-        // Naja Chatbot Functions
+
         function addMsg(txt, user=false) {
             const div = document.createElement('div');
             div.className = `message ${user?'user':'assistant'}`;
@@ -987,362 +224,89 @@
             document.getElementById('messages').appendChild(div);
             document.getElementById('messages').scrollTop = 999999;
         }
-        
         function showTyping() {
             const div = document.createElement('div');
-            div.className = 'message assistant';
-            div.id = 'typing';
+            div.className = 'message assistant'; div.id = 'typing';
             div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
             document.getElementById('messages').appendChild(div);
             document.getElementById('messages').scrollTop = 999999;
         }
-        
-        function removeTyping() {
-            const t = document.getElementById('typing');
-            if(t) t.remove();
-        }
-        
+        function removeTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
         function showError(msg) {
-            const div = document.createElement('div');
-            div.className = 'error-message';
-            div.innerHTML = msg;
+            const div = document.createElement('div'); div.className = 'error-message'; div.innerHTML = msg;
             document.getElementById('messages').appendChild(div);
-            document.getElementById('messages').scrollTop = 999999;
         }
-        
         async function sendMsg() {
             const inp = document.getElementById('input');
-            const msg = inp.value.trim();
-            if(!msg) return;
-            
-            addMsg(msg, true);
-            inp.value = '';
-            
-            // Add context about the dashboard
-            const contextMsg = `[Dashboard Context: Review Analytics met 2,847 reviews, gemiddelde rating 4.3, 68% positief sentiment, 91% response rate. Categorieën: Laptops (847), Gaming (634), Witgoed (512), Audio (456), TV & Beeld (398). SQL queries beschikbaar voor analyse.]\n\nVraag: ${msg}`;
-            
-            history.push({role:'user', content: contextMsg});
-            showTyping();
-            
+            const msg = inp.value.trim(); if(!msg) return;
+            addMsg(msg, true); inp.value = '';
+            const ctx = `[Dashboard: 2847 reviews, avg 4.3, 68% positive]\n${msg}`;
+            history.push({role:'user',content:ctx}); showTyping();
             try {
-                const res = await fetch(API, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        message: contextMsg, 
-                        history: history,
-                        model: 'Naja'
-                    })
-                });
-                
+                const res = await fetch(API, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:ctx,history,model:'Naja'})});
                 removeTyping();
-                
-                if(!res.ok) throw new Error(`API error: ${res.status}`);
-                
+                if(!res.ok) throw new Error(`${res.status}`);
                 const data = await res.json();
-                
-                if(data.reply) {
-                    addMsg(data.reply);
-                    history.push({role:'assistant', content: data.reply});
-                } else if (data.error) {
-                    throw new Error(data.error);
-                } else {
-                    throw new Error("Geen geldig antwoord ontvangen");
-                }
-                
-            } catch(e) {
-                removeTyping();
-                console.error(e);
-                showError(`❌ Kon niet verbinden met Naja. <br><small>${e.message}</small>`);
-            }
+                if(data.reply){addMsg(data.reply);history.push({role:'assistant',content:data.reply});}
+                else throw new Error(data.error||"No reply");
+            } catch(e) { removeTyping(); showError(`&#x274C; ${e.message}`); }
         }
-        
         async function checkAPI() {
-            try {
-                const res = await fetch('https://cleo.alanokricha.com/health');
-                if(res.ok) {
-                    addMsg('👋 Hoi! Ik ben Naja, je AI data-analist. Ik kan je helpen met vragen over de review data en SQL queries. Wat wil je weten?');
-                }
-            } catch(e) {
-                showError('⚠️ Naja API niet bereikbaar. Chatbot is offline.');
-            }
+            try { const r = await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg('&#x1F44B; Hoi! Ik ben Naja. Wat wil je weten over de data?'); }
+            catch(e) { showError('&#x26A0;&#xFE0F; Naja offline.'); }
         }
-        
-        // SQL Query Tabs
-        function showQuery(queryId) {
-            document.querySelectorAll('.sql-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.sql-query').forEach(query => query.classList.remove('active'));
-            
+        function showQuery(id) {
+            document.querySelectorAll('.sql-tab').forEach(t=>t.classList.remove('active'));
+            document.querySelectorAll('.sql-query').forEach(q=>q.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById(queryId).classList.add('active');
+            document.getElementById(id).classList.add('active');
         }
-        
-        // Chart.js Configuration with Nature Gradient Colors
-        const natureGradientColors = {
-            primary: 'rgba(45, 95, 63, 0.8)',
-            primaryBorder: 'rgba(45, 95, 63, 1)',
-            accent: 'rgba(76, 175, 80, 0.8)',
-            accentBorder: 'rgba(76, 175, 80, 1)',
-            warm: 'rgba(245, 158, 11, 0.8)',
-            warmBorder: 'rgba(245, 158, 11, 1)',
-            gold: 'rgba(217, 119, 6, 0.8)',
-            goldBorder: 'rgba(217, 119, 6, 1)'
-        };
-        
-        // Category Chart
-        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
-        new Chart(ctxCategory, {
-            type: 'bar',
-            data: {
-                labels: ['Laptops', 'Witgoed', 'TV & Beeld', 'Audio', 'Gaming'],
-                datasets: [{
-                    label: 'Aantal Reviews',
-                    data: [847, 512, 398, 456, 634],
-                    backgroundColor: natureGradientColors.primary,
-                    borderColor: natureGradientColors.primaryBorder,
-                    borderWidth: 2,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Sentiment Chart
-        const ctxSentiment = document.getElementById('sentimentChart').getContext('2d');
-        new Chart(ctxSentiment, {
-            type: 'doughnut',
-            data: {
-                labels: ['Positief', 'Neutraal', 'Negatief'],
-                datasets: [{
-                    data: [68, 22, 10],
-                    backgroundColor: [
-                        natureGradientColors.accent,
-                        natureGradientColors.warm,
-                        'rgba(255, 71, 87, 0.8)'
-                    ],
-                    borderWidth: 3,
-                    borderColor: '#fff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 15,
-                            font: {
-                                size: 12,
-                                family: 'Inter'
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Timeline Chart
-        const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
-        const timelineGradient = ctxTimeline.createLinearGradient(0, 0, 0, 300);
-        timelineGradient.addColorStop(0, 'rgba(76, 175, 80, 0.3)');
-        timelineGradient.addColorStop(1, 'rgba(245, 158, 11, 0.1)');
-        
-        new Chart(ctxTimeline, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun'],
-                datasets: [{
-                    label: 'Reviews',
-                    data: [420, 485, 512, 478, 534, 612],
-                    borderColor: natureGradientColors.accentBorder,
-                    backgroundColor: timelineGradient,
-                    tension: 0.4,
-                    fill: true,
-                    borderWidth: 3,
-                    pointBackgroundColor: natureGradientColors.warmBorder,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Rating Chart
-        const ctxRating = document.getElementById('ratingChart').getContext('2d');
-        new Chart(ctxRating, {
-            type: 'bar',
-            data: {
-                labels: ['1★', '2★', '3★', '4★', '5★'],
-                datasets: [{
-                    label: 'Aantal',
-                    data: [85, 142, 398, 1124, 1098],
-                    backgroundColor: [
-                        'rgba(255, 71, 87, 0.8)',
-                        'rgba(255, 165, 2, 0.8)',
-                        'rgba(255, 215, 0, 0.8)',
-                        natureGradientColors.accent,
-                        natureGradientColors.primary
-                    ],
-                    borderWidth: 2,
-                    borderColor: [
-                        'rgba(255, 71, 87, 1)',
-                        'rgba(255, 165, 2, 1)',
-                        'rgba(255, 215, 0, 1)',
-                        natureGradientColors.accentBorder,
-                        natureGradientColors.primaryBorder
-                    ],
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Weekday Chart
-        const ctxWeekday = document.getElementById('weekdayChart').getContext('2d');
-        new Chart(ctxWeekday, {
-            type: 'bar',
-            data: {
-                labels: ['Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag', 'Zondag'],
-                datasets: [{
-                    label: 'Aantal Reviews',
-                    data: [312, 445, 478, 398, 356, 287, 312],
-                    backgroundColor: natureGradientColors.warm,
-                    borderColor: natureGradientColors.warmBorder,
-                    borderWidth: 2,
-                    borderRadius: 8
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Hour Chart
-        const ctxHour = document.getElementById('hourChart').getContext('2d');
-        const hourGradient = ctxHour.createLinearGradient(0, 0, 0, 300);
-        hourGradient.addColorStop(0, 'rgba(245, 158, 11, 0.3)');
-        hourGradient.addColorStop(1, 'rgba(76, 175, 80, 0.1)');
-        
-        new Chart(ctxHour, {
-            type: 'line',
-            data: {
-                labels: ['00', '02', '04', '06', '08', '10', '12', '14', '16', '18', '20', '22'],
-                datasets: [{
-                    label: 'Reviews per Uur',
-                    data: [12, 8, 5, 15, 45, 78, 112, 98, 134, 189, 167, 89],
-                    borderColor: natureGradientColors.warmBorder,
-                    backgroundColor: hourGradient,
-                    tension: 0.4,
-                    fill: true,
-                    borderWidth: 3,
-                    pointBackgroundColor: natureGradientColors.goldBorder,
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    y: { 
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Initialize
+        const nc = {primary:'rgba(45,95,63,0.8)',primaryB:'rgba(45,95,63,1)',accent:'rgba(76,175,80,0.8)',accentB:'rgba(76,175,80,1)',warm:'rgba(245,158,11,0.8)',warmB:'rgba(245,158,11,1)'};
+        new Chart(document.getElementById('categoryChart').getContext('2d'),{type:'bar',data:{labels:['Laptops','Witgoed','TV & Beeld','Audio','Gaming'],datasets:[{label:'Reviews',data:[847,512,398,456,634],backgroundColor:nc.primary,borderColor:nc.primaryB,borderWidth:2,borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}}}});
+        new Chart(document.getElementById('sentimentChart').getContext('2d'),{type:'doughnut',data:{labels:['Positief','Neutraal','Negatief'],datasets:[{data:[68,22,10],backgroundColor:[nc.accent,nc.warm,'rgba(255,71,87,0.8)'],borderWidth:3,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}}}});
+        const tlCtx=document.getElementById('timelineChart').getContext('2d');
+        const tlGrad=tlCtx.createLinearGradient(0,0,0,300);tlGrad.addColorStop(0,'rgba(76,175,80,0.3)');tlGrad.addColorStop(1,'rgba(245,158,11,0.1)');
+        new Chart(tlCtx,{type:'line',data:{labels:['Jan','Feb','Mrt','Apr','Mei','Jun'],datasets:[{data:[420,485,512,478,534,612],borderColor:nc.accentB,backgroundColor:tlGrad,tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:nc.warmB,pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}}}});
+        new Chart(document.getElementById('ratingChart').getContext('2d'),{type:'bar',data:{labels:['1★','2★','3★','4★','5★'],datasets:[{data:[85,142,398,1124,1098],backgroundColor:['rgba(255,71,87,0.8)','rgba(255,165,2,0.8)','rgba(255,215,0,0.8)',nc.accent,nc.primary],borderWidth:2,borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true},x:{grid:{display:false}}}}});
+        new Chart(document.getElementById('weekdayChart').getContext('2d'),{type:'bar',data:{labels:['Ma','Di','Wo','Do','Vr','Za','Zo'],datasets:[{data:[312,445,478,398,356,287,312],backgroundColor:nc.warm,borderColor:nc.warmB,borderWidth:2,borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true},x:{grid:{display:false}}}}});
+        const hCtx=document.getElementById('hourChart').getContext('2d');
+        const hGrad=hCtx.createLinearGradient(0,0,0,300);hGrad.addColorStop(0,'rgba(245,158,11,0.3)');hGrad.addColorStop(1,'rgba(76,175,80,0.1)');
+        new Chart(hCtx,{type:'line',data:{labels:['00','02','04','06','08','10','12','14','16','18','20','22'],datasets:[{data:[12,8,5,15,45,78,112,98,134,189,167,89],borderColor:nc.warmB,backgroundColor:hGrad,tension:0.4,fill:true,borderWidth:3,pointBackgroundColor:'rgba(217,119,6,1)',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true},x:{grid:{display:false}}}}});
         checkAPI();
+
+        // Language toggle
+        const DT={
+            nl:{s1:"Totaal Reviews",s2:"Gemiddelde Rating",s3:"Positief Sentiment",s4:"Response Rate",s5:"Gem. Response Tijd",s6:"Trending Product",ds:"Real-time inzichten uit klantreviews met SQL queries en AI-analyse",c1:"Reviews per Categorie",c2:"Sentiment Verdeling",c3:"Reviews Over Tijd",c4:"Rating Distributie",c5:"\uD83D\uDCC5 Reviews per Dag van de Week",c6:"\uD83D\uDD50 Reviews per Uur van de Dag",ph:"Vraag Naja over de data...",t1:"Top Producten",t2:"Sentiment Analyse",t3:"Review Trends",ins:"\uD83D\uDCA1 AI-gegenereerde Insights",aw:"\uD83C\uDFC6 Product Awards",sql:"\uD83D\uDCDD SQL Queries",tbl:"\uD83D\uDCCB Recent Reviews",back:"Terug naar portfolio",nn:"Naja AI Analyst",np:"Powered by Raspberry Pi 5",th1:"Product",th2:"Rating",th3:"Sentiment",th4:"Review Text",th5:"Datum",aw1:"Product van de Maand",aw2:"Most Improved",aw2s:"+0.8\u2605 verbetering",aw3:"Best Value",aw3s:"Beste prijs-kwaliteit",aw4:"Meest Besproken",in1t:"Positieve Trend",in1p:"ASUS ROG Strix G16 laat een sterke groei zien met +234 reviews deze maand. Het sentiment is 87% positief.",in2t:"Aandachtspunt",in2p:"Noise Cancelling Koptelefoon heeft een stijging van 23% negatieve reviews.",in3t:"Data Patroon",in3p:"Peak review tijden zijn dinsdag en woensdag tussen 19:00-22:00 uur.",pos:"Positief",neg:"Negatief",r1:"Geweldige laptop! RTX 4070 draait alle games op ultra settings.",r2:"Camera is next-level. Titanium design voelt premium aan.",r3:"Beste noise cancelling die ik ooit heb gehad. Aanrader!",r4:"Noise cancelling werkt niet goed genoeg voor de prijs.",r5:"OLED scherm maakt groot verschil. Perfecte handheld."},
+            en:{s1:"Total Reviews",s2:"Average Rating",s3:"Positive Sentiment",s4:"Response Rate",s5:"Avg. Response Time",s6:"Trending Product",ds:"Real-time insights from customer reviews with SQL queries and AI analysis",c1:"Reviews by Category",c2:"Sentiment Distribution",c3:"Reviews Over Time",c4:"Rating Distribution",c5:"\uD83D\uDCC5 Reviews by Day of the Week",c6:"\uD83D\uDD50 Reviews by Hour of the Day",ph:"Ask Naja about the data...",t1:"Top Products",t2:"Sentiment Analysis",t3:"Review Trends",ins:"\uD83D\uDCA1 AI-generated Insights",aw:"\uD83C\uDFC6 Product Awards",sql:"\uD83D\uDCDD SQL Queries",tbl:"\uD83D\uDCCB Recent Reviews",back:"Back to portfolio",nn:"Naja AI Analyst",np:"Powered by Raspberry Pi 5",th1:"Product",th2:"Rating",th3:"Sentiment",th4:"Review Text",th5:"Date",aw1:"Product of the Month",aw2:"Most Improved",aw2s:"+0.8\u2605 improvement",aw3:"Best Value",aw3s:"Best price-quality ratio",aw4:"Most Discussed",in1t:"Positive Trend",in1p:"ASUS ROG Strix G16 shows strong growth with +234 reviews this month. Sentiment is 87% positive.",in2t:"Watch Out",in2p:"Noise Cancelling Headphones saw a 23% rise in negative reviews about price-quality ratio.",in3t:"Data Pattern",in3p:"Peak review times are Tuesday and Wednesday between 7-10 PM.",pos:"Positive",neg:"Negative",r1:"Amazing laptop! RTX 4070 runs all games on ultra settings.",r2:"Camera is next-level. Titanium design feels premium.",r3:"Best noise cancelling I've ever had. Highly recommended!",r4:"Noise cancelling doesn't work well enough for the price.",r5:"OLED screen makes a big difference. Perfect handheld."}
+        };
+        let dlang="nl";
+        function toggleLanguage(){dlang=dlang==="nl"?"en":"nl";applyDLang();}
+        function applyDLang(){
+            const t=DT[dlang];
+            ["sl1","sl2","sl3","sl4","sl5","sl6"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=t["s"+(i+1)];});
+            ["ch1","ch2","ch3","ch4","ch5","ch6"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.innerHTML=t["c"+(i+1)];});
+            const ds=document.getElementById("dash-sub");if(ds)ds.textContent=t.ds;
+            const inp=document.getElementById("input");if(inp)inp.placeholder=t.ph;
+            ["tab1","tab2","tab3"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=t["t"+(i+1)];});
+            const ih=document.getElementById("insights-h");if(ih)ih.innerHTML=t.ins;
+            const ah=document.getElementById("awards-h");if(ah)ah.innerHTML=t.aw;
+            const sh=document.getElementById("sql-h");if(sh)sh.innerHTML=t.sql;
+            const tbh=document.getElementById("table-h");if(tbh)tbh.innerHTML=t.tbl;
+            const nn=document.getElementById("naja-name");if(nn)nn.textContent=t.nn;
+            const np=document.getElementById("naja-sub");if(np)np.textContent=t.np;
+            ["th1","th2","th3","th4","th5"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[id];});
+            ["aw1","aw2","aw3","aw4"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[id];});
+            const a2s=document.getElementById("aw2-sub");if(a2s)a2s.textContent=t.aw2s;
+            const a3s=document.getElementById("aw3-sub");if(a3s)a3s.textContent=t.aw3s;
+            ["ins1-t","ins2-t","ins3-t"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=t["in"+(i+1)+"t"];});
+            ["ins1-p","ins2-p","ins3-p"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=t["in"+(i+1)+"p"];});
+            ["r1","r2","r3","r4","r5"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[id];});
+            // back link
+            const bl=document.querySelector(".back-link");
+            if(bl){bl.childNodes.forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.textContent=" "+t.back;});}
+            document.getElementById("langToggle").textContent=dlang==="nl"?"EN":"NL";
+            document.documentElement.lang=dlang;
+        }
     </script>
 </body>
 </html>
