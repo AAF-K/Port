@@ -808,9 +808,38 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Header */
+        .site-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 20px 48px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid transparent;
+            transition: border-color .3s, background .3s, backdrop-filter .3s;
+        }
+        .site-header.scrolled {
+            border-color: rgba(0,255,136,0.1);
+            background: rgba(8,8,16,0.9);
+            backdrop-filter: blur(20px);
+        }
+        .header-back {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: rgba(0,232,122,0.6); text-decoration: none;
+            transition: color .2s;
+        }
+        .header-back:hover { color: #00ff88; }
+        .header-logo {
+            font-family: 'JetBrains Mono', monospace; font-size: 13px;
+            font-weight: 500; color: #00ff88; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
+
+    <header class="site-header" id="site-header">
+        <a href="index.html" class="header-back">← Portfolio</a>
+        <div class="header-logo">AK</div>
+    </header>
 
     <!-- ─── HERO ─── -->
     <section class="hero">
@@ -1138,6 +1167,10 @@
                 document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
-    </script>
+        // Header scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 30);
+    });
+</script>
 </body>
 </html>
