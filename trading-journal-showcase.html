@@ -402,6 +402,14 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 40px;
         }
+        @media (max-width: 600px) {
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 24px;
+                gap: 24px;
+            }
+            .stat-num { font-size: 24px !important; }
+        }
 
         .stat-item {
             text-align: center;
