@@ -435,17 +435,17 @@
         <!-- Products -->
         <div class="products-panel">
             <div class="filters">
-                <button class="filter-btn active" onclick="filter('all',event)" id="btn-all">Alles</button>
-                <button class="filter-btn" onclick="filter('laptops',event)">💻 Laptops</button>
-                <button class="filter-btn" onclick="filter('phones',event)">📱 Smartphones</button>
-                <button class="filter-btn" onclick="filter('appliances',event)">🌀 Wasmachines</button>
-                <button class="filter-btn" onclick="filter('tv',event)">📺 TV's</button>
-                <button class="filter-btn" onclick="filter('audio',event)">🎧 Audio</button>
-                <button class="filter-btn" onclick="filter('household',event)">🧹 Huishoudelijk</button>
-                <button class="filter-btn" onclick="filter('tablets',event)">📚 Tablets</button>
-                <button class="filter-btn" onclick="filter('smarthome',event)">🏠 Smart Home</button>
-                <button class="filter-btn" onclick="filter('gaming',event)">🎮 Gaming</button>
-                <button class="filter-btn" onclick="filter('camera',event)">📷 Camera's</button>
+                <button class="filter-btn active" onclick="filter('all',event)" data-i18n="f-all">Alles</button>
+                <button class="filter-btn" onclick="filter('laptops',event)" data-i18n="f-laptops">💻 Laptops</button>
+                <button class="filter-btn" onclick="filter('phones',event)" data-i18n="f-phones">📱 Smartphones</button>
+                <button class="filter-btn" onclick="filter('appliances',event)" data-i18n="f-appliances">🌀 Wasmachines</button>
+                <button class="filter-btn" onclick="filter('tv',event)" data-i18n="f-tv">📺 TV's</button>
+                <button class="filter-btn" onclick="filter('audio',event)" data-i18n="f-audio">🎧 Audio</button>
+                <button class="filter-btn" onclick="filter('household',event)" data-i18n="f-household">🧹 Huishoudelijk</button>
+                <button class="filter-btn" onclick="filter('tablets',event)" data-i18n="f-tablets">📚 Tablets</button>
+                <button class="filter-btn" onclick="filter('smarthome',event)" data-i18n="f-smarthome">🏠 Smart Home</button>
+                <button class="filter-btn" onclick="filter('gaming',event)" data-i18n="f-gaming">🎮 Gaming</button>
+                <button class="filter-btn" onclick="filter('camera',event)" data-i18n="f-camera">📷 Camera's</button>
             </div>
             <div class="products-grid" id="grid"></div>
         </div>
@@ -457,8 +457,8 @@
     let history = [], currentCat = 'all', clang = 'nl';
 
     const CT = {
-        nl: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Aanbevolen", opt2:"Naja Turbo (1.5B) — Extra snel", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Vraag Naja...", ask:"Vraag Naja", countSuffix:"producten", all:"Alles", offline:"⚠️ Naja API niet bereikbaar. Chatbot is offline.", greeting:"👋 Hey! Ik ben Naja, waar kan ik je mee helpen?" },
-        en: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Recommended", opt2:"Naja Turbo (1.5B) — Extra fast", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Ask Naja...", ask:"Ask Naja", countSuffix:"products", all:"All", offline:"⚠️ Naja API unavailable. Chatbot offline.", greeting:"👋 Hey! I'm Naja, how can I help you?" }
+        nl: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Aanbevolen", opt2:"Naja Turbo (1.5B) — Extra snel", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Vraag Naja...", ask:"Vraag Naja", countSuffix:"producten", all:"Alles", offline:"⚠️ Naja API niet bereikbaar. Chatbot is offline.", greeting:"👋 Hey! Ik ben Naja, waar kan ik je mee helpen?", "page-title":"AK's Elektronica", "f-all":"Alles", "f-laptops":"💻 Laptops", "f-phones":"📱 Smartphones", "f-appliances":"🌀 Wasmachines", "f-tv":"📺 TV's", "f-audio":"🎧 Audio", "f-household":"🧹 Huishoudelijk", "f-tablets":"📚 Tablets", "f-smarthome":"🏠 Smart Home", "f-gaming":"🎮 Gaming", "f-camera":"📷 Camera's" },
+        en: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Recommended", opt2:"Naja Turbo (1.5B) — Extra fast", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Ask Naja...", ask:"Ask Naja", countSuffix:"products", all:"All", offline:"⚠️ Naja API unavailable. Chatbot offline.", greeting:"👋 Hey! I'm Naja, how can I help you?", "page-title":"AK's Electronics", "f-all":"All", "f-laptops":"💻 Laptops", "f-phones":"📱 Smartphones", "f-appliances":"🌀 Washing Machines", "f-tv":"📺 TV's", "f-audio":"🎧 Audio", "f-household":"🧹 Household", "f-tablets":"📚 Tablets", "f-smarthome":"🏠 Smart Home", "f-gaming":"🎮 Gaming", "f-camera":"📷 Cameras" }
     };
 
     const products = [
@@ -596,6 +596,11 @@
         document.getElementById('input').placeholder = t.ph;
         document.getElementById('langToggle').textContent = clang === 'nl' ? 'EN' : 'NL';
         document.documentElement.lang = clang;
+        // Update filter buttons
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) el.textContent = t[key];
+        });
     }
 
     // Cursor
