@@ -42,8 +42,8 @@
                     linear-gradient(rgba(0,138,72,0.06) 1px, transparent 1px),
                     linear-gradient(90deg, rgba(0,138,72,0.06) 1px, transparent 1px);
             }
-            .orb-1 { background: radial-gradient(circle, rgba(0,138,72,0.08) 0%, transparent 70%); }
-            .orb-2 { background: radial-gradient(circle, rgba(192,120,0,0.06) 0%, transparent 70%); }
+            
+            
             .hero-title { color: #0a0a14 !important; }
             .hero-desc { color: #3a3a50; }
             .hero-desc strong { color: #0a0a14; }
@@ -187,36 +187,13 @@
             mask-image: radial-gradient(ellipse at 30% 60%, black 30%, transparent 70%);
         }
 
-        .orb-left {
-            position: absolute;
-            width: 400px; height: 400px;
-            top: -150px; left: -100px;
-            background: radial-gradient(circle, rgba(0,232,122,0.07) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
+        
         /* Glow orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-        }
+        
 
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            top: -200px;
-            right: -100px;
-            background: radial-gradient(circle, rgba(0,232,122,0.06) 0%, transparent 70%);
-        }
+        
 
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            bottom: 100px;
-            left: 200px;
-            background: radial-gradient(circle, rgba(240,165,0,0.04) 0%, transparent 70%);
-        }
+        
 
         .hero-content {
             position: relative;
@@ -613,7 +590,7 @@
         @media (max-width: 900px) {
             header { padding: 20px 24px; }
             .hero { padding: 0 24px 60px; }
-            .hero-title { font-size: clamp(40px, 12vw, 80px); letter-spacing: -2px; }
+            .hero-title { font-size: clamp(32px, 10vw, 64px); letter-spacing: -2px; word-break: break-word; overflow-wrap: break-word; }
             .hero-bottom { flex-direction: column; gap: 32px; align-items: flex-start; }
             .status-bar { padding: 0 24px; flex-direction: column; }
             .status-item { border-right: none; border-bottom: 1px solid var(--border); padding: 24px 0; }
@@ -645,8 +622,6 @@
     <!-- ─── HERO ─── -->
     <section class="hero">
         <div class="hero-grid"></div>
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
 
         <div class="hero-content">
             <div class="hero-eyebrow">
