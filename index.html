@@ -644,7 +644,7 @@
                 <span class="eyebrow-text">Alano Kricha — Portfolio 2026</span>
             </div>
 
-            <h1 class="hero-title">
+            <h1 class="hero-title" id="hero-title">
                 Hardware<br>
                 <span class="italic">tot</span><br>
                 Intelligentie
@@ -967,6 +967,15 @@
                     el.innerHTML = translations[lang][key];
                 }
             });
+            // Hero title
+            const heroTitle = document.getElementById('hero-title');
+            if (heroTitle) {
+                if (lang === 'en') {
+                    heroTitle.innerHTML = 'Hardware<br><span class="italic">to</span><br>Intelligence';
+                } else {
+                    heroTitle.innerHTML = 'Hardware<br><span class="italic">tot</span><br>Intelligentie';
+                }
+            }
             document.getElementById('langToggle').textContent = lang === 'nl' ? 'EN' : 'NL';
             document.documentElement.lang = lang;
         }
