@@ -456,7 +456,7 @@
         <div class="eyebrow-line"></div>
         <span class="eyebrow-text">Project 01</span>
     </div>
-    <h1 class="hero-title">
+    <h1 class="hero-title" id="hero-title">
         Raspberry Pi<br>
         <span class="italic">AI</span> Infrastructuur
     </h1>
@@ -786,6 +786,22 @@ limiter = <span class="c-fn">Limiter</span>(app=app, default_limits=[<span class
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const k = el.getAttribute('data-i18n');
             if (T[lang][k]) el.innerHTML = T[lang][k];
+        });
+        // Hero title
+        const heroTitle = document.getElementById('hero-title');
+        if (heroTitle) {
+            if (lang === 'en') {
+                heroTitle.innerHTML = 'Raspberry Pi<br><span class="italic">AI</span> Infrastructure';
+            } else {
+                heroTitle.innerHTML = 'Raspberry Pi<br><span class="italic">AI</span> Infrastructuur';
+            }
+        }
+        // Section titles
+        document.querySelectorAll('.section-title').forEach(el => {
+            if (el.id) {
+                const k = el.id;
+                if (T[lang][k]) el.innerHTML = T[lang][k];
+            }
         });
         document.getElementById('langToggle').textContent = lang === 'nl' ? 'EN' : 'NL';
         document.documentElement.lang = lang;
