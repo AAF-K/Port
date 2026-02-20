@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Journal — Alano Kricha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080810;
+            --surface: #0e0e1a;
+            --surface2: #13131f;
+            --border: #1a1a2e;
+            --accent: #00ff88;
+            --accent2: #00cc6a;
+            --red: #ff3b5c;
+            --yellow: #f59e0b;
+            --text: #e8e8f5;
+            --muted: #52526e;
+            --dim: #2a2a42;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Noise overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: 100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,59,92,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 60px 80px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.2);
+            border-radius: 4px;
+            padding: 6px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            width: fit-content;
+        }
+
+        .tag::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero-title {
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+
+        .hero-title .line2 {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 420px;
+            margin-bottom: 48px;
+            font-weight: 400;
+        }
+
+        .hero-desc strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            padding: 14px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,255,136,0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 1px;
+            padding: 14px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--muted);
+            color: var(--text);
+        }
+
+        /* ─── PHONE MOCKUP ─── */
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 80px 60px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phone-wrap {
+            position: relative;
+        }
+
+        .phone-glow {
+            position: absolute;
+            inset: -40px;
+            background: radial-gradient(ellipse, rgba(0,255,136,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .phone {
+            width: 280px;
+            background: #0a0a12;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            box-shadow:
+                0 0 0 8px rgba(255,255,255,0.02),
+                0 40px 80px rgba(0,0,0,0.6),
+                0 0 60px rgba(0,255,136,0.05);
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        .phone-notch {
+            width: 80px;
+            height: 20px;
+            background: #0a0a12;
+            border-radius: 0 0 14px 14px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-screen {
+            padding: 12px;
+            background: #0a0a0f;
+        }
+
+        /* Mini app inside phone */
+        .mini-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px 12px;
+            border-bottom: 1px solid #1e1e2e;
+            margin-bottom: 12px;
+        }
+
+        .mini-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #00ff88;
+            letter-spacing: 1px;
+        }
+
+        .mini-logo span { color: #4a4a6a; }
+
+        .mini-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #4a4a6a;
+        }
+
+        .mini-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .mini-stat {
+            background: #111118;
+            border: 1px solid #1e1e2e;
+            border-radius: 8px;
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        .mini-stat-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 3px;
+        }
+
+        .mini-stat-label {
+            font-size: 7px;
+            color: #4a4a6a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mini-section-title {
+            font-size: 7px;
+            color: #4a4a6a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mini-trade {
+            background: #111118;
+            border: 1px solid #1e1e2e;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-trade::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+        }
+
+        .mini-trade.win::before { background: #00ff88; }
+        .mini-trade.loss::before { background: #ff3b5c; }
+        .mini-trade.open::before { background: #f59e0b; }
+
+        .mini-trade-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-trade-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: #e8e8f5;
+        }
+
+        .mini-badge {
+            font-size: 7px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            margin-left: 4px;
+            font-weight: 600;
+        }
+
+        .mini-badge.long { background: rgba(0,255,136,0.1); color: #00ff88; }
+        .mini-badge.short { background: rgba(255,59,92,0.1); color: #ff3b5c; }
+
+        .mini-result {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .mini-meta {
+            font-size: 8px;
+            color: #4a4a6a;
+            margin-top: 3px;
+        }
+
+        .mini-fab {
+            background: #00ff88;
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 10px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 10px;
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 32px 80px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ─── FEATURES ─── */
+        .features {
+            padding: 100px 80px;
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 60px;
+            max-width: 600px;
+            line-height: 1.1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,255,136,0.03) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0,255,136,0.2);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.15);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* ─── TECH STACK ─── */
+        .tech {
+            padding: 80px;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .tech-item:hover {
+            border-color: rgba(0,255,136,0.2);
+            transform: translateX(4px);
+        }
+
+        .tech-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .tech-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .tech-role {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* Code block */
+        .code-block {
+            background: #06060e;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+        }
+
+        .code-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .code-filename {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            margin-left: 8px;
+        }
+
+        .code-body {
+            padding: 20px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .c-comment { color: #3a3a5c; }
+        .c-key { color: #7c6af7; }
+        .c-str { color: #00ff88; }
+        .c-fn { color: #60a5fa; }
+        .c-num { color: #f59e0b; }
+        .c-text { color: #8888aa; }
+
+        /* ─── AI SECTION ─── */
+        .ai-section {
+            padding: 100px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-section::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0,255,136,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 50px;
+        }
+
+        .ai-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .flow-step {
+            display: flex;
+            gap: 20px;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 44px;
+            bottom: -20px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--dim), transparent);
+        }
+
+        .flow-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            flex-shrink: 0;
+            font-weight: 500;
+        }
+
+        .flow-content {
+            padding: 8px 0 32px;
+        }
+
+        .flow-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.2px;
+        }
+
+        .flow-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .ai-models {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .model-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .model-card:hover {
+            border-color: rgba(0,255,136,0.2);
+        }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .model-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .model-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .model-badge {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-local { background: rgba(0,255,136,0.1); color: var(--accent); }
+        .badge-api { background: rgba(96,165,250,0.1); color: #60a5fa; }
+
+        .model-desc {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            padding: 48px 80px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .footer-left span { color: var(--accent); }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-left > * {
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+        .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+        .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+        .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+
+        .hero-right {
+            animation: fadeUp 0.8s ease 0.3s both;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── HERO ─── -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="tag">Personal Project · In Development</div>
+            <h1 class="hero-title">
+                AI Trading<br>
+                <span class="line2">Journal</span>
+            </h1>
+            <p class="hero-desc">
+                A <strong>self-hosted AI coaching system</strong> for XAUUSD traders. 
+                Pre-trade validation, real-time psychology tracking, post-trade analysis 
+                and weekly coaching reports — all running locally on a <strong>Raspberry Pi 5</strong>.
+            </p>
+            <div class="hero-actions">
+                <a href="#features" class="btn-primary">Explore Features</a>
+                <a href="#tech" class="btn-secondary">View Tech Stack</a>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="phone-wrap">
+                <div class="phone-glow"></div>
+                <div class="phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <!-- Mini app preview -->
+                        <div class="mini-header">
+                            <div class="mini-logo">XAU<span>/USD</span> JOURNAL</div>
+                            <div class="mini-count">4 trades</div>
+                        </div>
+
+                        <div class="mini-stats">
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:#e8e8f5">4</div>
+                                <div class="mini-stat-label">Trades</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:#00ff88">75%</div>
+                                <div class="mini-stat-label">Winrate</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-val" style="color:#00ff88">$84</div>
+                                <div class="mini-stat-label">P&L</div>
+                            </div>
+                        </div>
+
+                        <div class="mini-section-title">Recente trades</div>
+
+                        <div class="mini-trade win">
+                            <div class="mini-trade-row">
+                                <div>
+                                    <span class="mini-trade-name">XAUUSD</span>
+                                    <span class="mini-badge long">LONG</span>
+                                </div>
+                                <span class="mini-result" style="color:#00ff88">+$42</span>
+                            </div>
+                            <div class="mini-meta">Today 09:14 · Rustig</div>
+                        </div>
+
+                        <div class="mini-trade loss">
+                            <div class="mini-trade-row">
+                                <div>
+                                    <span class="mini-trade-name">XAUUSD</span>
+                                    <span class="mini-badge short">SHORT</span>
+                                </div>
+                                <span class="mini-result" style="color:#ff3b5c">-$21</span>
+                            </div>
+                            <div class="mini-meta">Yesterday 14:32 · FOMO</div>
+                        </div>
+
+                        <div class="mini-trade open">
+                            <div class="mini-trade-row">
+                                <div>
+                                    <span class="mini-trade-name">XAUUSD</span>
+                                    <span class="mini-badge long">LONG</span>
+                                </div>
+                                <span class="mini-result" style="color:#f59e0b">● OPEN</span>
+                            </div>
+                            <div class="mini-meta">Today 11:02 · Confident</div>
+                        </div>
+
+                        <div class="mini-fab">+ NIEUWE TRADE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── STATS BAR ─── -->
+    <div class="stats-bar reveal">
+        <div class="stat-item">
+            <span class="stat-num">5</span>
+            <span class="stat-label">Core Features</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">2</span>
+            <span class="stat-label">AI Models</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">0€</span>
+            <span class="stat-label">Monthly Cost</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">Pi 5</span>
+            <span class="stat-label">Self-Hosted</span>
+        </div>
+    </div>
+
+    <!-- ─── FEATURES ─── -->
+    <section class="features" id="features">
+        <div class="section-tag">What it does</div>
+        <h2 class="section-title reveal">Built for discipline,<br>not just data.</h2>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">✅</div>
+                <div class="feature-title">Pre-Trade Check</div>
+                <p class="feature-desc">AI validates every trade against your personal strategy rules before you enter. R:R check, trend alignment, Stoch RSI confirmation. No plan = no trade.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🧠</div>
+                <div class="feature-title">Psychology Tracking</div>
+                <p class="feature-desc">Log your emotional state before every trade — Rustig, Confident, FOMO, Gehaast. The AI detects patterns: worse results when trading after a loss, better results in the morning.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Post-Trade Analysis</div>
+                <p class="feature-desc">After closing, get an instant AI breakdown: did you follow the plan? Was the result luck or skill? 2–3 concrete improvements for the same setup next time.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📰</div>
+                <div class="feature-title">News Context</div>
+                <p class="feature-desc">When a trade goes wrong, Claude API fetches real-time market news to explain external factors — NFP, CPI, Fed decisions — and separates market impact from behavioral errors.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📅</div>
+                <div class="feature-title">Weekly Coaching</div>
+                <p class="feature-desc">Every week, get a full AI report: winrate by day/time, emotional triggers, pattern recognition. Output: a concrete coaching plan with clear actions for next week.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">100% Private</div>
+                <p class="feature-desc">Everything runs on a Raspberry Pi 5 at home. No cloud, no subscriptions, no data leaving your network. Local Ollama models for daily analysis, Claude API only when needed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── TECH STACK ─── -->
+    <section class="tech" id="tech">
+        <div class="section-tag">Tech Stack</div>
+        <h2 class="section-title reveal">Built from scratch.<br>No shortcuts.</h2>
+
+        <div class="tech-grid">
+            <div class="tech-list reveal">
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">Flask</span>
+                    <span class="tech-role">Web framework & REST API</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">SQLite</span>
+                    <span class="tech-role">Local trade database</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">Ollama + Qwen2.5:14b</span>
+                    <span class="tech-role">Local AI analysis engine</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">Anthropic Claude API</span>
+                    <span class="tech-role">News context & deep analysis</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">MetaTrader 5 Python</span>
+                    <span class="tech-role">Automatic trade import (WIP)</span>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-dot"></div>
+                    <span class="tech-name">Raspberry Pi 5 (16GB)</span>
+                    <span class="tech-role">Self-hosted infrastructure</span>
+                </div>
+            </div>
+
+            <div class="code-block reveal">
+                <div class="code-header">
+                    <div class="code-dot" style="background:#ff5f57"></div>
+                    <div class="code-dot" style="background:#febc2e"></div>
+                    <div class="code-dot" style="background:#28c840"></div>
+                    <span class="code-filename">ai.py — pre_trade_check()</span>
+                </div>
+                <div class="code-body">
+<span class="c-key">def</span> <span class="c-fn">pre_trade_check</span>(trade_data):
+  <span class="c-text">prompt</span> = <span class="c-fn">f</span><span class="c-str">"""
+  Trading plan rules:
+  - Only XAUUSD, min R:R 1:2
+  - Stoch RSI confirmation required
+  - Max 2 trades per day
+  - No trading during news
+
+  Evaluate this trade:
+  Direction: </span><span class="c-text">{trade_data[</span><span class="c-str">'richting'</span><span class="c-text">]}</span><span class="c-str">
+  Entry: </span><span class="c-text">{trade_data[</span><span class="c-str">'entry'</span><span class="c-text">]}</span><span class="c-str">
+  SL: </span><span class="c-text">{trade_data[</span><span class="c-str">'stop_loss'</span><span class="c-text">]}</span><span class="c-str">
+  TP: </span><span class="c-text">{trade_data[</span><span class="c-str">'take_profit'</span><span class="c-text">]}</span><span class="c-str">
+  Emotion: </span><span class="c-text">{trade_data[</span><span class="c-str">'emotie_voor'</span><span class="c-text">]}</span><span class="c-str">
+
+  Return: APPROVED or WARNING + reason
+  """</span>
+
+  response = ollama.chat(
+    model=<span class="c-str">'qwen2.5:14b'</span>,
+    messages=[{<span class="c-str">'role'</span>: <span class="c-str">'user'</span>,
+               <span class="c-str">'content'</span>: prompt}]
+  )
+  <span class="c-key">return</span> response[<span class="c-str">'message'</span>][<span class="c-str">'content'</span>]
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── AI SECTION ─── -->
+    <section class="ai-section" id="ai">
+        <div class="section-tag">AI Architecture</div>
+        <h2 class="section-title reveal">Two models,<br>one purpose.</h2>
+
+        <div class="ai-grid">
+            <div class="ai-flow reveal">
+                <div class="flow-step">
+                    <div class="flow-num">01</div>
+                    <div class="flow-content">
+                        <div class="flow-title">Pre-trade validation</div>
+                        <p class="flow-desc">Qwen2.5:14b checks the setup against your strategy rules locally. Fast, private, free.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">02</div>
+                    <div class="flow-content">
+                        <div class="flow-title">Trade is executed</div>
+                        <p class="flow-desc">You trade in MetaTrader 5. The journal logs psychology and market conditions in real-time.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">03</div>
+                    <div class="flow-content">
+                        <div class="flow-title">Post-trade analysis</div>
+                        <p class="flow-desc">Qwen2.5:14b analyses the result. If news context is needed, Claude API fetches current market data.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="flow-num">04</div>
+                    <div class="flow-content">
+                        <div class="flow-title">Weekly coaching report</div>
+                        <p class="flow-desc">All trades + psychology patterns → one actionable coaching plan every Sunday.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-models reveal">
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon" style="background:rgba(0,255,136,0.08)">🦙</div>
+                        <div class="model-name">Qwen2.5:14b</div>
+                        <span class="model-badge badge-local">Local</span>
+                    </div>
+                    <p class="model-desc">Runs on the Pi via Ollama. Handles all daily pre/post-trade analysis. 9GB RAM, ~45s response. Zero cost, zero data leaving the network.</p>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon" style="background:rgba(96,165,250,0.08)">⚡</div>
+                        <div class="model-name">Claude (Anthropic API)</div>
+                        <span class="model-badge badge-api">API</span>
+                    </div>
+                    <p class="model-desc">Used selectively for deep analysis with real-time web search. Fetches news context for failed trades — NFP, CPI, Fed announcements.</p>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-icon" style="background:rgba(245,158,11,0.08)">🔍</div>
+                        <div class="model-name">Perplexity API</div>
+                        <span class="model-badge" style="background:rgba(245,158,11,0.1);color:#f59e0b">Search</span>
+                    </div>
+                    <p class="model-desc">Real-time financial news search for market context. Included via Revolut Metal plan — zero additional cost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="footer">
+        <div class="footer-left">
+            Built by <span>Alano Kricha</span> · Self-hosted on Raspberry Pi 5
+        </div>
+        <div class="footer-links">
+            <a href="https://alanokricha.com">Portfolio</a>
+            <a href="https://github.com">GitHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
