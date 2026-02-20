@@ -3,286 +3,619 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK's Elektronica - AI Product Advisor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>AK's Elektronica — Alano Kricha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        :root{--primary:#2D5F3F;--primary-dark:#1E4029;--primary-light:#4A7C59;--accent:#4CAF50;--accent-warm:#F59E0B;--gold:#D97706;--dark:#1A1A1A;--gray-50:#FFFBF5;--gray-100:#FFF8F0;--gray-200:#F5EFE7;--gray-300:#E7E0D8;--gray-700:#404040}
-        body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#FFFBF5 0%,#FFF4E6 30%,#FFF8F0 60%,#F5EFE7 100%);background-attachment:fixed;color:var(--dark);line-height:1.6}
-        .header{background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 30%,#4CAF50 60%,#F59E0B 100%);background-size:300% 300%;animation:gradientShift 12s ease infinite;color:white;padding:1rem 0;box-shadow:0 4px 20px rgba(45,95,63,.25);position:sticky;top:0;z-index:100}
-        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-        .header-content{max-width:1400px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
-        .logo{font-size:1.75rem;font-weight:800}
-        .logo span{color:var(--accent)}
-        .header-nav{display:flex;gap:1.5rem;align-items:center}
-        .header-nav a{color:white;text-decoration:none;font-weight:500}
-        .tech-badge{display:flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.15);padding:.4rem .85rem;border-radius:20px;font-size:.8125rem;font-weight:600}
-        .status-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-        .lang-toggle{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:.3rem .7rem;color:white;font-size:.875rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background .2s}
-        .lang-toggle:hover{background:rgba(255,255,255,.25)}
-        .container{max-width:1400px;margin:0 auto;padding:2rem}
-        .breadcrumb{display:flex;gap:.5rem;margin-bottom:1.5rem;font-size:.875rem;color:var(--gray-700)}
-        .breadcrumb a{color:var(--primary);text-decoration:none}
-        .main-grid{display:grid;grid-template-columns:320px 1fr;gap:2rem}
-        .sidebar{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,251,245,.9) 50%,rgba(255,244,230,.85) 100%);backdrop-filter:blur(12px);border:1px solid rgba(245,158,11,.15);border-radius:20px;box-shadow:0 12px 40px rgba(45,95,63,.12);position:sticky;top:100px}
-        .tech-info-card{padding:1rem 1.25rem;background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 40%,#F59E0B 100%);background-size:200% 200%;animation:techGradient 8s ease infinite;color:white;border-radius:16px 16px 0 0}
-        @keyframes techGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-        .tech-info-card h3{font-size:.9375rem;font-weight:700;margin-bottom:.75rem}
-        .tech-specs{display:grid;gap:.5rem;font-size:.8125rem}
-        .model-selector{padding:1rem 1.25rem;border-bottom:1px solid var(--gray-200)}
-        .model-selector label{font-size:.8125rem;font-weight:600;color:var(--gray-700);display:block;margin-bottom:.5rem}
-        .model-selector select{width:100%;padding:.5rem;border:2px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer}
-        .model-selector select:focus{outline:none;border-color:var(--primary)}
-        .model-info{font-size:.6875rem;color:var(--gray-700);margin-top:.5rem}
-        .naja-section{padding:1.25rem}
-        .naja-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:2px solid var(--gray-100)}
-        .naja-avatar{width:50px;height:50px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
-        .naja-info h4{font-size:1rem;font-weight:700}
-        .naja-info p{font-size:.8125rem;color:var(--gray-700)}
-        .chat-messages{max-height:550px;overflow-y:auto;margin-bottom:1rem}
-        .message{margin-bottom:.75rem}
-        .message.user{text-align:right}
-        .message-bubble{display:inline-block;padding:.65rem .85rem;border-radius:10px;max-width:85%;font-size:.875rem}
-        .message.user .message-bubble{background:var(--primary);color:white;border-bottom-right-radius:3px}
-        .message.assistant .message-bubble{background:var(--gray-100);color:var(--dark);border-bottom-left-radius:3px}
-        .typing-indicator{display:inline-flex;gap:4px;padding:.65rem .85rem;background:var(--gray-100);border-radius:10px}
-        .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--gray-700);animation:typing 1.4s infinite}
-        .typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
-        @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}
-        .chat-input-wrapper{display:flex;gap:.75rem;align-items:center}
-        .chat-input{flex:1;padding:.75rem 1rem;border:2px solid var(--gray-200);border-radius:12px;font-size:.875rem}
-        .chat-input:focus{outline:none;border-color:var(--primary)}
-        .send-btn{width:48px;height:48px;background:linear-gradient(135deg,#4CAF50,#F59E0B,#D97706);background-size:200% 200%;animation:buttonGlow 3s ease infinite;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 4px 16px rgba(245,158,11,.4)}
-        @keyframes buttonGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-        .send-btn:hover{transform:scale(1.08)}
-        .send-btn svg{width:24px;height:24px}
-        .products-section{background:linear-gradient(135deg,#FFF,#FFFBF5);border-radius:16px;padding:1.5rem;box-shadow:0 4px 16px rgba(45,95,63,.08)}
-        .section-header{display:flex;justify-content:space-between;margin-bottom:1.5rem}
-        .section-header h2{font-size:1.5rem;font-weight:700}
-        .results-count{font-size:.875rem;color:var(--gray-700)}
-        .category-filters{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
-        .category-btn{padding:.5rem 1rem;border:2px solid var(--gray-200);background:white;border-radius:10px;cursor:pointer;font-weight:500;font-size:.875rem;transition:all .3s}
-        .category-btn:hover{border-color:var(--accent-warm);color:var(--accent-warm);transform:translateY(-2px)}
-        .category-btn.active{background:linear-gradient(135deg,#4CAF50,#4A7C59);color:white;border-color:transparent}
-        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
-        .product-card{background:linear-gradient(135deg,#FFF,#FFFBF5);border:2px solid var(--gray-200);border-radius:16px;padding:1.25rem;transition:all .3s;position:relative}
-        .product-card:hover{border-color:var(--accent-warm);transform:translateY(-5px);box-shadow:0 12px 32px rgba(245,158,11,.15)}
-        .product-badge{position:absolute;top:1rem;right:1rem;background:linear-gradient(135deg,#4CAF50,#F59E0B);color:white;padding:.3rem .65rem;border-radius:6px;font-size:.6875rem;font-weight:700}
-        .product-emoji{font-size:3.5rem;display:block;margin-bottom:1rem}
-        .product-name{font-size:1.0625rem;font-weight:700;margin-bottom:.5rem;line-height:1.3}
-        .product-specs{font-size:.8125rem;color:var(--gray-700);margin-bottom:.75rem}
-        .product-rating{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;font-size:.8125rem}
-        .stars{color:#FFA500;font-weight:700}
-        .review-count{color:var(--gray-700)}
-        .product-price{font-size:1.75rem;font-weight:800;color:var(--primary);margin-bottom:1rem}
-        .ask-naja-btn{width:100%;padding:.75rem;background:linear-gradient(135deg,#4CAF50,#4A7C59);color:white;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:all .3s}
-        .ask-naja-btn:hover{background:linear-gradient(135deg,#F59E0B,#D97706);transform:translateY(-2px)}
-        .error-message{background:#FEE2E2;border:1px solid #FCA5A5;color:#991B1B;padding:.75rem;border-radius:8px;margin-bottom:1rem;font-size:.875rem}
-        @media(max-width:968px){.main-grid{grid-template-columns:1fr}.sidebar{position:relative;top:0}}
+        :root {
+            --bg: #09090f;
+            --surface: #0f0f1a;
+            --surface2: #141422;
+            --border: #1c1c30;
+            --accent: #00e87a;
+            --accent2: #00b860;
+            --warm: #f0a500;
+            --text: #f0f0f8;
+            --muted: #8888aa;
+            --dim: #3a3a5c;
+            --red: #ff4060;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f8f8f5;
+                --surface: #efefea;
+                --surface2: #e8e8e2;
+                --border: #d0d0c8;
+                --accent: #008a48;
+                --accent2: #006a38;
+                --warm: #c07800;
+                --text: #0a0a14;
+                --muted: #3a3a50;
+                --dim: #999999;
+                --red: #cc2040;
+            }
+            header.scrolled { background: rgba(248,248,245,0.9); }
+            .code-wrap { background: #f0f0eb; }
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.4;
+        }
+
+        /* Cursor */
+        .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+        .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,232,122,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width .3s, height .3s, border-color .3s; }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 18px 48px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid transparent;
+            transition: border-color .3s, background .3s, backdrop-filter .3s;
+        }
+        header.scrolled {
+            border-color: var(--border);
+            background: rgba(9,9,15,0.9);
+            backdrop-filter: blur(20px);
+        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .back-link {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--muted); text-decoration: none; transition: color .2s;
+        }
+        .back-link:hover { color: var(--accent); }
+        .logo {
+            font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: var(--accent); }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .status-pill {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            letter-spacing: 1px; color: var(--muted);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 5px 12px;
+        }
+        .status-dot {
+            width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+        .lang-btn {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--muted); background: none;
+            border: 1px solid var(--border); border-radius: 4px;
+            padding: 5px 10px; cursor: none; transition: all .2s;
+        }
+        .lang-btn:hover { color: var(--accent); border-color: rgba(0,232,122,0.3); }
+
+        /* Page layout */
+        .page { padding: 90px 48px 48px; max-width: 1400px; margin: 0 auto; }
+
+        /* Hero bar */
+        .page-hero {
+            padding: 32px 0 28px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .page-eyebrow {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .eyebrow-line { width: 28px; height: 1px; background: var(--accent); }
+        .page-title {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800; letter-spacing: -1.5px; line-height: 1;
+        }
+        .page-title .italic {
+            font-family: 'Fraunces', serif; font-style: italic;
+            font-weight: 300; color: var(--accent);
+        }
+        .count-badge {
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+            color: var(--muted); padding-bottom: 4px;
+        }
+
+        /* Main grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky; top: 90px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .sidebar-top {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+        }
+        .powered-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 9px;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 12px;
+        }
+        .tech-specs { display: flex; flex-direction: column; gap: 6px; }
+        .tech-spec {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            color: var(--text); display: flex; align-items: center; gap: 8px;
+        }
+        .spec-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+        /* Model selector */
+        .model-select-wrap {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .model-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 9px;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 8px; display: block;
+        }
+        .model-select {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 8px 12px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color .2s;
+            -webkit-appearance: none;
+        }
+        .model-select:focus { border-color: var(--accent); }
+        .model-timing {
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            color: var(--muted); margin-top: 6px;
+        }
+
+        /* Naja chat */
+        .naja-section { padding: 20px; }
+        .naja-header {
+            display: flex; align-items: center; gap: 12px;
+            padding-bottom: 16px; margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .naja-avatar {
+            width: 40px; height: 40px;
+            background: rgba(0,232,122,0.1);
+            border: 1px solid rgba(0,232,122,0.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .naja-name { font-size: 14px; font-weight: 700; }
+        .naja-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+
+        .chat-messages {
+            max-height: 420px; overflow-y: auto;
+            margin-bottom: 16px;
+            display: flex; flex-direction: column; gap: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+        .message { display: flex; }
+        .message.user { justify-content: flex-end; }
+        .message-bubble {
+            max-width: 85%; padding: 10px 14px;
+            border-radius: 12px; font-size: 13px; line-height: 1.5;
+        }
+        .message.user .message-bubble {
+            background: var(--accent); color: #000;
+            font-weight: 500; border-bottom-right-radius: 3px;
+        }
+        .message.assistant .message-bubble {
+            background: var(--surface2); color: var(--text);
+            border: 1px solid var(--border); border-bottom-left-radius: 3px;
+        }
+        .typing-indicator {
+            display: inline-flex; gap: 4px; padding: 10px 14px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; border-bottom-left-radius: 3px;
+        }
+        .typing-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--muted); animation: typing 1.4s infinite;
+        }
+        .typing-dot:nth-child(2){animation-delay:.2s}
+        .typing-dot:nth-child(3){animation-delay:.4s}
+        @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+        .chat-input-row { display: flex; gap: 8px; align-items: center; }
+        .chat-input {
+            flex: 1; background: var(--surface2);
+            border: 1px solid var(--border); border-radius: 10px;
+            color: var(--text); font-family: 'Syne', sans-serif;
+            font-size: 13px; padding: 10px 14px; outline: none;
+            transition: border-color .2s;
+        }
+        .chat-input:focus { border-color: var(--accent); }
+        .chat-input::placeholder { color: var(--muted); }
+        .send-btn {
+            width: 40px; height: 40px; flex-shrink: 0;
+            background: var(--accent); border: none; border-radius: 10px;
+            cursor: none; display: flex; align-items: center; justify-content: center;
+            transition: all .2s; box-shadow: 0 0 16px rgba(0,232,122,0.2);
+        }
+        .send-btn:hover { background: var(--accent2); transform: scale(1.05); }
+        .send-btn svg { width: 16px; height: 16px; }
+
+        .error-msg {
+            font-family: 'JetBrains Mono', monospace; font-size: 11px;
+            color: var(--red); background: rgba(255,64,96,0.08);
+            border: 1px solid rgba(255,64,96,0.2);
+            border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+        }
+
+        /* Products panel */
+        .products-panel { min-width: 0; }
+
+        /* Category filters */
+        .filters {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-bottom: 24px;
+        }
+        .filter-btn {
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            letter-spacing: 0.5px; padding: 6px 14px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 4px; color: var(--muted);
+            cursor: none; transition: all .2s;
+        }
+        .filter-btn:hover { color: var(--text); border-color: var(--muted); }
+        .filter-btn.active {
+            background: rgba(0,232,122,0.1);
+            border-color: rgba(0,232,122,0.3);
+            color: var(--accent);
+        }
+
+        /* Products grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+        }
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all .25s;
+            position: relative;
+            cursor: none;
+        }
+        .product-card:hover {
+            border-color: rgba(0,232,122,0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+        .product-badge {
+            position: absolute; top: 14px; right: 14px;
+            font-family: 'JetBrains Mono', monospace; font-size: 9px;
+            letter-spacing: 1px; text-transform: uppercase;
+            padding: 3px 8px; border-radius: 3px;
+            background: rgba(0,232,122,0.1);
+            border: 1px solid rgba(0,232,122,0.2);
+            color: var(--accent);
+        }
+        .product-emoji { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+        .product-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+        .product-specs { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+        .product-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+        .stars { color: var(--warm); font-size: 11px; }
+        .review-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+        .product-price {
+            font-family: 'JetBrains Mono', monospace; font-size: 20px;
+            font-weight: 500; color: var(--accent); margin-bottom: 14px;
+        }
+        .ask-btn {
+            width: 100%; padding: 10px;
+            background: transparent; border: 1px solid var(--border);
+            border-radius: 8px; color: var(--muted);
+            font-family: 'JetBrains Mono', monospace; font-size: 10px;
+            letter-spacing: 1px; text-transform: uppercase;
+            cursor: none; transition: all .2s;
+        }
+        .ask-btn:hover {
+            border-color: var(--accent); color: var(--accent);
+            background: rgba(0,232,122,0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            header { padding: 18px 24px; }
+            .page { padding: 80px 24px 24px; }
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar { position: relative; top: 0; }
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">AK's <span>Elektronica</span></div>
-            <div class="header-nav">
-                <span class="tech-badge"><span class="status-dot"></span><span id="pi-label">Raspberry Pi Server</span></span>
-                <a href="index.html" id="back-link">&#x2190; Portfolio</a>
-                <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
-            </div>
-        </div>
-    </header>
 
-    <div class="container">
-        <div class="breadcrumb"><a href="index.html">Home</a> / <span id="breadcrumb-current">AI Product Advisor</span></div>
-        <div class="main-grid">
-            <div class="sidebar">
-                <div class="tech-info-card">
-                    <h3 id="powered-by">Powered by</h3>
-                    <div class="tech-specs">
-                        <div>&#x1F967; Raspberry Pi 5 (16GB RAM)</div>
-                        <div>&#x1F9E0; Qwen 2.5 (1.5B & 3B)</div>
-                        <div>&#x1F40D; Python Flask API</div>
-                        <div>&#x1F512; Cloudflare Tunnel</div>
-                    </div>
-                </div>
-                <div class="model-selector">
-                    <label for="modelSelect" id="model-label">&#x26A1; Naja Mode</label>
-                    <select id="modelSelect">
-                        <option value="Naja" id="opt1">&#x1F9E0; Naja Smart (3B) - Aanbevolen</option>
-                        <option value="Naja-Fast" id="opt2">&#x1F680; Naja Turbo (1.5B) - Extra snel</option>
-                    </select>
-                    <p class="model-info" id="model-timing">Smart: ~20s | Turbo: ~10s</p>
-                </div>
-                <div class="naja-section">
-                    <div class="naja-header">
-                        <div class="naja-avatar">&#x1F469;&#x1F3FB;</div>
-                        <div class="naja-info"><h4 id="naja-name">Naja</h4><p id="naja-sub">AI Product Advisor</p></div>
-                    </div>
-                    <div class="chat-messages" id="messages"></div>
-                    <div class="chat-input-wrapper">
-                        <input type="text" class="chat-input" id="input" placeholder="Vraag Naja..." onkeypress="if(event.key==='Enter')sendMsg()">
-                        <button class="send-btn" onclick="sendMsg()">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2L9.5 9.5L2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-            <div class="products-section">
-                <div class="section-header">
-                    <h2 id="products-title">Onze Producten</h2>
-                    <span class="results-count" id="count">70 producten</span>
-                </div>
-                <div class="category-filters">
-                    <button class="category-btn active" onclick="filter('all')" id="btn-all">Alles</button>
-                    <button class="category-btn" onclick="filter('laptops')">&#x1F4BB; Laptops</button>
-                    <button class="category-btn" onclick="filter('phones')">&#x1F4F1; Smartphones</button>
-                    <button class="category-btn" onclick="filter('appliances')">&#x1F300; Wasmachines</button>
-                    <button class="category-btn" onclick="filter('tv')">&#x1F4FA; TV's</button>
-                    <button class="category-btn" onclick="filter('audio')">&#x1F3A7; Audio</button>
-                    <button class="category-btn" onclick="filter('household')">&#x1F9F9; Huishoudelijk</button>
-                    <button class="category-btn" onclick="filter('tablets')">&#x1F4DA; Tablets</button>
-                    <button class="category-btn" onclick="filter('smarthome')">&#x1F3E0; Smart Home</button>
-                    <button class="category-btn" onclick="filter('gaming')">&#x1F3AE; Gaming</button>
-                    <button class="category-btn" onclick="filter('camera')">&#x1F4F7; Camera's</button>
-                </div>
-                <div class="products-grid" id="grid"></div>
-            </div>
+<header id="header">
+    <div class="header-left">
+        <a href="index.html" class="back-link" id="back-link">← Portfolio</a>
+        <div class="logo">AK's <span>Elektronica</span></div>
+    </div>
+    <div class="header-right">
+        <div class="status-pill">
+            <div class="status-dot"></div>
+            <span id="pi-label">Raspberry Pi Server</span>
         </div>
+        <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">EN</button>
+    </div>
+</header>
+
+<div class="page">
+    <div class="page-hero">
+        <div>
+            <div class="page-eyebrow"><div class="eyebrow-line"></div>Project 02</div>
+            <h1 class="page-title">AK's <span class="italic">Elektronica</span></h1>
+        </div>
+        <div class="count-badge" id="count">70 producten</div>
     </div>
 
-    <script>
-        const API = 'https://cleo.alanokricha.com/chat';
-        let history = [];
-        let currentCat = 'all';
-        let clang = 'nl';
-
-        const CT = {
-            nl: {back:"&#x2190; Portfolio",breadcrumb:"AI Product Advisor",products:"Onze Producten",countSuffix:"producten",ph:"Vraag Naja...",naja:"Naja",naja_s:"AI Product Advisor",pi:"Raspberry Pi Server","powered-by":"Powered by",modal:"Naja Mode",opt1:"&#x1F9E0; Naja Smart (3B) - Aanbevolen",opt2:"&#x1F680; Naja Turbo (1.5B) - Extra snel",timing:"Smart: ~20s | Turbo: ~10s",ask:"Vraag Naja",all:"Alles",offline:"&#x26A0;&#xFE0F; Naja API niet bereikbaar. Chatbot is offline.",greeting:"&#x1F44B; Hey! Ik ben Naja, waar kan ik je mee helpen?"},
-            en: {back:"&#x2190; Portfolio",breadcrumb:"AI Product Advisor",products:"Our Products",countSuffix:"products",ph:"Ask Naja...",naja:"Naja",naja_s:"AI Product Advisor",pi:"Raspberry Pi Server","powered-by":"Powered by",modal:"Naja Mode",opt1:"&#x1F9E0; Naja Smart (3B) - Recommended",opt2:"&#x1F680; Naja Turbo (1.5B) - Extra fast",timing:"Smart: ~20s | Turbo: ~10s",ask:"Ask Naja",all:"All",offline:"&#x26A0;&#xFE0F; Naja API unavailable. Chatbot offline.",greeting:"&#x1F44B; Hey! I'm Naja, how can I help you?"}
-        };
-
-        function toggleLanguage() { clang = clang==='nl'?'en':'nl'; applyCLang(); render(); }
-        function applyCLang() {
-            const t = CT[clang];
-            document.getElementById('back-link').innerHTML = t.back;
-            document.getElementById('breadcrumb-current').textContent = t.breadcrumb;
-            document.getElementById('products-title').textContent = t.products;
-            document.getElementById('input').placeholder = t.ph;
-            document.getElementById('naja-name').textContent = t.naja;
-            document.getElementById('naja-sub').textContent = t.naja_s;
-            document.getElementById('pi-label').textContent = t.pi;
-            document.getElementById('powered-by').textContent = t['powered-by'];
-            document.getElementById('model-label').innerHTML = '&#x26A1; ' + t.modal;
-            document.getElementById('opt1').innerHTML = t.opt1;
-            document.getElementById('opt2').innerHTML = t.opt2;
-            document.getElementById('model-timing').textContent = t.timing;
-            document.getElementById('langToggle').textContent = clang==='nl'?'EN':'NL';
-            document.documentElement.lang = clang;
-            const cnt = document.getElementById('count');
-            if(cnt) { const n = cnt.textContent.split(' ')[0]; cnt.textContent = n + ' ' + t.countSuffix; }
-        }
-
-        const products = [
-            {id:1,name:'MacBook Pro 14" M4',cat:'laptops',emoji:'&#x1F4BB;',specs:'Apple M4, 16GB RAM, 512GB SSD',price:2399,rating:4.9,reviews:312,badge:'Nieuw'},
-            {id:2,name:'Dell XPS 15',cat:'laptops',emoji:'&#x1F4BB;',specs:'Intel i7, 16GB RAM, RTX 4050',price:1799,rating:4.6,reviews:189},
-            {id:3,name:'HP Pavilion 15',cat:'laptops',emoji:'&#x1F4BB;',specs:'AMD Ryzen 5, 8GB RAM, 512GB SSD',price:699,rating:4.3,reviews:445},
-            {id:4,name:'ASUS ROG Strix G16',cat:'laptops',emoji:'&#x1F4BB;',specs:'Intel i9, 32GB RAM, RTX 4070',price:2399,rating:4.9,reviews:234,badge:'Gaming'},
-            {id:5,name:'Lenovo ThinkPad X1',cat:'laptops',emoji:'&#x1F4BB;',specs:'Intel i7, 16GB RAM, 512GB SSD',price:1899,rating:4.7,reviews:278},
-            {id:6,name:'MSI Katana 15',cat:'laptops',emoji:'&#x1F4BB;',specs:'Intel i5, 16GB RAM, RTX 4060',price:1299,rating:4.5,reviews:156},
-            {id:7,name:'Acer Aspire 5',cat:'laptops',emoji:'&#x1F4BB;',specs:'Intel i5, 8GB RAM, 512GB SSD',price:599,rating:4.2,reviews:523},
-            {id:8,name:'iPhone 16 Pro',cat:'phones',emoji:'&#x1F4F1;',specs:'A18 Pro, 256GB, titanium',price:1349,rating:4.9,reviews:1234,badge:'Nieuw'},
-            {id:9,name:'Samsung Galaxy S24 Ultra',cat:'phones',emoji:'&#x1F4F1;',specs:'Snapdragon 8 Gen 3, 512GB',price:1299,rating:4.8,reviews:756,badge:'Premium'},
-            {id:10,name:'Google Pixel 9 Pro',cat:'phones',emoji:'&#x1F4F1;',specs:'Tensor G4, 256GB',price:1099,rating:4.7,reviews:523},
-            {id:11,name:'iPhone 15',cat:'phones',emoji:'&#x1F4F1;',specs:'A17 Bionic, 128GB',price:999,rating:4.7,reviews:892},
-            {id:12,name:'OnePlus 12',cat:'phones',emoji:'&#x1F4F1;',specs:'Snapdragon 8 Gen 3, 256GB',price:799,rating:4.6,reviews:345},
-            {id:13,name:'Samsung Galaxy A55',cat:'phones',emoji:'&#x1F4F1;',specs:'Exynos 1480, 256GB',price:449,rating:4.4,reviews:456},
-            {id:14,name:'Nothing Phone (2a)',cat:'phones',emoji:'&#x1F4F1;',specs:'Dimensity 7200, 256GB',price:399,rating:4.3,reviews:234},
-            {id:15,name:'Miele WEG 675 WCS',cat:'appliances',emoji:'&#x1F300;',specs:'9kg, A klasse, 1400 toeren, WiFi',price:1299,rating:4.9,reviews:234,badge:'Premium'},
-            {id:16,name:'Bosch Serie 8',cat:'appliances',emoji:'&#x1F300;',specs:'9kg, A klasse, 1600 toeren',price:999,rating:4.8,reviews:345},
-            {id:17,name:'Samsung EcoBubble',cat:'appliances',emoji:'&#x1F300;',specs:'9kg, A klasse, SmartThings',price:799,rating:4.6,reviews:389},
-            {id:18,name:'LG F4WV909P2',cat:'appliances',emoji:'&#x1F300;',specs:'9kg, A klasse, AI DD',price:899,rating:4.7,reviews:278},
-            {id:19,name:'LG OLED C4 65"',cat:'tv',emoji:'&#x1F4FA;',specs:'65" OLED evo, 4K 144Hz',price:2199,rating:4.9,reviews:345,badge:'OLED'},
-            {id:20,name:'Samsung QLED QN95C',cat:'tv',emoji:'&#x1F4FA;',specs:'65" Mini-LED, 4K 144Hz',price:2499,rating:4.8,reviews:278,badge:'Premium'},
-            {id:21,name:'Sony Bravia XR A80L',cat:'tv',emoji:'&#x1F4FA;',specs:'55" OLED, 4K 120Hz',price:1699,rating:4.8,reviews:234},
-            {id:22,name:'Sony WH-1000XM5',cat:'audio',emoji:'&#x1F3A7;',specs:'Premium ANC, 30u batterij',price:399,rating:4.9,reviews:1567,badge:'Topkeuze'},
-            {id:23,name:'AirPods Pro (2e gen)',cat:'audio',emoji:'&#x1F3A7;',specs:'ANC, ruimtelijke audio',price:279,rating:4.8,reviews:2345},
-            {id:24,name:'Bose QuietComfort Ultra',cat:'audio',emoji:'&#x1F3A7;',specs:'Immersive audio, 24u',price:449,rating:4.8,reviews:678},
-            {id:25,name:'Dyson V15 Detect',cat:'household',emoji:'&#x1F9F9;',specs:'Laser detectie, 60 min',price:699,rating:4.8,reviews:523,badge:'Premium'},
-            {id:26,name:'Philips Airfryer XXL',cat:'household',emoji:'&#x1F373;',specs:'1.4kg, digitaal display',price:249,rating:4.8,reviews:2156},
-            {id:27,name:'iRobot Roomba j7+',cat:'household',emoji:'&#x1F916;',specs:'Zelflegende basis, smart map',price:799,rating:4.7,reviews:456},
-            {id:28,name:'iPad Pro 12.9" M4',cat:'tablets',emoji:'&#x1F4F1;',specs:'M4 chip, 512GB, ProMotion',price:1599,rating:4.9,reviews:456,badge:'Premium'},
-            {id:29,name:'iPad Air 11"',cat:'tablets',emoji:'&#x1F4F1;',specs:'M2 chip, 256GB, Apple Pencil',price:899,rating:4.8,reviews:678},
-            {id:30,name:'Kindle Paperwhite',cat:'tablets',emoji:'&#x1F4DA;',specs:'6.8" E-Ink, waterdicht, 16GB',price:149,rating:4.8,reviews:5678},
-            {id:31,name:'Philips Hue Starter Kit',cat:'smarthome',emoji:'&#x1F4A1;',specs:'4 lampen + bridge, 16M kleuren',price:199,rating:4.8,reviews:2345,badge:'Populair'},
-            {id:32,name:'Ring Video Doorbell Pro',cat:'smarthome',emoji:'&#x1F6AA;',specs:'1080p HD, nachtzicht, app',price:279,rating:4.7,reviews:3456},
-            {id:33,name:'Nest Learning Thermostat',cat:'smarthome',emoji:'&#x1F321;&#xFE0F;',specs:'Zelflerend, app control',price:249,rating:4.8,reviews:1789},
-            {id:34,name:'PlayStation 5 Slim',cat:'gaming',emoji:'&#x1F3AE;',specs:'1TB SSD, disc edition',price:549,rating:4.8,reviews:2345,badge:'Populair'},
-            {id:35,name:'Xbox Series X',cat:'gaming',emoji:'&#x1F3AE;',specs:'1TB SSD, 4K gaming',price:499,rating:4.7,reviews:1892},
-            {id:36,name:'Nintendo Switch OLED',cat:'gaming',emoji:'&#x1F3AE;',specs:'7" OLED, 64GB',price:349,rating:4.8,reviews:3456},
-            {id:37,name:'Sony Alpha 7 IV',cat:'camera',emoji:'&#x1F4F7;',specs:'33MP full-frame, 4K 60fps',price:2799,rating:4.9,reviews:567,badge:'Pro'},
-            {id:38,name:'GoPro Hero 12 Black',cat:'camera',emoji:'&#x1F4F7;',specs:'5.3K60, waterdicht',price:449,rating:4.7,reviews:2345},
-            {id:39,name:'DJI Mini 4 Pro',cat:'camera',emoji:'&#x1F681;',specs:'4K HDR, 34 min vliegtijd',price:759,rating:4.8,reviews:1234,badge:'Populair'}
-        ];
-
-        function render() {
-            const t = CT[clang];
-            const filtered = currentCat==='all' ? products : products.filter(p=>p.cat===currentCat);
-            document.getElementById('count').textContent = filtered.length + ' ' + t.countSuffix;
-            document.getElementById('grid').innerHTML = filtered.map(p=>`
-                <div class="product-card">
-                    ${p.badge?`<span class="product-badge">${p.badge}</span>`:''}
-                    <span class="product-emoji">${p.emoji}</span>
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-specs">${p.specs}</div>
-                    <div class="product-rating"><span class="stars">${'&#x2605;'.repeat(Math.floor(p.rating))}${'&#x2606;'.repeat(5-Math.floor(p.rating))}</span><span class="review-count">(${p.reviews})</span></div>
-                    <div class="product-price">&#x20AC;${p.price},-</div>
-                    <button class="ask-naja-btn" onclick="askProduct('${p.name}')">${t.ask}</button>
+    <div class="main-grid">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <div class="powered-label" id="powered-by">Powered by</div>
+                <div class="tech-specs">
+                    <div class="tech-spec"><div class="spec-dot"></div>Raspberry Pi 5 (16GB RAM)</div>
+                    <div class="tech-spec"><div class="spec-dot"></div>Qwen 2.5 (1.5B & 3B)</div>
+                    <div class="tech-spec"><div class="spec-dot"></div>Python Flask API</div>
+                    <div class="tech-spec"><div class="spec-dot"></div>Cloudflare Tunnel</div>
                 </div>
-            `).join('');
-        }
+            </div>
 
-        function filter(cat) {
-            currentCat = cat;
-            render();
-            document.querySelectorAll('.category-btn').forEach(b=>b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-        function askProduct(name) { document.getElementById('input').value = clang==='nl'?`Vertel me over de ${name}`:`Tell me about the ${name}`; sendMsg(); }
-        function addMsg(txt, user=false) {
-            const div=document.createElement('div'); div.className=`message ${user?'user':'assistant'}`;
-            div.innerHTML=`<div class="message-bubble">${txt}</div>`;
-            document.getElementById('messages').appendChild(div);
-            document.getElementById('messages').scrollTop=999999;
-        }
-        function showTyping() {
-            const div=document.createElement('div'); div.className='message assistant'; div.id='typing';
-            div.innerHTML='<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-            document.getElementById('messages').appendChild(div); document.getElementById('messages').scrollTop=999999;
-        }
-        function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
-        function showError(msg){const div=document.createElement('div');div.className='error-message';div.innerHTML=msg;document.getElementById('messages').appendChild(div);}
-        async function sendMsg() {
-            const inp=document.getElementById('input'); const msg=inp.value.trim(); if(!msg) return;
-            addMsg(msg,true); inp.value=''; history.push({role:'user',content:msg}); showTyping();
-            const model=document.getElementById('modelSelect').value;
-            try {
-                const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,history,model})});
-                removeTyping();
-                if(!res.ok) throw new Error(`API error: ${res.status}`);
-                const data=await res.json();
-                if(data.reply){addMsg(data.reply);history.push({role:'assistant',content:data.reply});}
-                else throw new Error(data.error||"No reply");
-            } catch(e){removeTyping();showError(`&#x274C; ${e.message}`);}
-        }
-        async function checkAPI() {
-            try { const r=await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg(CT[clang].greeting); }
-            catch(e){showError(CT[clang].offline);}
-        }
+            <div class="model-select-wrap">
+                <span class="model-label" id="model-label">Naja Mode</span>
+                <select class="model-select" id="modelSelect">
+                    <option value="Naja" id="opt1">Naja Smart (3B) — Aanbevolen</option>
+                    <option value="Naja-Fast" id="opt2">Naja Turbo (1.5B) — Extra snel</option>
+                </select>
+                <div class="model-timing" id="model-timing">Smart: ~20s · Turbo: ~10s</div>
+            </div>
+
+            <div class="naja-section">
+                <div class="naja-header">
+                    <div class="naja-avatar">🤖</div>
+                    <div>
+                        <div class="naja-name" id="naja-name">Naja</div>
+                        <div class="naja-sub" id="naja-sub">AI Product Advisor</div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="messages"></div>
+                <div class="chat-input-row">
+                    <input type="text" class="chat-input" id="input" placeholder="Vraag Naja..." onkeypress="if(event.key==='Enter')sendMsg()">
+                    <button class="send-btn" onclick="sendMsg()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products -->
+        <div class="products-panel">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filter('all',event)" id="btn-all">Alles</button>
+                <button class="filter-btn" onclick="filter('laptops',event)">💻 Laptops</button>
+                <button class="filter-btn" onclick="filter('phones',event)">📱 Smartphones</button>
+                <button class="filter-btn" onclick="filter('appliances',event)">🌀 Wasmachines</button>
+                <button class="filter-btn" onclick="filter('tv',event)">📺 TV's</button>
+                <button class="filter-btn" onclick="filter('audio',event)">🎧 Audio</button>
+                <button class="filter-btn" onclick="filter('household',event)">🧹 Huishoudelijk</button>
+                <button class="filter-btn" onclick="filter('tablets',event)">📚 Tablets</button>
+                <button class="filter-btn" onclick="filter('smarthome',event)">🏠 Smart Home</button>
+                <button class="filter-btn" onclick="filter('gaming',event)">🎮 Gaming</button>
+                <button class="filter-btn" onclick="filter('camera',event)">📷 Camera's</button>
+            </div>
+            <div class="products-grid" id="grid"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API = 'https://cleo.alanokricha.com/chat';
+    let history = [], currentCat = 'all', clang = 'nl';
+
+    const CT = {
+        nl: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Aanbevolen", opt2:"Naja Turbo (1.5B) — Extra snel", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Vraag Naja...", ask:"Vraag Naja", countSuffix:"producten", all:"Alles", offline:"⚠️ Naja API niet bereikbaar. Chatbot is offline.", greeting:"👋 Hey! Ik ben Naja, waar kan ik je mee helpen?" },
+        en: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Recommended", opt2:"Naja Turbo (1.5B) — Extra fast", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Ask Naja...", ask:"Ask Naja", countSuffix:"products", all:"All", offline:"⚠️ Naja API unavailable. Chatbot offline.", greeting:"👋 Hey! I'm Naja, how can I help you?" }
+    };
+
+    const products = [
+        {id:1,name:'MacBook Pro 14" M4',cat:'laptops',emoji:'💻',specs:'Apple M4 · 16GB RAM · 512GB SSD',price:2399,rating:4.9,reviews:312,badge:'Nieuw'},
+        {id:2,name:'Dell XPS 15',cat:'laptops',emoji:'💻',specs:'Intel i7 · 16GB RAM · RTX 4050',price:1799,rating:4.6,reviews:189},
+        {id:3,name:'HP Pavilion 15',cat:'laptops',emoji:'💻',specs:'AMD Ryzen 5 · 8GB RAM · 512GB SSD',price:699,rating:4.3,reviews:445},
+        {id:4,name:'ASUS ROG Strix G16',cat:'laptops',emoji:'💻',specs:'Intel i9 · 32GB RAM · RTX 4070',price:2399,rating:4.9,reviews:234,badge:'Gaming'},
+        {id:5,name:'Lenovo ThinkPad X1',cat:'laptops',emoji:'💻',specs:'Intel i7 · 16GB RAM · 512GB SSD',price:1899,rating:4.7,reviews:278},
+        {id:6,name:'MSI Katana 15',cat:'laptops',emoji:'💻',specs:'Intel i5 · 16GB RAM · RTX 4060',price:1299,rating:4.5,reviews:156},
+        {id:7,name:'Acer Aspire 5',cat:'laptops',emoji:'💻',specs:'Intel i5 · 8GB RAM · 512GB SSD',price:599,rating:4.2,reviews:523},
+        {id:8,name:'iPhone 16 Pro',cat:'phones',emoji:'📱',specs:'A18 Pro · 256GB · titanium',price:1349,rating:4.9,reviews:1234,badge:'Nieuw'},
+        {id:9,name:'Samsung Galaxy S24 Ultra',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3 · 512GB',price:1299,rating:4.8,reviews:756,badge:'Premium'},
+        {id:10,name:'Google Pixel 9 Pro',cat:'phones',emoji:'📱',specs:'Tensor G4 · 256GB',price:1099,rating:4.7,reviews:523},
+        {id:11,name:'iPhone 15',cat:'phones',emoji:'📱',specs:'A17 Bionic · 128GB',price:999,rating:4.7,reviews:892},
+        {id:12,name:'OnePlus 12',cat:'phones',emoji:'📱',specs:'Snapdragon 8 Gen 3 · 256GB',price:799,rating:4.6,reviews:345},
+        {id:13,name:'Samsung Galaxy A55',cat:'phones',emoji:'📱',specs:'Exynos 1480 · 256GB',price:449,rating:4.4,reviews:456},
+        {id:14,name:'Nothing Phone (2a)',cat:'phones',emoji:'📱',specs:'Dimensity 7200 · 256GB',price:399,rating:4.3,reviews:234},
+        {id:15,name:'Miele WEG 675 WCS',cat:'appliances',emoji:'🌀',specs:'9kg · A klasse · 1400 toeren · WiFi',price:1299,rating:4.9,reviews:234,badge:'Premium'},
+        {id:16,name:'Bosch Serie 8',cat:'appliances',emoji:'🌀',specs:'9kg · A klasse · 1600 toeren',price:999,rating:4.8,reviews:345},
+        {id:17,name:'Samsung EcoBubble',cat:'appliances',emoji:'🌀',specs:'9kg · A klasse · SmartThings',price:799,rating:4.6,reviews:389},
+        {id:18,name:'LG F4WV909P2',cat:'appliances',emoji:'🌀',specs:'9kg · A klasse · AI DD',price:899,rating:4.7,reviews:278},
+        {id:19,name:'LG OLED C4 65"',cat:'tv',emoji:'📺',specs:'65" OLED evo · 4K 144Hz',price:2199,rating:4.9,reviews:345,badge:'OLED'},
+        {id:20,name:'Samsung QLED QN95C',cat:'tv',emoji:'📺',specs:'65" Mini-LED · 4K 144Hz',price:2499,rating:4.8,reviews:278,badge:'Premium'},
+        {id:21,name:'Sony Bravia XR A80L',cat:'tv',emoji:'📺',specs:'55" OLED · 4K 120Hz',price:1699,rating:4.8,reviews:234},
+        {id:22,name:'Sony WH-1000XM5',cat:'audio',emoji:'🎧',specs:'Premium ANC · 30u batterij',price:399,rating:4.9,reviews:1567,badge:'Topkeuze'},
+        {id:23,name:'AirPods Pro (2e gen)',cat:'audio',emoji:'🎧',specs:'ANC · ruimtelijke audio',price:279,rating:4.8,reviews:2345},
+        {id:24,name:'Bose QuietComfort Ultra',cat:'audio',emoji:'🎧',specs:'Immersive audio · 24u',price:449,rating:4.8,reviews:678},
+        {id:25,name:'Dyson V15 Detect',cat:'household',emoji:'🧹',specs:'Laser detectie · 60 min',price:699,rating:4.8,reviews:523,badge:'Premium'},
+        {id:26,name:'Philips Airfryer XXL',cat:'household',emoji:'🍳',specs:'1.4kg · digitaal display',price:249,rating:4.8,reviews:2156},
+        {id:27,name:'iRobot Roomba j7+',cat:'household',emoji:'🤖',specs:'Zelflegende basis · smart map',price:799,rating:4.7,reviews:456},
+        {id:28,name:'iPad Pro 12.9" M4',cat:'tablets',emoji:'📱',specs:'M4 chip · 512GB · ProMotion',price:1599,rating:4.9,reviews:456,badge:'Premium'},
+        {id:29,name:'iPad Air 11"',cat:'tablets',emoji:'📱',specs:'M2 chip · 256GB · Apple Pencil',price:899,rating:4.8,reviews:678},
+        {id:30,name:'Kindle Paperwhite',cat:'tablets',emoji:'📚',specs:'6.8" E-Ink · waterdicht · 16GB',price:149,rating:4.8,reviews:5678},
+        {id:31,name:'Philips Hue Starter Kit',cat:'smarthome',emoji:'💡',specs:'4 lampen + bridge · 16M kleuren',price:199,rating:4.8,reviews:2345,badge:'Populair'},
+        {id:32,name:'Ring Video Doorbell Pro',cat:'smarthome',emoji:'🚪',specs:'1080p HD · nachtzicht · app',price:279,rating:4.7,reviews:3456},
+        {id:33,name:'Nest Learning Thermostat',cat:'smarthome',emoji:'🌡️',specs:'Zelflerend · app control',price:249,rating:4.8,reviews:1789},
+        {id:34,name:'PlayStation 5 Slim',cat:'gaming',emoji:'🎮',specs:'1TB SSD · disc edition',price:549,rating:4.8,reviews:2345,badge:'Populair'},
+        {id:35,name:'Xbox Series X',cat:'gaming',emoji:'🎮',specs:'1TB SSD · 4K gaming',price:499,rating:4.7,reviews:1892},
+        {id:36,name:'Nintendo Switch OLED',cat:'gaming',emoji:'🎮',specs:'7" OLED · 64GB',price:349,rating:4.8,reviews:3456},
+        {id:37,name:'Sony Alpha 7 IV',cat:'camera',emoji:'📷',specs:'33MP full-frame · 4K 60fps',price:2799,rating:4.9,reviews:567,badge:'Pro'},
+        {id:38,name:'GoPro Hero 12 Black',cat:'camera',emoji:'📷',specs:'5.3K60 · waterdicht',price:449,rating:4.7,reviews:2345},
+        {id:39,name:'DJI Mini 4 Pro',cat:'camera',emoji:'🚁',specs:'4K HDR · 34 min vliegtijd',price:759,rating:4.8,reviews:1234,badge:'Populair'}
+    ];
+
+    function render() {
+        const t = CT[clang];
+        const filtered = currentCat === 'all' ? products : products.filter(p => p.cat === currentCat);
+        document.getElementById('count').textContent = filtered.length + ' ' + t.countSuffix;
+        document.getElementById('grid').innerHTML = filtered.map(p => `
+            <div class="product-card">
+                ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                <span class="product-emoji">${p.emoji}</span>
+                <div class="product-name">${p.name}</div>
+                <div class="product-specs">${p.specs}</div>
+                <div class="product-rating">
+                    <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+                    <span class="review-count">(${p.reviews})</span>
+                </div>
+                <div class="product-price">€${p.price},-</div>
+                <button class="ask-btn" onclick="askProduct('${p.name}')">${t.ask} →</button>
+            </div>
+        `).join('');
+    }
+
+    function filter(cat, e) {
+        currentCat = cat;
         render();
-        checkAPI();
-    </script>
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if (e && e.target) e.target.classList.add('active');
+    }
+
+    function askProduct(name) {
+        document.getElementById('input').value = clang === 'nl' ? `Vertel me over de ${name}` : `Tell me about the ${name}`;
+        sendMsg();
+    }
+
+    function addMsg(txt, user = false) {
+        const div = document.createElement('div');
+        div.className = `message ${user ? 'user' : 'assistant'}`;
+        div.innerHTML = `<div class="message-bubble">${txt}</div>`;
+        document.getElementById('messages').appendChild(div);
+        document.getElementById('messages').scrollTop = 999999;
+    }
+
+    function showTyping() {
+        const div = document.createElement('div');
+        div.className = 'message assistant'; div.id = 'typing';
+        div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+        document.getElementById('messages').appendChild(div);
+        document.getElementById('messages').scrollTop = 999999;
+    }
+
+    function removeTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
+
+    function showError(msg) {
+        const div = document.createElement('div');
+        div.className = 'error-msg'; div.textContent = msg;
+        document.getElementById('messages').appendChild(div);
+    }
+
+    async function sendMsg() {
+        const inp = document.getElementById('input');
+        const msg = inp.value.trim(); if (!msg) return;
+        addMsg(msg, true); inp.value = '';
+        history.push({role:'user', content:msg}); showTyping();
+        const model = document.getElementById('modelSelect').value;
+        try {
+            const res = await fetch(API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:msg, history, model})});
+            removeTyping();
+            if (!res.ok) throw new Error(`API error: ${res.status}`);
+            const data = await res.json();
+            if (data.reply) { addMsg(data.reply); history.push({role:'assistant', content:data.reply}); }
+            else throw new Error(data.error || 'No reply');
+        } catch(e) { removeTyping(); showError('❌ ' + e.message); }
+    }
+
+    async function checkAPI() {
+        try { const r = await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg(CT[clang].greeting); }
+        catch(e) { showError(CT[clang].offline); }
+    }
+
+    function toggleLanguage() { clang = clang === 'nl' ? 'en' : 'nl'; applyLang(); render(); }
+
+    function applyLang() {
+        const t = CT[clang];
+        document.getElementById('back-link').textContent = t.back;
+        document.getElementById('pi-label').textContent = t.pi;
+        document.getElementById('powered-by').textContent = t['powered-by'];
+        document.getElementById('model-label').textContent = t.modal;
+        document.getElementById('opt1').textContent = t.opt1;
+        document.getElementById('opt2').textContent = t.opt2;
+        document.getElementById('model-timing').textContent = t.timing;
+        document.getElementById('naja-name').textContent = t.naja;
+        document.getElementById('naja-sub').textContent = t.naja_s;
+        document.getElementById('input').placeholder = t.ph;
+        document.getElementById('langToggle').textContent = clang === 'nl' ? 'EN' : 'NL';
+        document.documentElement.lang = clang;
+    }
+
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+    (function animRing(){ rx += (mx-rx)*.12; ry += (my-ry)*.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
+    document.querySelectorAll('a, button, select').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width='52px'; ring.style.height='52px'; ring.style.borderColor='rgba(0,232,122,0.6)'; });
+        el.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(0,232,122,0.4)'; });
+    });
+
+    // Header scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('header').classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    render();
+    checkAPI();
+</script>
 </body>
 </html>
