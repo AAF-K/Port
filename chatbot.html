@@ -1,384 +1,393 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTMiIHN0cm9rZT0iIzAwZTg3YSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8ZWxsaXBzZSBjeD0iMTYiIGN5PSIxNiIgcng9IjEzIiByeT0iNSIgc3Ryb2tlPSIjMDBlODdhIiBzdHJva2Utd2lkdGg9IjAuOCIvPgogIDxlbGxpcHNlIGN4PSIxNiIgY3k9IjE2IiByeD0iMTMiIHJ5PSI5LjUiIHN0cm9rZT0iIzAwZTg3YSIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KICA8ZWxsaXBzZSBjeD0iMTYiIGN5PSIxNiIgcng9IjUiIHJ5PSIxMyIgc3Ryb2tlPSIjMDBlODdhIiBzdHJva2Utd2lkdGg9IjAuOCIvPgogIDxsaW5lIHgxPSIzIiB5MT0iMTYiIHgyPSIyOSIgeTI9IjE2IiBzdHJva2U9IiMwMGU4N2EiIHN0cm9rZS13aWR0aD0iMC44Ii8+CiAgPGxpbmUgeDE9IjE2IiB5MT0iMyIgeDI9IjE2IiB5Mj0iMjkiIHN0cm9rZT0iIzAwZTg3YSIgc3Ryb2tlLXdpZHRoPSIwLjgiLz4KPC9zdmc+">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AK's Elektronica — Alano Kricha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-    <style>
+
+```
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK's Elektronica — Alano Kricha</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #09090f;
+        --surface: #0f0f1a;
+        --surface2: #141422;
+        --border: #1c1c30;
+        --accent: #00e87a;
+        --accent2: #00b860;
+        --warm: #f0a500;
+        --text: #f0f0f8;
+        --muted: #8888aa;
+        --dim: #3a3a5c;
+        --red: #ff4060;
+    }
+
+    @media (prefers-color-scheme: light) {
         :root {
-            --bg: #09090f;
-            --surface: #0f0f1a;
-            --surface2: #141422;
-            --border: #1c1c30;
-            --accent: #00e87a;
-            --accent2: #00b860;
-            --warm: #f0a500;
-            --text: #f0f0f8;
-            --muted: #8888aa;
-            --dim: #3a3a5c;
-            --red: #ff4060;
+            --bg: #f8f8f5;
+            --surface: #efefea;
+            --surface2: #e8e8e2;
+            --border: #d0d0c8;
+            --accent: #008a48;
+            --accent2: #006a38;
+            --warm: #c07800;
+            --text: #0a0a14;
+            --muted: #3a3a50;
+            --dim: #999999;
+            --red: #cc2040;
         }
+        header.scrolled { background: rgba(248,248,245,0.9); }
+        .code-wrap { background: #f0f0eb; }
+    }
 
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg: #f8f8f5;
-                --surface: #efefea;
-                --surface2: #e8e8e2;
-                --border: #d0d0c8;
-                --accent: #008a48;
-                --accent2: #006a38;
-                --warm: #c07800;
-                --text: #0a0a14;
-                --muted: #3a3a50;
-                --dim: #999999;
-                --red: #cc2040;
-            }
-            header.scrolled { background: rgba(248,248,245,0.9); }
-            .code-wrap { background: #f0f0eb; }
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Syne', sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+    }
+    body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9990;
+        opacity: 0.4;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Syne', sans-serif;
-            overflow-x: hidden;
-            cursor: none;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9990;
-            opacity: 0.4;
-        }
+    /* Cursor */
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,232,122,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width .3s, height .3s, border-color .3s; }
 
-        /* Cursor */
-        .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
-        .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,232,122,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width .3s, height .3s, border-color .3s; }
-
-        /* Header */
-        header {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 18px 48px;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid transparent;
-            transition: border-color .3s, background .3s, backdrop-filter .3s;
-        }
-        header.scrolled {
-            border-color: var(--border);
-            background: rgba(9,9,15,0.9);
-            backdrop-filter: blur(20px);
-        }
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .back-link {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--muted); text-decoration: none; transition: color .2s;
-        }
-        .back-link:hover { color: var(--accent); }
-        .logo {
-            font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .logo span { color: var(--accent); }
-        .header-right { display: flex; align-items: center; gap: 16px; }
-        .status-pill {
-            display: flex; align-items: center; gap: 8px;
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            letter-spacing: 1px; color: var(--muted);
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 20px; padding: 5px 12px;
-        }
-        .status-dot {
-            width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-            animation: pulse 2s ease infinite;
-        }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-        .lang-btn {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--muted); background: none;
-            border: 1px solid var(--border); border-radius: 4px;
-            padding: 5px 10px; cursor: none; transition: all .2s;
-        }
-        .lang-btn:hover { color: var(--accent); border-color: rgba(0,232,122,0.3); }
+    /* Header */
+    header {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        padding: 18px 48px;
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 1px solid transparent;
+        transition: border-color .3s, background .3s, backdrop-filter .3s;
+    }
+    header.scrolled {
+        border-color: var(--border);
+        background: rgba(9,9,15,0.9);
+        backdrop-filter: blur(20px);
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .back-link {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        letter-spacing: 1.5px; text-transform: uppercase;
+        color: var(--muted); text-decoration: none; transition: color .2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .logo {
+        font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .status-pill {
+        display: flex; align-items: center; gap: 8px;
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        letter-spacing: 1px; color: var(--muted);
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 20px; padding: 5px 12px;
+    }
+    .status-dot {
+        width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+        animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .lang-btn {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        letter-spacing: 1.5px; text-transform: uppercase;
+        color: var(--muted); background: none;
+        border: 1px solid var(--border); border-radius: 4px;
+        padding: 5px 10px; cursor: none; transition: all .2s;
+    }
+    .lang-btn:hover { color: var(--accent); border-color: rgba(0,232,122,0.3); }
 
 
-        /* Hero grid & glow */
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0,232,122,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,232,122,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at 30% 40%, black 20%, transparent 65%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        /* Page layout */
-        .page { padding: 90px 48px 48px; max-width: 1400px; margin: 0 auto; }
+    /* Hero grid & glow */
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(0,232,122,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,232,122,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(ellipse at 30% 40%, black 20%, transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    /* Page layout */
+    .page { padding: 90px 48px 48px; max-width: 1400px; margin: 0 auto; }
 
-        /* Hero bar */
-        .page-hero {
-            padding: 32px 0 28px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 32px;
-            display: flex; justify-content: space-between; align-items: flex-end;
-        }
-        .page-eyebrow {
-            display: flex; align-items: center; gap: 10px;
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .eyebrow-line { width: 28px; height: 1px; background: var(--accent); }
-        .page-title {
-            font-size: clamp(28px, 4vw, 48px);
-            font-weight: 800; letter-spacing: -1.5px; line-height: 1;
-        }
-        .page-title .italic {
-            font-family: 'Fraunces', serif; font-style: italic;
-            font-weight: 300; color: var(--accent);
-        }
-        .count-badge {
-            font-family: 'JetBrains Mono', monospace; font-size: 12px;
-            color: var(--muted); padding-bottom: 4px;
-        }
+    /* Hero bar */
+    .page-hero {
+        padding: 24px 0 28px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 32px;
+        display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .page-eyebrow {
+        display: flex; align-items: center; gap: 10px;
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    .eyebrow-line { width: 28px; height: 1px; background: var(--accent); }
+    .page-title {
+        font-size: clamp(28px, 4vw, 48px);
+        font-weight: 800; letter-spacing: -1.5px; line-height: 1;
+    }
+    .page-title .italic {
+        font-family: 'Fraunces', serif; font-style: italic;
+        font-weight: 300; color: var(--accent);
+    }
+    .count-badge {
+        font-family: 'JetBrains Mono', monospace; font-size: 12px;
+        color: var(--muted); padding-bottom: 4px;
+    }
 
-        /* Main grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 24px;
-            align-items: start;
-        }
+    /* Main grid */
+    .main-grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 24px;
+        align-items: start;
+    }
 
-        /* Sidebar */
-        .sidebar {
-            position: sticky; top: 90px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .sidebar-top {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface2);
-        }
-        .powered-label {
-            font-family: 'JetBrains Mono', monospace; font-size: 9px;
-            letter-spacing: 2px; text-transform: uppercase;
-            color: var(--muted); margin-bottom: 12px;
-        }
-        .tech-specs { display: flex; flex-direction: column; gap: 6px; }
-        .tech-spec {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px;
-            color: var(--text); display: flex; align-items: center; gap: 8px;
-        }
-        .spec-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    /* Sidebar */
+    .sidebar {
+        position: sticky; top: 90px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    .sidebar-top {
+        padding: 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface2);
+    }
+    .powered-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 9px;
+        letter-spacing: 2px; text-transform: uppercase;
+        color: var(--muted); margin-bottom: 12px;
+    }
+    .tech-specs { display: flex; flex-direction: column; gap: 6px; }
+    .tech-spec {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        color: var(--text); display: flex; align-items: center; gap: 8px;
+    }
+    .spec-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
-        /* Model selector */
-        .model-select-wrap {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .model-label {
-            font-family: 'JetBrains Mono', monospace; font-size: 9px;
-            letter-spacing: 2px; text-transform: uppercase;
-            color: var(--muted); margin-bottom: 8px; display: block;
-        }
-        .model-select {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 8px 12px;
-            outline: none;
-            cursor: pointer;
-            transition: border-color .2s;
-            -webkit-appearance: none;
-        }
-        .model-select:focus { border-color: var(--accent); }
-        .model-timing {
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            color: var(--muted); margin-top: 6px;
-        }
+    /* Model selector */
+    .model-select-wrap {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+    }
+    .model-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 9px;
+        letter-spacing: 2px; text-transform: uppercase;
+        color: var(--muted); margin-bottom: 8px; display: block;
+    }
+    .model-select {
+        width: 100%;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        padding: 8px 12px;
+        outline: none;
+        cursor: pointer;
+        transition: border-color .2s;
+        -webkit-appearance: none;
+    }
+    .model-select:focus { border-color: var(--accent); }
+    .model-timing {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        color: var(--muted); margin-top: 6px;
+    }
 
-        /* Naja chat */
-        .naja-section { padding: 20px; }
-        .naja-header {
-            display: flex; align-items: center; gap: 12px;
-            padding-bottom: 16px; margin-bottom: 16px;
-            border-bottom: 1px solid var(--border);
-        }
-        .naja-avatar {
-            width: 40px; height: 40px;
-            background: rgba(0,232,122,0.1);
-            border: 1px solid rgba(0,232,122,0.2);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px;
-        }
-        .naja-name { font-size: 14px; font-weight: 700; }
-        .naja-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+    /* Naja chat */
+    .naja-section { padding: 20px; }
+    .naja-header {
+        display: flex; align-items: center; gap: 12px;
+        padding-bottom: 16px; margin-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+    }
+    .naja-avatar {
+        width: 40px; height: 40px;
+        background: rgba(0,232,122,0.1);
+        border: 1px solid rgba(0,232,122,0.2);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px;
+    }
+    .naja-name { font-size: 14px; font-weight: 700; }
+    .naja-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
 
-        .chat-messages {
-            max-height: 420px; overflow-y: auto;
-            margin-bottom: 16px;
-            display: flex; flex-direction: column; gap: 8px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) transparent;
-        }
-        .message { display: flex; }
-        .message.user { justify-content: flex-end; }
-        .message-bubble {
-            max-width: 85%; padding: 10px 14px;
-            border-radius: 12px; font-size: 13px; line-height: 1.5;
-        }
-        .message.user .message-bubble {
-            background: var(--accent); color: #000;
-            font-weight: 500; border-bottom-right-radius: 3px;
-        }
-        .message.assistant .message-bubble {
-            background: var(--surface2); color: var(--text);
-            border: 1px solid var(--border); border-bottom-left-radius: 3px;
-        }
-        .typing-indicator {
-            display: inline-flex; gap: 4px; padding: 10px 14px;
-            background: var(--surface2); border: 1px solid var(--border);
-            border-radius: 12px; border-bottom-left-radius: 3px;
-        }
-        .typing-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: var(--muted); animation: typing 1.4s infinite;
-        }
-        .typing-dot:nth-child(2){animation-delay:.2s}
-        .typing-dot:nth-child(3){animation-delay:.4s}
-        @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+    .chat-messages {
+        max-height: 420px; overflow-y: auto;
+        margin-bottom: 16px;
+        display: flex; flex-direction: column; gap: 8px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+    }
+    .message { display: flex; }
+    .message.user { justify-content: flex-end; }
+    .message-bubble {
+        max-width: 85%; padding: 10px 14px;
+        border-radius: 12px; font-size: 13px; line-height: 1.5;
+    }
+    .message.user .message-bubble {
+        background: var(--accent); color: #000;
+        font-weight: 500; border-bottom-right-radius: 3px;
+    }
+    .message.assistant .message-bubble {
+        background: var(--surface2); color: var(--text);
+        border: 1px solid var(--border); border-bottom-left-radius: 3px;
+    }
+    .typing-indicator {
+        display: inline-flex; gap: 4px; padding: 10px 14px;
+        background: var(--surface2); border: 1px solid var(--border);
+        border-radius: 12px; border-bottom-left-radius: 3px;
+    }
+    .typing-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--muted); animation: typing 1.4s infinite;
+    }
+    .typing-dot:nth-child(2){animation-delay:.2s}
+    .typing-dot:nth-child(3){animation-delay:.4s}
+    @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
 
-        .chat-input-row { display: flex; gap: 8px; align-items: center; }
-        .chat-input {
-            flex: 1; background: var(--surface2);
-            border: 1px solid var(--border); border-radius: 10px;
-            color: var(--text); font-family: 'Syne', sans-serif;
-            font-size: 13px; padding: 10px 14px; outline: none;
-            transition: border-color .2s;
-        }
-        .chat-input:focus { border-color: var(--accent); }
-        .chat-input::placeholder { color: var(--muted); }
-        .send-btn {
-            width: 40px; height: 40px; flex-shrink: 0;
-            background: var(--accent); border: none; border-radius: 10px;
-            cursor: none; display: flex; align-items: center; justify-content: center;
-            transition: all .2s; box-shadow: 0 0 16px rgba(0,232,122,0.2);
-        }
-        .send-btn:hover { background: var(--accent2); transform: scale(1.05); }
-        .send-btn svg { width: 16px; height: 16px; }
+    .chat-input-row { display: flex; gap: 8px; align-items: center; }
+    .chat-input {
+        flex: 1; background: var(--surface2);
+        border: 1px solid var(--border); border-radius: 10px;
+        color: var(--text); font-family: 'Syne', sans-serif;
+        font-size: 13px; padding: 10px 14px; outline: none;
+        transition: border-color .2s;
+    }
+    .chat-input:focus { border-color: var(--accent); }
+    .chat-input::placeholder { color: var(--muted); }
+    .send-btn {
+        width: 40px; height: 40px; flex-shrink: 0;
+        background: var(--accent); border: none; border-radius: 10px;
+        cursor: none; display: flex; align-items: center; justify-content: center;
+        transition: all .2s; box-shadow: 0 0 16px rgba(0,232,122,0.2);
+    }
+    .send-btn:hover { background: var(--accent2); transform: scale(1.05); }
+    .send-btn svg { width: 16px; height: 16px; }
 
-        .error-msg {
-            font-family: 'JetBrains Mono', monospace; font-size: 11px;
-            color: var(--red); background: rgba(255,64,96,0.08);
-            border: 1px solid rgba(255,64,96,0.2);
-            border-radius: 8px; padding: 10px 14px; margin-top: 8px;
-        }
+    .error-msg {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px;
+        color: var(--red); background: rgba(255,64,96,0.08);
+        border: 1px solid rgba(255,64,96,0.2);
+        border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+    }
 
-        /* Products panel */
-        .products-panel { min-width: 0; }
+    /* Products panel */
+    .products-panel { min-width: 0; }
 
-        /* Category filters */
-        .filters {
-            display: flex; flex-wrap: wrap; gap: 6px;
-            margin-bottom: 24px;
-        }
-        .filter-btn {
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            letter-spacing: 0.5px; padding: 6px 14px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 4px; color: var(--muted);
-            cursor: none; transition: all .2s;
-        }
-        .filter-btn:hover { color: var(--text); border-color: var(--muted); }
-        .filter-btn.active {
-            background: rgba(0,232,122,0.1);
-            border-color: rgba(0,232,122,0.3);
-            color: var(--accent);
-        }
+    /* Category filters */
+    .filters {
+        display: flex; flex-wrap: wrap; gap: 6px;
+        margin-bottom: 24px;
+    }
+    .filter-btn {
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        letter-spacing: 0.5px; padding: 6px 14px;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 4px; color: var(--muted);
+        cursor: none; transition: all .2s;
+    }
+    .filter-btn:hover { color: var(--text); border-color: var(--muted); }
+    .filter-btn.active {
+        background: rgba(0,232,122,0.1);
+        border-color: rgba(0,232,122,0.3);
+        color: var(--accent);
+    }
 
-        /* Products grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 12px;
-        }
-        .product-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all .25s;
-            position: relative;
-            cursor: none;
-        }
-        .product-card:hover {
-            border-color: rgba(0,232,122,0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        }
-        .product-badge {
-            position: absolute; top: 14px; right: 14px;
-            font-family: 'JetBrains Mono', monospace; font-size: 9px;
-            letter-spacing: 1px; text-transform: uppercase;
-            padding: 3px 8px; border-radius: 3px;
-            background: rgba(0,232,122,0.1);
-            border: 1px solid rgba(0,232,122,0.2);
-            color: var(--accent);
-        }
-        .product-emoji { font-size: 2.5rem; display: block; margin-bottom: 12px; }
-        .product-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
-        .product-specs { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
-        .product-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-        .stars { color: var(--warm); font-size: 11px; }
-        .review-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
-        .product-price {
-            font-family: 'JetBrains Mono', monospace; font-size: 20px;
-            font-weight: 500; color: var(--accent); margin-bottom: 14px;
-        }
-        .ask-btn {
-            width: 100%; padding: 10px;
-            background: transparent; border: 1px solid var(--border);
-            border-radius: 8px; color: var(--muted);
-            font-family: 'JetBrains Mono', monospace; font-size: 10px;
-            letter-spacing: 1px; text-transform: uppercase;
-            cursor: none; transition: all .2s;
-        }
-        .ask-btn:hover {
-            border-color: var(--accent); color: var(--accent);
-            background: rgba(0,232,122,0.05);
-        }
+    /* Products grid */
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 12px;
+    }
+    .product-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        transition: all .25s;
+        position: relative;
+        cursor: none;
+    }
+    .product-card:hover {
+        border-color: rgba(0,232,122,0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .product-badge {
+        position: absolute; top: 14px; right: 14px;
+        font-family: 'JetBrains Mono', monospace; font-size: 9px;
+        letter-spacing: 1px; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 3px;
+        background: rgba(0,232,122,0.1);
+        border: 1px solid rgba(0,232,122,0.2);
+        color: var(--accent);
+    }
+    .product-emoji { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+    .product-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .product-specs { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+    .product-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .stars { color: var(--warm); font-size: 11px; }
+    .review-count { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+    .product-price {
+        font-family: 'JetBrains Mono', monospace; font-size: 20px;
+        font-weight: 500; color: var(--accent); margin-bottom: 14px;
+    }
+    .ask-btn {
+        width: 100%; padding: 10px;
+        background: transparent; border: 1px solid var(--border);
+        border-radius: 8px; color: var(--muted);
+        font-family: 'JetBrains Mono', monospace; font-size: 10px;
+        letter-spacing: 1px; text-transform: uppercase;
+        cursor: none; transition: all .2s;
+    }
+    .ask-btn:hover {
+        border-color: var(--accent); color: var(--accent);
+        background: rgba(0,232,122,0.05);
+    }
 
-        /* Responsive */
-        @media (max-width: 968px) {
-            header { padding: 18px 24px; }
-            .page { padding: 80px 24px 24px; }
-            .main-grid { grid-template-columns: 1fr; }
-            .sidebar { position: relative; top: 0; }
-            body { cursor: auto; }
-            .cursor, .cursor-ring { display: none; }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 968px) {
+        header { padding: 18px 24px; }
+        .page { padding: 80px 24px 24px; }
+        .main-grid { grid-template-columns: 1fr; }
+        .sidebar { position: relative; top: 0; }
+        body { cursor: auto; }
+        .cursor, .cursor-ring { display: none; }
+    }
+
+    @media (max-width: 768px) {
+        .page-hero { padding: 16px 0 24px !important; }
+        .page { padding: 76px 24px 24px !important; }
+    }
+</style>
+```
+
 </head>
 <body>
 
@@ -388,7 +397,6 @@
 <header id="header">
     <div class="header-left">
         <a href="index.html" class="back-link" id="back-link">← Portfolio</a>
-        <div class="logo">AK's <span>Elektronica</span></div>
     </div>
     <div class="header-right">
         <div class="status-pill">
@@ -409,64 +417,67 @@
         <div class="count-badge" id="count">70 producten</div>
     </div>
 
-    <div class="main-grid">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-top">
-                <div class="powered-label" id="powered-by">Powered by</div>
-                <div class="tech-specs">
-                    <div class="tech-spec"><div class="spec-dot"></div>Raspberry Pi 5 (16GB RAM)</div>
-                    <div class="tech-spec"><div class="spec-dot"></div>Qwen 2.5 (1.5B & 3B)</div>
-                    <div class="tech-spec"><div class="spec-dot"></div>Python Flask API</div>
-                    <div class="tech-spec"><div class="spec-dot"></div>Cloudflare Tunnel</div>
-                </div>
-            </div>
-
-            <div class="model-select-wrap">
-                <span class="model-label" id="model-label">Naja Mode</span>
-                <select class="model-select" id="modelSelect">
-                    <option value="Naja" id="opt1">Naja Smart (3B) — Aanbevolen</option>
-                    <option value="Naja-Fast" id="opt2">Naja Turbo (1.5B) — Extra snel</option>
-                </select>
-                <div class="model-timing" id="model-timing">Smart: ~20s · Turbo: ~10s</div>
-            </div>
-
-            <div class="naja-section">
-                <div class="naja-header">
-                    <div class="naja-avatar">🤖</div>
-                    <div>
-                        <div class="naja-name" id="naja-name">Naja</div>
-                        <div class="naja-sub" id="naja-sub">AI Product Advisor</div>
-                    </div>
-                </div>
-                <div class="chat-messages" id="messages"></div>
-                <div class="chat-input-row">
-                    <input type="text" class="chat-input" id="input" placeholder="Vraag Naja..." onkeypress="if(event.key==='Enter')sendMsg()">
-                    <button class="send-btn" onclick="sendMsg()">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-                    </button>
-                </div>
+```
+<div class="main-grid">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-top">
+            <div class="powered-label" id="powered-by">Powered by</div>
+            <div class="tech-specs">
+                <div class="tech-spec"><div class="spec-dot"></div>Raspberry Pi 5 (16GB RAM)</div>
+                <div class="tech-spec"><div class="spec-dot"></div>Qwen 2.5 (1.5B & 3B)</div>
+                <div class="tech-spec"><div class="spec-dot"></div>Python Flask API</div>
+                <div class="tech-spec"><div class="spec-dot"></div>Cloudflare Tunnel</div>
             </div>
         </div>
 
-        <!-- Products -->
-        <div class="products-panel">
-            <div class="filters">
-                <button class="filter-btn active" onclick="filter('all',event)" data-i18n="f-all">Alles</button>
-                <button class="filter-btn" onclick="filter('laptops',event)" data-i18n="f-laptops">💻 Laptops</button>
-                <button class="filter-btn" onclick="filter('phones',event)" data-i18n="f-phones">📱 Smartphones</button>
-                <button class="filter-btn" onclick="filter('appliances',event)" data-i18n="f-appliances">🌀 Wasmachines</button>
-                <button class="filter-btn" onclick="filter('tv',event)" data-i18n="f-tv">📺 TV's</button>
-                <button class="filter-btn" onclick="filter('audio',event)" data-i18n="f-audio">🎧 Audio</button>
-                <button class="filter-btn" onclick="filter('household',event)" data-i18n="f-household">🧹 Huishoudelijk</button>
-                <button class="filter-btn" onclick="filter('tablets',event)" data-i18n="f-tablets">📚 Tablets</button>
-                <button class="filter-btn" onclick="filter('smarthome',event)" data-i18n="f-smarthome">🏠 Smart Home</button>
-                <button class="filter-btn" onclick="filter('gaming',event)" data-i18n="f-gaming">🎮 Gaming</button>
-                <button class="filter-btn" onclick="filter('camera',event)" data-i18n="f-camera">📷 Camera's</button>
+        <div class="model-select-wrap">
+            <span class="model-label" id="model-label">Naja Mode</span>
+            <select class="model-select" id="modelSelect">
+                <option value="Naja" id="opt1">Naja Smart (3B) — Aanbevolen</option>
+                <option value="Naja-Fast" id="opt2">Naja Turbo (1.5B) — Extra snel</option>
+            </select>
+            <div class="model-timing" id="model-timing">Smart: ~20s · Turbo: ~10s</div>
+        </div>
+
+        <div class="naja-section">
+            <div class="naja-header">
+                <div class="naja-avatar">🤖</div>
+                <div>
+                    <div class="naja-name" id="naja-name">Naja</div>
+                    <div class="naja-sub" id="naja-sub">AI Product Advisor</div>
+                </div>
             </div>
-            <div class="products-grid" id="grid"></div>
+            <div class="chat-messages" id="messages"></div>
+            <div class="chat-input-row">
+                <input type="text" class="chat-input" id="input" placeholder="Vraag Naja..." onkeypress="if(event.key==='Enter')sendMsg()">
+                <button class="send-btn" onclick="sendMsg()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+                </button>
+            </div>
         </div>
     </div>
+
+    <!-- Products -->
+    <div class="products-panel">
+        <div class="filters">
+            <button class="filter-btn active" onclick="filter('all',event)" data-i18n="f-all">Alles</button>
+            <button class="filter-btn" onclick="filter('laptops',event)" data-i18n="f-laptops">💻 Laptops</button>
+            <button class="filter-btn" onclick="filter('phones',event)" data-i18n="f-phones">📱 Smartphones</button>
+            <button class="filter-btn" onclick="filter('appliances',event)" data-i18n="f-appliances">🌀 Wasmachines</button>
+            <button class="filter-btn" onclick="filter('tv',event)" data-i18n="f-tv">📺 TV's</button>
+            <button class="filter-btn" onclick="filter('audio',event)" data-i18n="f-audio">🎧 Audio</button>
+            <button class="filter-btn" onclick="filter('household',event)" data-i18n="f-household">🧹 Huishoudelijk</button>
+            <button class="filter-btn" onclick="filter('tablets',event)" data-i18n="f-tablets">📚 Tablets</button>
+            <button class="filter-btn" onclick="filter('smarthome',event)" data-i18n="f-smarthome">🏠 Smart Home</button>
+            <button class="filter-btn" onclick="filter('gaming',event)" data-i18n="f-gaming">🎮 Gaming</button>
+            <button class="filter-btn" onclick="filter('camera',event)" data-i18n="f-camera">📷 Camera's</button>
+        </div>
+        <div class="products-grid" id="grid"></div>
+    </div>
+</div>
+```
+
 </div>
 
 <script>
@@ -639,5 +650,6 @@
     render();
     checkAPI();
 </script>
+
 </body>
 </html>
