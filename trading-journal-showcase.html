@@ -27,6 +27,7 @@
         html { scroll-behavior: smooth; }
 
         body {
+            cursor: none;
             background: var(--bg);
             color: var(--text);
             font-family: 'Syne', sans-serif;
@@ -834,9 +835,18 @@
             font-family: 'JetBrains Mono', monospace; font-size: 13px;
             font-weight: 500; color: #00ff88; letter-spacing: 1px;
         }
+
+        /* Cursor */
+        .cursor { position: fixed; width: 10px; height: 10px; background: #00ff88; border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+        .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,255,136,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width .3s, height .3s, border-color .3s; }
+        @media (max-width: 768px) { .cursor, .cursor-ring { display: none; } body { cursor: auto; } }
     </style>
 </head>
 <body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 
     <header class="site-header" id="site-header">
         <a href="index.html" class="header-back">← Portfolio</a>
@@ -1172,6 +1182,17 @@
         // Header scroll
     window.addEventListener('scroll', () => {
         document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+    (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+    document.querySelectorAll('a,button').forEach(el=>{
+        el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(0,255,136,0.6)';});
+        el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(0,255,136,0.4)';});
     });
 </script>
 </body>
