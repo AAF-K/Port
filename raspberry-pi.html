@@ -3,268 +3,793 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raspberry Pi AI Infrastructure - Alano Kricha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <title>Raspberry Pi AI Infrastructuur — Alano Kricha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #09090f;
+            --surface: #0f0f1a;
+            --surface2: #141422;
+            --border: #1c1c30;
+            --accent: #00e87a;
+            --accent2: #00b860;
+            --warm: #f0a500;
+            --text: #f0f0f8;
+            --muted: #8888aa;
+            --dim: #3a3a5c;
+            --red: #ff4060;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f8f8f5;
+                --surface: #efefea;
+                --surface2: #e8e8e2;
+                --border: #d0d0c8;
+                --accent: #008a48;
+                --accent2: #006a38;
+                --warm: #c07800;
+                --text: #0a0a14;
+                --muted: #3a3a50;
+                --dim: #999999;
+                --red: #cc2040;
+            }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary:#2D5F3F;--primary-light:#4A7C59;--accent:#4CAF50;--accent-warm:#F59E0B;--gold:#D97706;--dark:#1A1A1A;--gray-200:#F5EFE7;--gray-700:#404040; }
-        body { font-family:"Inter",sans-serif; background:linear-gradient(135deg,#FFFBF5 0%,#FFF4E6 30%,#FFF8F0 60%,#F5EFE7 100%); background-attachment:fixed; color:var(--dark); line-height:1.6; }
-        .header { background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 30%,#4CAF50 60%,#F59E0B 100%); background-size:300% 300%; animation:gradientShift 12s ease infinite; color:white; padding:1rem 0; box-shadow:0 4px 20px rgba(45,95,63,0.25); position:sticky; top:0; z-index:100; }
-        @keyframes gradientShift { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
-        .header-content { max-width:1400px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
-        .back-link { display:flex; align-items:center; gap:0.5rem; color:white; text-decoration:none; font-weight:500; transition:opacity 0.3s; }
-        .back-link:hover { opacity:0.8; }
-        .lang-toggle { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.35); border-radius:6px; padding:0.3rem 0.7rem; color:white; font-size:0.875rem; font-weight:600; cursor:pointer; font-family:inherit; transition:background 0.2s; }
-        .lang-toggle:hover { background:rgba(255,255,255,0.25); }
-        .hero { background:linear-gradient(135deg,#2D5F3F 0%,#4A7C59 50%,#F59E0B 100%); color:white; padding:4rem 2rem; text-align:center; }
-        .hero h1 { font-size:3rem; margin-bottom:1rem; font-weight:800; }
-        .hero p { font-size:1.25rem; opacity:0.95; max-width:800px; margin:0 auto; line-height:1.8; }
-        .hero-badges { display:flex; gap:1rem; justify-content:center; margin-top:2rem; flex-wrap:wrap; }
-        .hero-badge { background:rgba(255,255,255,0.2); backdrop-filter:blur(10px); padding:0.6rem 1.25rem; border-radius:20px; font-size:0.875rem; font-weight:600; border:1px solid rgba(255,255,255,0.3); }
-        .content { max-width:1400px; margin:0 auto; padding:4rem 2rem; }
-        .section { margin-bottom:4rem; }
-        .section h2 { font-size:2rem; margin-bottom:1.5rem; background:linear-gradient(135deg,#2D5F3F 0%,#F59E0B 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-weight:800; }
-        .section p { color:var(--gray-700); font-size:1.0625rem; line-height:1.8; margin-bottom:1.25rem; }
-        .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1.5rem; margin:2rem 0; }
-        .stat-card { background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,251,245,0.9)); border:2px solid var(--gray-200); border-radius:16px; padding:2rem; text-align:center; transition:all 0.3s; }
-        .stat-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(245,158,11,0.15); border-color:var(--accent-warm); }
-        .stat-value { font-size:2.5rem; font-weight:700; font-family:"JetBrains Mono",monospace; background:linear-gradient(135deg,#2D5F3F,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.5rem; }
-        .stat-label { font-size:0.875rem; color:var(--gray-700); font-weight:600; }
-        .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; margin:2rem 0; }
-        .feature-card { background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,251,245,0.9)); border:2px solid var(--gray-200); border-radius:16px; padding:2rem; transition:all 0.3s; }
-        .feature-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(245,158,11,0.15); border-color:var(--accent-warm); }
-        .feature-icon { font-size:2.5rem; margin-bottom:1rem; }
-        .feature-card h3 { font-size:1.25rem; margin-bottom:0.75rem; color:var(--primary); font-weight:700; }
-        .feature-card p { font-size:0.9375rem; color:var(--gray-700); line-height:1.6; }
-        .tech-stack { display:flex; flex-wrap:wrap; gap:1rem; margin:2rem 0; }
-        .tech-item { background:linear-gradient(135deg,#2D5F3F,#4A7C59); color:white; padding:0.75rem 1.5rem; border-radius:12px; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:0.875rem; transition:all 0.3s; }
-        .tech-item:hover { transform:translateY(-2px); background:linear-gradient(135deg,#F59E0B,#D97706); }
-        .architecture { background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,251,245,0.9)); border:2px solid var(--gray-200); border-radius:16px; padding:2.5rem; margin:2rem 0; }
-        .architecture h3 { margin-bottom:2rem; font-size:1.5rem; background:linear-gradient(135deg,#2D5F3F,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-        .diagram-layer { background:white; border:2px solid var(--gray-200); border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; position:relative; transition:all 0.3s; }
-        .diagram-layer:hover { border-color:var(--accent-warm); }
-        .diagram-layer::after { content:"↓"; position:absolute; bottom:-2rem; left:50%; transform:translateX(-50%); font-size:2rem; color:var(--accent-warm); opacity:0.5; }
-        .diagram-layer:last-child::after { display:none; }
-        .layer-title { font-weight:700; color:var(--primary); margin-bottom:0.5rem; font-family:"JetBrains Mono",monospace; }
-        .layer-content { color:var(--gray-700); font-size:0.9375rem; }
-        .insights-box { background:linear-gradient(135deg,rgba(76,175,80,0.1),rgba(245,158,11,0.05)); border-left:4px solid var(--accent); padding:2rem; border-radius:0 12px 12px 0; margin:2rem 0; }
-        .insights-box h3 { margin-bottom:1rem; font-size:1.25rem; color:var(--primary); }
-        .insights-box ul { list-style:none; }
-        .insights-box li { padding:0.75rem 0 0.75rem 2rem; position:relative; color:var(--gray-700); }
-        .insights-box li::before { content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:700; }
-        .code-section { background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,251,245,0.9)); border:2px solid var(--gray-200); border-radius:16px; padding:2rem; margin:2rem 0; }
-        .code-section h3 { margin-bottom:1.5rem; color:var(--primary); }
-        .code-block { background:#1A1A1A; color:#00ff00; padding:1.5rem; border-radius:12px; overflow-x:auto; font-family:"JetBrains Mono",monospace; font-size:0.875rem; line-height:1.6; }
-        .code-comment{color:#888}.code-keyword{color:#ff6b9d}.code-string{color:#ffd900}.code-function{color:#4fb3f6}
-        .impact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; margin:2rem 0; }
-        .impact-card { background:linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,251,245,0.9)); border:2px solid var(--gray-200); border-radius:12px; padding:1.5rem; transition:all 0.3s; }
-        .impact-card:hover { border-color:var(--accent-warm); box-shadow:0 8px 24px rgba(245,158,11,0.1); }
-        .impact-card h4 { font-size:1.125rem; margin-bottom:0.75rem; color:var(--primary); }
-        .impact-card p { font-size:0.9375rem; color:var(--gray-700); line-height:1.6; }
-        @media(max-width:768px){.hero h1{font-size:2rem}.content{padding:2rem 1rem}.features-grid,.impact-grid{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Noise */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.4;
+        }
+
+        /* Cursor */
+        .cursor { position: fixed; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+        .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,232,122,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, border-color 0.3s; }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s, background 0.3s, backdrop-filter 0.3s;
+        }
+        header.scrolled {
+            border-color: var(--border);
+            background: rgba(9,9,15,0.85);
+            backdrop-filter: blur(20px);
+        }
+        @media (prefers-color-scheme: light) {
+            header.scrolled { background: rgba(248,248,245,0.85); }
+        }
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent); }
+        .lang-btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: none;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { color: var(--accent); border-color: rgba(0,232,122,0.3); }
+
+        /* Hero */
+        .hero {
+            min-height: 65vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 120px 48px 80px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,232,122,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,232,122,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 70% 50%, black 20%, transparent 70%);
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 500px; height: 500px;
+            top: -150px; right: -100px;
+            background: radial-gradient(circle, rgba(0,232,122,0.05) 0%, transparent 70%);
+        }
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: slideUp 0.8s ease 0.1s forwards;
+        }
+        .eyebrow-line { width: 40px; height: 1px; background: var(--accent); }
+        .eyebrow-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: clamp(32px, 5vw, 68px);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -3px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: slideUp 0.8s ease 0.25s forwards;
+        }
+        .hero-title .italic {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--accent);
+        }
+        .hero-meta {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: slideUp 0.8s ease 0.4s forwards;
+        }
+        .hero-desc {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 480px;
+        }
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 5px 12px;
+            border-radius: 3px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Stats */
+        .stats-bar {
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+        }
+        .stat-item {
+            padding: 32px 40px;
+            border-right: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-item:hover { background: rgba(0,232,122,0.02); }
+        .stat-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Content */
+        .content { padding: 80px 48px; max-width: 1300px; margin: 0 auto; }
+
+        .section { margin-bottom: 80px; }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .label-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+        .label-line { flex: 1; height: 1px; background: var(--border); }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+        .section-body {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.8;
+            max-width: 680px;
+            margin-bottom: 16px;
+        }
+
+        /* Tech pills */
+        .tech-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+        .tech-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 6px 14px;
+            border-radius: 3px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+        .tech-pill:hover { border-color: rgba(0,232,122,0.3); color: var(--text); }
+
+        /* Features grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .feature-card {
+            background: var(--bg);
+            padding: 32px;
+            transition: background 0.3s;
+        }
+        .feature-card:hover { background: var(--surface); }
+        .feature-icon { font-size: 24px; margin-bottom: 16px; display: block; }
+        .feature-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.3px; }
+        .feature-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+        /* Architecture */
+        .arch-layers { display: flex; flex-direction: column; gap: 0; }
+        .arch-layer {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            transition: background 0.2s;
+        }
+        .arch-layer:first-child { border-radius: 12px 12px 0 0; }
+        .arch-layer:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 12px 12px; }
+        .arch-layer:hover { background: var(--surface); }
+        .arch-num {
+            padding: 24px;
+            border-right: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+        .arch-content { padding: 24px 28px; }
+        .arch-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+        .arch-items { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+        /* Insights */
+        .insights-list { display: flex; flex-direction: column; gap: 0; }
+        .insight-item {
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
+        }
+        .insight-item:first-child { border-top: 1px solid var(--border); }
+        .insight-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: 7px;
+            justify-self: center;
+        }
+        .insight-text { font-size: 15px; color: var(--muted); line-height: 1.7; }
+        .insight-text strong { color: var(--text); font-weight: 700; }
+
+        /* Code block */
+        .code-wrap {
+            background: #06060e;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .code-filename { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-left: 8px; }
+        .code-body {
+            padding: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-x: auto;
+            color: #8888aa;
+        }
+        .c-comment { color: #3a3a5c; }
+        .c-key { color: #7c6af7; }
+        .c-str { color: #00e87a; }
+        .c-fn { color: #60a5fa; }
+
+        /* Impact */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .impact-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            transition: all 0.2s;
+        }
+        .impact-card:hover { border-color: rgba(0,232,122,0.2); transform: translateY(-3px); }
+        .impact-icon { font-size: 20px; margin-bottom: 12px; display: block; }
+        .impact-title { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+        .impact-desc { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-left { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+        .footer-left span { color: var(--accent); }
+        .footer-right a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+        .footer-right a:hover { color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            header { padding: 20px 24px; }
+            .hero { padding: 100px 24px 60px; }
+            .hero-title { letter-spacing: -2px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .stat-item { border-bottom: 1px solid var(--border); }
+            .content { padding: 60px 24px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .arch-layer { grid-template-columns: 1fr; }
+            .arch-num { border-right: none; border-bottom: 1px solid var(--border); padding: 16px 24px; }
+            .impact-grid { grid-template-columns: 1fr; }
+            footer { padding: 32px 24px; flex-direction: column; gap: 16px; align-items: flex-start; }
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <a href="index.html" class="back-link">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                <span data-i18n="back">Terug naar portfolio</span>
-            </a>
-            <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">EN</button>
-        </div>
-    </header>
 
-    <div class="hero">
-        <h1 data-i18n="hero-title">Raspberry Pi AI Infrastructuur</h1>
-        <p data-i18n="hero-sub">Een self-hosted AI en automatiserings platform met focus op privacy, prestaties en schaalbaarheid</p>
-        <div class="hero-badges">
-            <span class="hero-badge">Raspberry Pi 5</span>
-            <span class="hero-badge">16GB RAM</span>
-            <span class="hero-badge">Ollama AI</span>
-            <span class="hero-badge">Python/FastAPI</span>
-            <span class="hero-badge" data-i18n="badge-security">Zero-Trust Beveiliging</span>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<header id="header">
+    <a href="index.html" class="back-link">
+        ← <span data-i18n="back">Terug naar portfolio</span>
+    </a>
+    <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">EN</button>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="hero-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Project 01</span>
+    </div>
+    <h1 class="hero-title">
+        Raspberry Pi<br>
+        <span class="italic">AI</span> Infrastructuur
+    </h1>
+    <div class="hero-meta">
+        <p class="hero-desc" data-i18n="hero-sub">Een self-hosted AI en automatiserings platform met focus op privacy, prestaties en schaalbaarheid.</p>
+        <div class="badge-row">
+            <span class="badge">Raspberry Pi 5</span>
+            <span class="badge">16GB RAM</span>
+            <span class="badge">Ollama AI</span>
+            <span class="badge">Python</span>
+            <span class="badge" data-i18n="badge-security">Zero-Trust</span>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar reveal">
+    <div class="stat-item"><span class="stat-num">5</span><span class="stat-label" data-i18n="stat1">Architectuur Lagen</span></div>
+    <div class="stat-item"><span class="stat-num">8+</span><span class="stat-label" data-i18n="stat2">Actieve Services</span></div>
+    <div class="stat-item"><span class="stat-num">99.9%</span><span class="stat-label">Uptime</span></div>
+    <div class="stat-item"><span class="stat-num">3</span><span class="stat-label" data-i18n="stat4">AI Modellen</span></div>
+    <div class="stat-item"><span class="stat-num">~15s</span><span class="stat-label" data-i18n="stat5">Gem. Reactietijd</span></div>
+</div>
+
+<div class="content">
+
+    <!-- Overview -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">01</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="overview-title">Project overzicht</span>
+        </div>
+        <h2 class="section-title" data-i18n="overview-heading">Gebouwd voor privacy.<br>Geoptimaliseerd voor AI.</h2>
+        <p class="section-body" data-i18n="overview-p1">Een zelfgebouwde server op een Raspberry Pi 5, waar ik AI modellen lokaal kan draaien, mijn smart home apparaten kan bedienen en data kan opslaan. Het hele systeem draait 24/7 en is van buitenaf veilig te bereiken.</p>
+        <p class="section-body" data-i18n="overview-p2">Door alle services alleen op localhost te draaien en externe toegang via een beveiligde tunnel te regelen, blijft alles privé en veilig. Alle AI modellen draaien lokaal — mijn data gaat nergens naartoe.</p>
+        <div class="tech-row">
+            <span class="tech-pill">Raspberry Pi 5</span>
+            <span class="tech-pill">Python 3.13</span>
+            <span class="tech-pill">Ollama</span>
+            <span class="tech-pill">Flask</span>
+            <span class="tech-pill">FastAPI</span>
+            <span class="tech-pill">LangChain</span>
+            <span class="tech-pill">ChromaDB</span>
+            <span class="tech-pill">Cloudflare Tunnel</span>
+            <span class="tech-pill">Tailscale VPN</span>
+            <span class="tech-pill">UFW Firewall</span>
+            <span class="tech-pill">Fail2ban</span>
+            <span class="tech-pill">Homebridge</span>
+            <span class="tech-pill">systemd</span>
         </div>
     </div>
 
-    <div class="content">
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-value">5</div><div class="stat-label" data-i18n="stat1">Architectuur Lagen</div></div>
-            <div class="stat-card"><div class="stat-value">8+</div><div class="stat-label" data-i18n="stat2">Actieve Services</div></div>
-            <div class="stat-card"><div class="stat-value">99.9%</div><div class="stat-label">Uptime</div></div>
-            <div class="stat-card"><div class="stat-value">3</div><div class="stat-label" data-i18n="stat4">AI Modellen</div></div>
-            <div class="stat-card"><div class="stat-value">~15s</div><div class="stat-label" data-i18n="stat5">Gem. Reactietijd</div></div>
+    <!-- Features -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">02</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="features-title">Wat het kan</span>
         </div>
-
-        <div class="section">
-            <h2 data-i18n="overview-title">Project overzicht</h2>
-            <p data-i18n="overview-p1">Een zelfgebouwde server op een Raspberry Pi 5, waar ik AI modellen lokaal kan draaien, mijn smart home apparaten kan bedienen en data kan opslaan. Het hele systeem draait 24/7 en is van buitenaf veilig te bereiken.</p>
-            <p data-i18n="overview-p2">Door alle services alleen op localhost te draaien en externe toegang via een beveiligde tunnel te regelen, blijft alles prive en veilig. Alle AI modellen draaien lokaal, dus mijn data gaat nergens naartoe.</p>
-        </div>
-
-        <div class="section">
-            <h2 data-i18n="stack-title">Tech Stack</h2>
-            <div class="tech-stack">
-                <div class="tech-item">Raspberry Pi 5</div><div class="tech-item">Python 3.13</div><div class="tech-item">FastAPI</div>
-                <div class="tech-item">Ollama</div><div class="tech-item">Flask</div><div class="tech-item">Langchain</div>
-                <div class="tech-item">ChromaDB</div><div class="tech-item">Cloudflare Tunnel</div><div class="tech-item">Tailscale VPN</div>
-                <div class="tech-item">UFW Firewall</div><div class="tech-item">Fail2ban</div><div class="tech-item">Homebridge</div>
-                <div class="tech-item">systemd</div><div class="tech-item">VS Code Remote</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🤖</span>
+                <div class="feature-title" data-i18n="f1-title">Lokale AI</div>
+                <p class="feature-desc" data-i18n="f1-desc">Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🛡️</span>
+                <div class="feature-title" data-i18n="f2-title">Beveiliging</div>
+                <p class="feature-desc" data-i18n="f2-desc">Alle diensten draaien alleen op localhost. Firewall blokkeert alles van buitenaf. SSH werkt alleen met keys. Cloudflare Tunnel voor veilige externe toegang.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🌐</span>
+                <div class="feature-title" data-i18n="f3-title">Publieke AI Chat</div>
+                <p class="feature-desc" data-i18n="f3-desc">Flask API met rate limiting zodat niemand het kan misbruiken. Bereikbaar via cleo.alanokricha.com met SSL encryptie.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <div class="feature-title" data-i18n="f4-title">Monitoring Dashboard</div>
+                <p class="feature-desc" data-i18n="f4-desc">FastAPI dashboard voor live Pi prestaties. CPU, geheugen, temperatuur — alles in real-time.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🏠</span>
+                <div class="feature-title" data-i18n="f5-title">Smart Home</div>
+                <p class="feature-desc" data-i18n="f5-desc">Homebridge verbindt alle slimme apparaten met Apple HomeKit. Philips Hue, IKEA — alles via één systeem.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💻</span>
+                <div class="feature-title" data-i18n="f6-title">Development Setup</div>
+                <p class="feature-desc" data-i18n="f6-desc">VS Code Remote SSH om vanaf de Mac op de Pi te programmeren. Continue.dev voor AI-powered code suggesties.</p>
             </div>
         </div>
+    </div>
 
-        <div class="section">
-            <h2 data-i18n="features-title">Wat het kan</h2>
-            <div class="features-grid">
-                <div class="feature-card"><div class="feature-icon">&#x1F916;</div><h3 data-i18n="f1-title">Lokale AI</h3><p data-i18n="f1-desc">Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.</p></div>
-                <div class="feature-card"><div class="feature-icon">&#x1F6E1;&#xFE0F;</div><h3 data-i18n="f2-title">Beveiliging</h3><p data-i18n="f2-desc">Alle diensten draaien alleen op localhost. Firewall blokkeert alles van buitenaf. SSH werkt alleen met keys. Cloudflare Tunnel voor veilige externe toegang.</p></div>
-                <div class="feature-card"><div class="feature-icon">&#x1F310;</div><h3 data-i18n="f3-title">Publieke AI Chat</h3><p data-i18n="f3-desc">Een Flask API die ik gebouwd heb, met rate limiting zodat niemand het kan misbruiken. Bereikbaar via cleo.alanokricha.com met SSL encryptie.</p></div>
-                <div class="feature-card"><div class="feature-icon">&#x1F4CA;</div><h3 data-i18n="f4-title">Monitoring Dashboard</h3><p data-i18n="f4-desc">Een FastAPI dashboard waar ik live kan zien hoe de Pi presteert. CPU, geheugen, temperatuur - alles in real-time.</p></div>
-                <div class="feature-card"><div class="feature-icon">&#x1F3E0;</div><h3 data-i18n="f5-title">Smart Home</h3><p data-i18n="f5-desc">Homebridge verbindt al mijn slimme apparaten met Apple HomeKit. Philips Hue lampen, IKEA apparaten - alles via een systeem.</p></div>
-                <div class="feature-card"><div class="feature-icon">&#x1F4BB;</div><h3 data-i18n="f6-title">Development Setup</h3><p data-i18n="f6-desc">VS Code Remote SSH om vanaf mijn Mac op de Pi te programmeren. Continue.dev helpt met AI-powered code suggesties.</p></div>
+    <!-- Architecture -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">03</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="arch-title">Systeem Architectuur</span>
+        </div>
+        <div class="arch-layers">
+            <div class="arch-layer">
+                <div class="arch-num">LAAG 05</div>
+                <div class="arch-content">
+                    <div class="arch-title" data-i18n="layer5">Externe Toegang & Beveiliging</div>
+                    <div class="arch-items">Cloudflare Tunnel (SSL/TLS) · Tailscale VPN · UFW Firewall</div>
+                </div>
+            </div>
+            <div class="arch-layer">
+                <div class="arch-num">LAAG 04</div>
+                <div class="arch-content">
+                    <div class="arch-title" data-i18n="layer4">Beveiligingslaag</div>
+                    <div class="arch-items">Fail2ban · SSH hardened (keys only) · <span data-i18n="auto-updates">Automatische security updates</span></div>
+                </div>
+            </div>
+            <div class="arch-layer">
+                <div class="arch-num">LAAG 03</div>
+                <div class="arch-content">
+                    <div class="arch-title" data-i18n="layer3">Applicatie Services</div>
+                    <div class="arch-items">Ollama :11434 · Flask API :5000 · FastAPI :8050 · Homebridge · Glances · Continue.dev</div>
+                </div>
+            </div>
+            <div class="arch-layer">
+                <div class="arch-num">LAAG 02</div>
+                <div class="arch-content">
+                    <div class="arch-title" data-i18n="layer2">OS & Runtime</div>
+                    <div class="arch-items">Raspberry Pi OS (Debian) · Python 3.13 · Node.js · systemd</div>
+                </div>
+            </div>
+            <div class="arch-layer">
+                <div class="arch-num">LAAG 01</div>
+                <div class="arch-content">
+                    <div class="arch-title" data-i18n="layer1">Hardware</div>
+                    <div class="arch-items">Raspberry Pi 5 (Quad-core ARM) · 16GB RAM · <span data-i18n="active-cooling">Actieve koeling</span> · Gigabit LAN</div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="section">
-            <div class="architecture">
-                <h3 data-i18n="arch-title">Systeem Architectuur</h3>
-                <div class="diagram-layer"><div class="layer-title" data-i18n="layer5">Laag 5: Externe Toegang & Beveiliging</div><div class="layer-content">Cloudflare Tunnel (SSL/TLS) | Tailscale VPN | UFW Firewall</div></div>
-                <div class="diagram-layer"><div class="layer-title" data-i18n="layer4">Laag 4: Beveiligingslaag</div><div class="layer-content">Fail2ban | SSH hardened | <span data-i18n="auto-updates">Automatische security updates</span></div></div>
-                <div class="diagram-layer"><div class="layer-title" data-i18n="layer3">Laag 3: Applicatie Services</div><div class="layer-content">Ollama (:11434) | Flask API (:5000) | FastAPI Dashboard (:8050) | Homebridge | Glances | Continue.dev</div></div>
-                <div class="diagram-layer"><div class="layer-title" data-i18n="layer2">Laag 2: OS & Runtime</div><div class="layer-content">Raspberry Pi OS (Debian) | Python 3.13 | Node.js | systemd</div></div>
-                <div class="diagram-layer"><div class="layer-title" data-i18n="layer1">Laag 1: Hardware</div><div class="layer-content">Raspberry Pi 5 (Quad-core ARM) | 16GB RAM | <span data-i18n="active-cooling">Actieve koeling</span> | Gigabit LAN</div></div>
-            </div>
+    <!-- Approach -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">04</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="approach-title">Aanpak</span>
         </div>
-
-        <div class="section">
-            <h2 data-i18n="approach-title">Hoe ik het heb aangepakt</h2>
-            <div class="insights-box">
-                <h3 data-i18n="insights-title">Belangrijke keuzes</h3>
-                <ul>
-                    <li data-i18n="insight1"><strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN</li>
-                    <li data-i18n="insight2"><strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op</li>
-                    <li data-i18n="insight3"><strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden komen binnen 10-20 seconden</li>
-                    <li data-i18n="insight4"><strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres, zodat niemand het kan overbelasten</li>
-                    <li data-i18n="insight5"><strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt</li>
-                </ul>
-            </div>
+        <h2 class="section-title" data-i18n="insights-title">Belangrijke keuzes</h2>
+        <div class="insights-list">
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight1"><strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN.</p></div>
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight2"><strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op.</p></div>
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight3"><strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden komen binnen 10-20 seconden.</p></div>
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight4"><strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres, zodat niemand het kan overbelasten.</p></div>
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight5"><strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt.</p></div>
         </div>
+    </div>
 
-        <div class="section">
-            <div class="code-section">
-                <h3 data-i18n="code-title">Code voorbeeld: Flask Chatbot API</h3>
-                <p style="margin-bottom:1rem" data-i18n="code-sub">De basis van mijn chatbot API - met beveiliging tegen misbruik:</p>
-                <div class="code-block"><span class="code-keyword">from</span> flask <span class="code-keyword">import</span> Flask, request, jsonify
-<span class="code-keyword">from</span> flask_cors <span class="code-keyword">import</span> CORS
-<span class="code-keyword">from</span> flask_limiter <span class="code-keyword">import</span> Limiter
-<span class="code-keyword">import</span> requests
+    <!-- Code -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">05</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="code-title">Code voorbeeld</span>
+        </div>
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dot" style="background:#ff5f57"></div>
+                <div class="code-dot" style="background:#febc2e"></div>
+                <div class="code-dot" style="background:#28c840"></div>
+                <span class="code-filename">api.py — Flask Chatbot API</span>
+            </div>
+            <div class="code-body">
+<span class="c-key">from</span> flask <span class="c-key">import</span> Flask, request, jsonify
+<span class="c-key">from</span> flask_cors <span class="c-key">import</span> CORS
+<span class="c-key">from</span> flask_limiter <span class="c-key">import</span> Limiter
+<span class="c-key">import</span> requests
 
-app = <span class="code-function">Flask</span>(__name__)
-<span class="code-comment"># CORS - only allowed domains</span>
-<span class="code-function">CORS</span>(app, resources={<span class="code-string">r"/*"</span>: {<span class="code-string">"origins"</span>: [<span class="code-string">"https://www.alanokricha.com"</span>]}})
-<span class="code-comment"># Rate limiting - 100 requests per hour</span>
-limiter = <span class="code-function">Limiter</span>(app=app, key_func=get_remote_address, default_limits=[<span class="code-string">"100 per hour"</span>])
+app = <span class="c-fn">Flask</span>(__name__)
 
-<span class="code-keyword">@app</span>.route(<span class="code-string">"/chat"</span>, methods=[<span class="code-string">"POST"</span>])
-<span class="code-keyword">@limiter</span>.limit(<span class="code-string">"20 per minute"</span>)
-<span class="code-keyword">def</span> <span class="code-function">chat</span>():
+<span class="c-comment"># CORS — only allowed domains</span>
+<span class="c-fn">CORS</span>(app, resources={<span class="c-str">r"/*"</span>: {<span class="c-str">"origins"</span>: [<span class="c-str">"https://www.alanokricha.com"</span>]}})
+
+<span class="c-comment"># Rate limiting — 100 requests per hour per IP</span>
+limiter = <span class="c-fn">Limiter</span>(app=app, default_limits=[<span class="c-str">"100 per hour"</span>])
+
+<span class="c-key">@app</span>.route(<span class="c-str">"/chat"</span>, methods=[<span class="c-str">"POST"</span>])
+<span class="c-key">@limiter</span>.limit(<span class="c-str">"20 per minute"</span>)
+<span class="c-key">def</span> <span class="c-fn">chat</span>():
     data = request.json
-    response = requests.post(<span class="code-string">"http://localhost:11434/api/generate"</span>,
-        json={<span class="code-string">"model"</span>: <span class="code-string">"qwen2.5:3b"</span>, <span class="code-string">"prompt"</span>: data[<span class="code-string">"message"</span>]})
-    <span class="code-keyword">return</span> <span class="code-function">jsonify</span>(response.json())
+    response = requests.<span class="c-fn">post</span>(<span class="c-str">"http://localhost:11434/api/generate"</span>,
+        json={<span class="c-str">"model"</span>: <span class="c-str">"qwen2.5:3b"</span>, <span class="c-str">"prompt"</span>: data[<span class="c-str">"message"</span>]})
+    <span class="c-key">return</span> <span class="c-fn">jsonify</span>(response.json())
 
-<span class="code-keyword">if</span> __name__ == <span class="code-string">"__main__"</span>:
-    app.run(host=<span class="code-string">"127.0.0.1"</span>, port=<span class="code-string">5000</span>)</div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 data-i18n="impact-title">Wat het heeft opgeleverd</h2>
-            <div class="impact-grid">
-                <div class="impact-card"><h4>&#x1F3AF; <span data-i18n="i1t">Snelheid</span></h4><p data-i18n="i1d">AI antwoorden komen binnen 10-20 seconden. Best indrukwekkend voor een Raspberry Pi die normaal voor hobbyprojecten wordt gebruikt.</p></div>
-                <div class="impact-card"><h4>&#x1F512; <span data-i18n="i2t">Veiligheid</span></h4><p data-i18n="i2d">Sinds ik het live heb staan geen enkel beveiligingsprobleem gehad. De firewall en Fail2ban doen hun werk goed.</p></div>
-                <div class="impact-card"><h4>&#x1F4C8; <span data-i18n="i3t">Uitbreidbaar</span></h4><p data-i18n="i3d">Als ik later meer power nodig heb, kan ik dezelfde setup naar een echte server verhuizen zonder alles opnieuw te moeten bouwen.</p></div>
-                <div class="impact-card"><h4>&#x1F4B0; <span data-i18n="i4t">Goedkoop</span></h4><p data-i18n="i4d">Kost ongeveer 5 euro per maand aan stroom. Geen maandelijkse cloud kosten, en ik heb volledige controle over mijn data.</p></div>
+<span class="c-key">if</span> __name__ == <span class="c-str">"__main__"</span>:
+    app.<span class="c-fn">run</span>(host=<span class="c-str">"127.0.0.1"</span>, port=<span class="c-str">5000</span>)
             </div>
         </div>
     </div>
 
-    <script>
-        const T = {
-            nl: {
-                "back":"Terug naar portfolio","hero-title":"Raspberry Pi AI Infrastructuur",
-                "hero-sub":"Een self-hosted AI en automatiserings platform met focus op privacy, prestaties en schaalbaarheid",
-                "badge-security":"Zero-Trust Beveiliging","stat1":"Architectuur Lagen","stat2":"Actieve Services",
-                "stat4":"AI Modellen","stat5":"Gem. Reactietijd","overview-title":"Project overzicht",
-                "overview-p1":"Een zelfgebouwde server op een Raspberry Pi 5, waar ik AI modellen lokaal kan draaien, mijn smart home apparaten kan bedienen en data kan opslaan. Het hele systeem draait 24/7 en is van buitenaf veilig te bereiken.",
-                "overview-p2":"Door alle services alleen op localhost te draaien en externe toegang via een beveiligde tunnel te regelen, blijft alles prive en veilig. Alle AI modellen draaien lokaal, dus mijn data gaat nergens naartoe.",
-                "stack-title":"Tech Stack","features-title":"Wat het kan",
-                "f1-title":"Lokale AI","f1-desc":"Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.",
-                "f2-title":"Beveiliging","f2-desc":"Alle diensten draaien alleen op localhost. Firewall blokkeert alles van buitenaf. SSH werkt alleen met keys. Cloudflare Tunnel voor veilige externe toegang.",
-                "f3-title":"Publieke AI Chat","f3-desc":"Een Flask API die ik gebouwd heb, met rate limiting zodat niemand het kan misbruiken. Bereikbaar via cleo.alanokricha.com met SSL encryptie.",
-                "f4-title":"Monitoring Dashboard","f4-desc":"Een FastAPI dashboard waar ik live kan zien hoe de Pi presteert. CPU, geheugen, temperatuur - alles in real-time.",
-                "f5-title":"Smart Home","f5-desc":"Homebridge verbindt al mijn slimme apparaten met Apple HomeKit. Philips Hue lampen, IKEA apparaten - alles via een systeem.",
-                "f6-title":"Development Setup","f6-desc":"VS Code Remote SSH om vanaf mijn Mac op de Pi te programmeren. Continue.dev helpt met AI-powered code suggesties.",
-                "arch-title":"Systeem Architectuur",
-                "layer5":"Laag 5: Externe Toegang & Beveiliging","layer4":"Laag 4: Beveiligingslaag",
-                "layer3":"Laag 3: Applicatie Services","layer2":"Laag 2: OS & Runtime","layer1":"Laag 1: Hardware",
-                "auto-updates":"Automatische security updates","active-cooling":"Actieve koeling",
-                "approach-title":"Hoe ik het heb aangepakt","insights-title":"Belangrijke keuzes",
-                "insight1":"<strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN",
-                "insight2":"<strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op",
-                "insight3":"<strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden komen binnen 10-20 seconden",
-                "insight4":"<strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres, zodat niemand het kan overbelasten",
-                "insight5":"<strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt",
-                "code-title":"Code voorbeeld: Flask Chatbot API","code-sub":"De basis van mijn chatbot API - met beveiliging tegen misbruik:",
-                "impact-title":"Wat het heeft opgeleverd",
-                "i1t":"Snelheid","i1d":"AI antwoorden komen binnen 10-20 seconden. Best indrukwekkend voor een Raspberry Pi die normaal voor hobbyprojecten wordt gebruikt.",
-                "i2t":"Veiligheid","i2d":"Sinds ik het live heb staan geen enkel beveiligingsprobleem gehad. De firewall en Fail2ban doen hun werk goed.",
-                "i3t":"Uitbreidbaar","i3d":"Als ik later meer power nodig heb, kan ik dezelfde setup naar een echte server verhuizen zonder alles opnieuw te moeten bouwen.",
-                "i4t":"Goedkoop","i4d":"Kost ongeveer 5 euro per maand aan stroom. Geen maandelijkse cloud kosten, en ik heb volledige controle over mijn data."
-            },
-            en: {
-                "back":"Back to portfolio","hero-title":"Raspberry Pi AI Infrastructure",
-                "hero-sub":"A self-hosted AI and automation platform focused on privacy, performance and scalability",
-                "badge-security":"Zero-Trust Security","stat1":"Architecture Layers","stat2":"Active Services",
-                "stat4":"AI Models","stat5":"Avg. Response Time","overview-title":"Project overview",
-                "overview-p1":"A self-built server on a Raspberry Pi 5, where I can run AI models locally, control my smart home devices and store data. The entire system runs 24/7 and can be securely accessed from anywhere.",
-                "overview-p2":"By running all services on localhost only and routing external access through a secured tunnel, everything stays private and safe. All AI models run locally, so my data goes nowhere.",
-                "stack-title":"Tech Stack","features-title":"What it can do",
-                "f1-title":"Local AI","f1-desc":"Ollama runs AI models (Qwen 2.5) entirely locally. Combined with ChromaDB for smart context. Everything stays on the Pi, no cloud needed.",
-                "f2-title":"Security","f2-desc":"All services run on localhost only. Firewall blocks all incoming traffic. SSH works with keys only. Cloudflare Tunnel for secure external access.",
-                "f3-title":"Public AI Chat","f3-desc":"A Flask API I built with rate limiting so no one can abuse it. Accessible via cleo.alanokricha.com with SSL encryption.",
-                "f4-title":"Monitoring Dashboard","f4-desc":"A FastAPI dashboard where I can see live how the Pi is performing. CPU, memory, temperature - everything in real-time.",
-                "f5-title":"Smart Home","f5-desc":"Homebridge connects all my smart devices to Apple HomeKit. Philips Hue lights, IKEA devices - all through one system.",
-                "f6-title":"Development Setup","f6-desc":"VS Code Remote SSH to code on the Pi from my Mac. Continue.dev helps with AI-powered code suggestions.",
-                "arch-title":"System Architecture",
-                "layer5":"Layer 5: External Access & Security","layer4":"Layer 4: Security Layer",
-                "layer3":"Layer 3: Application Services","layer2":"Layer 2: OS & Runtime","layer1":"Layer 1: Hardware",
-                "auto-updates":"Automatic security updates","active-cooling":"Active cooling",
-                "approach-title":"How I approached it","insights-title":"Key decisions",
-                "insight1":"<strong>Everything on localhost:</strong> No service is directly reachable from the internet. Only via Cloudflare Tunnel or Tailscale VPN",
-                "insight2":"<strong>Auto-restart:</strong> If a service crashes, systemd automatically restarts it",
-                "insight3":"<strong>Smaller AI models:</strong> Qwen 2.5 with 1.5B or 3B parameters run well on the Pi. Responses arrive within 10-20 seconds",
-                "insight4":"<strong>Rate limiting:</strong> Maximum 100 API requests per hour per IP address, so no one can overload it",
-                "insight5":"<strong>Memory management:</strong> Each service has a maximum memory limit, so the 16GB RAM does not fill up",
-                "code-title":"Code example: Flask Chatbot API","code-sub":"The foundation of my chatbot API - with protection against abuse:",
-                "impact-title":"What it delivered",
-                "i1t":"Speed","i1d":"AI responses arrive within 10-20 seconds. Pretty impressive for a Raspberry Pi normally used for hobby projects.",
-                "i2t":"Security","i2d":"Since going live, zero security incidents. The firewall and Fail2ban are doing their job well.",
-                "i3t":"Scalable","i3d":"If I need more power later, I can move the same setup to a real server without rebuilding everything.",
-                "i4t":"Cost-effective","i4d":"Costs about 5 euros per month in electricity. No monthly cloud costs, and I have full control over my data."
-            }
-        };
-        let lang = "nl";
-        function toggleLanguage() { lang = lang === "nl" ? "en" : "nl"; apply(); }
-        function apply() {
-            document.querySelectorAll("[data-i18n]").forEach(el => {
-                const k = el.getAttribute("data-i18n");
-                if (T[lang][k] !== undefined) el.innerHTML = T[lang][k];
-            });
-            document.getElementById("langToggle").textContent = lang === "nl" ? "EN" : "NL";
-            document.documentElement.lang = lang;
+    <!-- Impact -->
+    <div class="section reveal">
+        <div class="section-label">
+            <span class="label-num">06</span>
+            <div class="label-line"></div>
+            <span class="label-text" data-i18n="impact-title">Wat het heeft opgeleverd</span>
+        </div>
+        <div class="impact-grid">
+            <div class="impact-card">
+                <span class="impact-icon">🎯</span>
+                <div class="impact-title" data-i18n="i1t">Snelheid</div>
+                <p class="impact-desc" data-i18n="i1d">AI antwoorden binnen 10-20 seconden. Indrukwekkend voor een Pi die normaal voor hobbyprojecten wordt gebruikt.</p>
+            </div>
+            <div class="impact-card">
+                <span class="impact-icon">🔒</span>
+                <div class="impact-title" data-i18n="i2t">Veiligheid</div>
+                <p class="impact-desc" data-i18n="i2d">Geen enkel beveiligingsprobleem gehad. Firewall en Fail2ban doen hun werk. Security score van 70% naar 95%.</p>
+            </div>
+            <div class="impact-card">
+                <span class="impact-icon">📈</span>
+                <div class="impact-title" data-i18n="i3t">Uitbreidbaar</div>
+                <p class="impact-desc" data-i18n="i3d">Dezelfde setup is te verhuizen naar een echte server zonder alles opnieuw te bouwen.</p>
+            </div>
+            <div class="impact-card">
+                <span class="impact-icon">💰</span>
+                <div class="impact-title" data-i18n="i4t">Goedkoop</div>
+                <p class="impact-desc" data-i18n="i4d">~5 euro per maand aan stroom. Geen cloud kosten, volledige controle over eigen data.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-left">© 2026 <span>Alano Kricha</span></div>
+    <div class="footer-right"><a href="index.html" data-i18n="back">← Terug naar portfolio</a></div>
+</footer>
+
+<script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    (function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); })();
+    document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width = '52px'; ring.style.height = '52px'; ring.style.borderColor = 'rgba(0,232,122,0.6)'; });
+        el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(0,232,122,0.4)'; });
+    });
+
+    // Header scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // i18n
+    const T = {
+        nl: {
+            "back": "Terug naar portfolio",
+            "hero-sub": "Een self-hosted AI en automatiserings platform met focus op privacy, prestaties en schaalbaarheid.",
+            "badge-security": "Zero-Trust",
+            "stat1": "Architectuur Lagen", "stat2": "Actieve Services", "stat4": "AI Modellen", "stat5": "Gem. Reactietijd",
+            "overview-title": "Project overzicht", "overview-heading": "Gebouwd voor privacy.\nGeoptimaliseerd voor AI.",
+            "overview-p1": "Een zelfgebouwde server op een Raspberry Pi 5, waar ik AI modellen lokaal kan draaien, mijn smart home apparaten kan bedienen en data kan opslaan. Het hele systeem draait 24/7 en is van buitenaf veilig te bereiken.",
+            "overview-p2": "Door alle services alleen op localhost te draaien en externe toegang via een beveiligde tunnel te regelen, blijft alles privé en veilig. Alle AI modellen draaien lokaal — mijn data gaat nergens naartoe.",
+            "features-title": "Wat het kan",
+            "f1-title": "Lokale AI", "f1-desc": "Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.",
+            "f2-title": "Beveiliging", "f2-desc": "Alle diensten draaien alleen op localhost. Firewall blokkeert alles van buitenaf. SSH werkt alleen met keys. Cloudflare Tunnel voor veilige externe toegang.",
+            "f3-title": "Publieke AI Chat", "f3-desc": "Flask API met rate limiting zodat niemand het kan misbruiken. Bereikbaar via cleo.alanokricha.com met SSL encryptie.",
+            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard voor live Pi prestaties. CPU, geheugen, temperatuur — alles in real-time.",
+            "f5-title": "Smart Home", "f5-desc": "Homebridge verbindt alle slimme apparaten met Apple HomeKit. Philips Hue, IKEA — alles via één systeem.",
+            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH om vanaf de Mac op de Pi te programmeren. Continue.dev voor AI-powered code suggesties.",
+            "arch-title": "Systeem Architectuur",
+            "layer5": "Externe Toegang & Beveiliging", "layer4": "Beveiligingslaag", "layer3": "Applicatie Services", "layer2": "OS & Runtime", "layer1": "Hardware",
+            "auto-updates": "Automatische security updates", "active-cooling": "Actieve koeling",
+            "approach-title": "Aanpak", "insights-title": "Belangrijke keuzes",
+            "insight1": "<strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN.",
+            "insight2": "<strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op.",
+            "insight3": "<strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden binnen 10-20 seconden.",
+            "insight4": "<strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres.",
+            "insight5": "<strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt.",
+            "code-title": "Code voorbeeld", "impact-title": "Wat het heeft opgeleverd",
+            "i1t": "Snelheid", "i1d": "AI antwoorden binnen 10-20 seconden. Indrukwekkend voor een Pi die normaal voor hobbyprojecten wordt gebruikt.",
+            "i2t": "Veiligheid", "i2d": "Geen enkel beveiligingsprobleem. Firewall en Fail2ban doen hun werk. Security score van 70% naar 95%.",
+            "i3t": "Uitbreidbaar", "i3d": "Dezelfde setup is te verhuizen naar een echte server zonder alles opnieuw te bouwen.",
+            "i4t": "Goedkoop", "i4d": "~5 euro per maand aan stroom. Geen cloud kosten, volledige controle over eigen data."
+        },
+        en: {
+            "back": "Back to portfolio",
+            "hero-sub": "A self-hosted AI and automation platform focused on privacy, performance and scalability.",
+            "badge-security": "Zero-Trust",
+            "stat1": "Architecture Layers", "stat2": "Active Services", "stat4": "AI Models", "stat5": "Avg. Response Time",
+            "overview-title": "Project overview", "overview-heading": "Built for privacy.\nOptimised for AI.",
+            "overview-p1": "A self-built server on a Raspberry Pi 5, where I can run AI models locally, control my smart home devices and store data. The entire system runs 24/7 and can be securely accessed from anywhere.",
+            "overview-p2": "By running all services on localhost only and routing external access through a secured tunnel, everything stays private and safe. All AI models run locally — my data goes nowhere.",
+            "features-title": "What it can do",
+            "f1-title": "Local AI", "f1-desc": "Ollama runs AI models (Qwen 2.5) entirely locally. Combined with ChromaDB for smart context. Everything stays on the Pi, no cloud needed.",
+            "f2-title": "Security", "f2-desc": "All services run on localhost only. Firewall blocks all incoming traffic. SSH with keys only. Cloudflare Tunnel for secure external access.",
+            "f3-title": "Public AI Chat", "f3-desc": "Flask API with rate limiting so no one can abuse it. Accessible via cleo.alanokricha.com with SSL encryption.",
+            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard for live Pi performance. CPU, memory, temperature — all in real-time.",
+            "f5-title": "Smart Home", "f5-desc": "Homebridge connects all smart devices to Apple HomeKit. Philips Hue, IKEA — all through one system.",
+            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH to code on the Pi from my Mac. Continue.dev for AI-powered code suggestions.",
+            "arch-title": "System Architecture",
+            "layer5": "External Access & Security", "layer4": "Security Layer", "layer3": "Application Services", "layer2": "OS & Runtime", "layer1": "Hardware",
+            "auto-updates": "Automatic security updates", "active-cooling": "Active cooling",
+            "approach-title": "Approach", "insights-title": "Key decisions",
+            "insight1": "<strong>Everything on localhost:</strong> No service is directly reachable from the internet. Only via Cloudflare Tunnel or Tailscale VPN.",
+            "insight2": "<strong>Auto-restart:</strong> If a service crashes, systemd automatically restarts it.",
+            "insight3": "<strong>Smaller AI models:</strong> Qwen 2.5 with 1.5B or 3B parameters run well on the Pi. Responses within 10-20 seconds.",
+            "insight4": "<strong>Rate limiting:</strong> Maximum 100 API requests per hour per IP address.",
+            "insight5": "<strong>Memory management:</strong> Each service has a memory limit so the 16GB RAM does not fill up.",
+            "code-title": "Code example", "impact-title": "What it delivered",
+            "i1t": "Speed", "i1d": "AI responses within 10-20 seconds. Impressive for a Pi normally used for hobby projects.",
+            "i2t": "Security", "i2d": "Zero security incidents. Firewall and Fail2ban doing their job. Security score from 70% to 95%.",
+            "i3t": "Scalable", "i3d": "The same setup can be moved to a real server without rebuilding everything.",
+            "i4t": "Cost-effective", "i4d": "~5 euros per month in electricity. No cloud costs, full control over own data."
         }
-    </script>
+    };
+    let lang = 'nl';
+    function toggleLanguage() { lang = lang === 'nl' ? 'en' : 'nl'; apply(); }
+    function apply() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const k = el.getAttribute('data-i18n');
+            if (T[lang][k]) el.innerHTML = T[lang][k];
+        });
+        document.getElementById('langToggle').textContent = lang === 'nl' ? 'EN' : 'NL';
+        document.documentElement.lang = lang;
+    }
+</script>
 </body>
 </html>
