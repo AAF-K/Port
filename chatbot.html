@@ -438,6 +438,8 @@
             <div class="page-eyebrow"><div class="eyebrow-line"></div>Project 02</div>
             <h1 class="page-title" id="page-title">AK's <span class="italic">Elektronica</span></h1>
         </div>
+        
+    </div>
 
     <div class="main-grid">
         <!-- Sidebar -->
@@ -509,7 +511,7 @@
     };
 
     const products = [
-        {id:1,name:'MacBook Pro 14" M4',cat:'laptops',emoji:'💻',specs:'Apple M4 · 16GB RAM · 512GB SSD',price:29,rating:4.9,reviews:312,badge:'Nieuw'},
+        {id:1,name:'MacBook Pro 14" M4',cat:'laptops',emoji:'💻',specs:'Apple M4 · 16GB RAM · 512GB SSD',price:2399,rating:4.9,reviews:312,badge:'Nieuw'},
         {id:2,name:'Dell XPS 15',cat:'laptops',emoji:'💻',specs:'Intel i7 · 16GB RAM · RTX 4050',price:1799,rating:4.6,reviews:189},
         {id:3,name:'HP Pavilion 15',cat:'laptops',emoji:'💻',specs:'AMD Ryzen 5 · 8GB RAM · 512GB SSD',price:699,rating:4.3,reviews:445},
         {id:4,name:'ASUS ROG Strix G16',cat:'laptops',emoji:'💻',specs:'Intel i9 · 32GB RAM · RTX 4070',price:2399,rating:4.9,reviews:234,badge:'Gaming'},
@@ -553,7 +555,7 @@
     function render() {
         const t = CT[clang];
         const filtered = currentCat === 'all' ? products : products.filter(p => p.cat === currentCat);
-        document.getElementById('count').textContent = filtered.length + ' ' + t.countSuffix;
+        const countEl = document.getElementById('count'); if(countEl) countEl.textContent = filtered.length + ' ' + t.countSuffix;
         document.getElementById('grid').innerHTML = filtered.map(p => `
             <div class="product-card">
                 ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
