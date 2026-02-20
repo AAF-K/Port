@@ -433,7 +433,7 @@
         <div class="sidebar">
             <div class="sidebar-top">
                 <div class="naja-header-row">
-                    <div class="naja-avatar">👩🏻‍💻</div>
+                    <div class="naja-avatar">🤖</div>
                     <div>
                         <div class="naja-name" id="naja-name">Naja AI Analyst</div>
                         <div class="naja-sub" id="naja-sub">Powered by Raspberry Pi 5</div>
@@ -637,7 +637,7 @@
         } catch(e) { removeTyping(); const d=document.createElement('div'); d.className='error-msg'; d.textContent='❌ '+e.message; document.getElementById('messages').appendChild(d); }
     }
     async function checkAPI() {
-        try { const r = await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg(lang==='nl'?'Hey! Ik ben Naja, waar kan ik je mee helpen?':'Hi! I/'m Naja, how can I help you?'); }
+        try { const r = await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg(lang==='nl'?'👋 Hoi! Ik ben Naja. Wat wil je weten over de data?':'👋 Hi! I\'m Naja. What would you like to know about the data?'); }
         catch(e) { const d=document.createElement('div'); d.className='error-msg'; d.textContent='⚠️ Naja offline.'; document.getElementById('messages').appendChild(d); }
     }
 
@@ -694,7 +694,15 @@
         en: { "page-sub":"Real-time insights from customer reviews with SQL queries and AI analysis", "stats-label":"Statistics", "charts-label":"Charts", "insights-label":"AI Insights", "awards-label":"Product Awards", "sql-label":"SQL Queries", "table-label":"Recent Reviews", sl1:"Total Reviews", sl2:"Average Rating", sl3:"Positive Sentiment", sl4:"Response Rate", sl5:"Avg. Response Time", sl6:"Trending Product", sc1:"↑ +12% this month", sc2:"↑ +0.2 vs last month", sc3:"↑ +5% this month", sc4:"↓ -3% this month", sc5:"↑ 15% faster", ch1:"Reviews by category", ch2:"Sentiment distribution", ch3:"Reviews over time", ch4:"Rating distribution", ch5:"Reviews by day of the week", ch6:"Reviews by hour of the day", ph:"Ask Naja about the data...", tab1:"Top Products", tab2:"Sentiment Analysis", tab3:"Review Trends", "ins1-t":"🚀 Positive Trend", "ins1-p":"ASUS ROG Strix G16 shows strong growth with +234 reviews this month. Sentiment is 87% positive.", "ins2-t":"⚠️ Watch Out", "ins2-p":"Noise Cancelling Headphones saw a 23% rise in negative reviews about price-quality ratio.", "ins3-t":"📊 Data Pattern", "ins3-p":"Peak review times are Tuesday and Wednesday between 7-10 PM.", aw1:"Product of the Month", aw2:"Most Improved", "aw2-sub":"+0.8★ improvement", aw3:"Best Value", "aw3-sub":"Best price-quality ratio", aw4:"Most Discussed", th1:"Product", th2:"Rating", th3:"Sentiment", th4:"Review", th5:"Date", pos1:"Positive", pos2:"Positive", pos3:"Positive", pos4:"Positive", neg1:"Negative", r1:"Amazing laptop! RTX 4070 runs all games on ultra.", r2:"Camera is next-level. Titanium design feels premium.", r3:"Best noise cancelling I've ever had. Highly recommended!", r4:"Noise cancelling doesn't work well enough for the price.", r5:"OLED screen makes a big difference. Perfect handheld.", "naja-name":"Naja AI Analyst", "naja-sub":"Powered by Raspberry Pi 5" }
     };
 
-    function toggleLanguage() { lang = lang==='nl'?'en':'nl'; applyLang(); }
+    function toggleLanguage() {
+        lang = lang==='nl'?'en':'nl';
+        applyLang();
+        const msgs = document.getElementById('messages');
+        if (msgs && msgs.children.length === 1) {
+            msgs.innerHTML = '';
+            addMsg(lang==='nl'?'Hey! Ik ben Naja, waar kan ik je mee helpen?':'Hi! I\'m Naja, how can I help you?');
+        }
+    }
     function applyLang() {
         const t = T[lang];
         Object.keys(t).forEach(key => {
