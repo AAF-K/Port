@@ -455,7 +455,7 @@
             </div>
 
             <div class="model-select-wrap">
-                <span class="model-label" id="model-label">Naja Mode</span>
+                <span class="model-label" id="model-label">Select Naja Mode</span>
                 <select class="model-select" id="modelSelect">
                     <option value="Naja" id="opt1">Naja Smart (3B) — Aanbevolen</option>
                     <option value="Naja-Fast" id="opt2">Naja Turbo (1.5B) — Extra snel</option>
@@ -484,8 +484,7 @@
         <!-- Products -->
         <div class="products-panel">
             <div class="filters">
-                <button class="filter-btn active" onclick="filter('all',event)" data-i18n="f-all">Alles</button>
-                <button class="filter-btn" onclick="filter('laptops',event)" data-i18n="f-laptops">💻 Laptops</button>
+<button class="filter-btn active" onclick="filter('laptops',event)" data-i18n="f-laptops">💻 Laptops</button>
                 <button class="filter-btn" onclick="filter('phones',event)" data-i18n="f-phones">📱 Smartphones</button>
                 <button class="filter-btn" onclick="filter('appliances',event)" data-i18n="f-appliances">🌀 Wasmachines</button>
                 <button class="filter-btn" onclick="filter('tv',event)" data-i18n="f-tv">📺 TV's</button>
@@ -503,7 +502,7 @@
 
 <script>
     const API = 'https://cleo.alanokricha.com/chat';
-    let history = [], currentCat = 'all', clang = 'nl';
+    let history = [], currentCat = 'laptops', clang = 'nl';
 
     const CT = {
         nl: { back:"← Portfolio", pi:"Raspberry Pi Server", "powered-by":"Powered by", modal:"Naja Mode", opt1:"Naja Smart (3B) — Aanbevolen", opt2:"Naja Turbo (1.5B) — Extra snel", timing:"Smart: ~20s · Turbo: ~10s", naja:"Naja", naja_s:"AI Product Advisor", ph:"Vraag Naja...", ask:"Vraag Naja", countSuffix:"producten", all:"Alles", offline:"⚠️ Naja API niet bereikbaar. Chatbot is offline.", greeting:"👋 Hey! Ik ben Naja, waar kan ik je mee helpen?", "page-title":"AK's Elektronica", "f-all":"Alles", "f-laptops":"💻 Laptops", "f-phones":"📱 Smartphones", "f-appliances":"🌀 Wasmachines", "f-tv":"📺 TV's", "f-audio":"🎧 Audio", "f-household":"🧹 Huishoudelijk", "f-tablets":"📚 Tablets", "f-smarthome":"🏠 Smart Home", "f-gaming":"🎮 Gaming", "f-camera":"📷 Camera's" },
@@ -629,7 +628,17 @@
         catch(e) { showError(CT[clang].offline); }
     }
 
-    function toggleLanguage() { clang = clang === 'nl' ? 'en' : 'nl'; applyLang(); render(); }
+    function toggleLanguage() {
+        clang = clang === 'nl' ? 'en' : 'nl';
+        applyLang();
+        render();
+        // Update greeting if it's the only message shown
+        const msgs = document.getElementById('messages');
+        if (msgs.children.length === 1) {
+            msgs.innerHTML = '';
+            addMsg(CT[clang].greeting);
+        }
+    }
 
     function applyLang() {
         const t = CT[clang];
