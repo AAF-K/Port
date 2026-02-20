@@ -416,7 +416,7 @@
         /* Responsive */
         @media (max-width: 900px) {
             header { padding: 20px 24px; }
-            .hero { padding: 100px 24px 60px; }
+            .hero { padding: 76px 24px 32px; min-height: auto; }
             .hero-title { letter-spacing: -2px; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
             .stat-item { border-bottom: 1px solid var(--border); }
@@ -428,6 +428,11 @@
             footer { padding: 32px 24px; flex-direction: column; gap: 16px; align-items: flex-start; }
             body { cursor: auto; }
             .cursor, .cursor-ring { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .page-hero { padding: 16px 0 24px !important; }
+            .page { padding: 76px 24px 24px !important; }
         }
     </style>
 </head>
