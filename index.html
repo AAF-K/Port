@@ -266,29 +266,7 @@
             color: var(--text);
             font-weight: 600;
         }
-
-        .hero-scroll {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .scroll-line {
-            width: 1px;
-            height: 60px;
-            background: linear-gradient(to bottom, var(--accent), transparent);
-            animation: scrollPulse 2s ease infinite;
-        }
-
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+        
 
         /* ─── STATUS BAR ─── */
         .status-bar {
@@ -638,10 +616,6 @@
                 <p class="hero-desc" data-i18n="hero-lead">
                     Ik bouw <strong>slimme, self-hosted oplossingen</strong> met Raspberry Pi en lokale AI. Van home server tot AI-powered dashboards.
                 </p>
-                <div class="hero-scroll">
-                    <div class="scroll-line"></div>
-                    Scroll
-                </div>
             </div>
         </div>
     </section>
