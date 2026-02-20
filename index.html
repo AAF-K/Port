@@ -171,7 +171,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 120px 48px 80px;
+            padding: 80px 48px 80px;
             position: relative;
             overflow: visible;
         }
@@ -503,7 +503,6 @@
 
         /* ─── TRADING JOURNAL PROJECT CARD ─── */
         .project-card.featured {
-            background: linear-gradient(135deg, rgba(0,232,122,0.02) 0%, transparent 60%);
         }
 
         .wip-badge {
@@ -590,7 +589,7 @@
         /* ─── RESPONSIVE ─── */
         @media (max-width: 900px) {
             header { padding: 20px 24px; }
-            .hero { padding: 0 24px 60px; }
+            .hero { padding: 0 24px 40px; min-height: auto; }
             .hero-title { font-size: clamp(32px, 10vw, 64px); letter-spacing: -2px; word-break: break-word; overflow-wrap: break-word; }
             .hero-bottom { flex-direction: column; gap: 32px; align-items: flex-start; }
             .status-bar { padding: 0 24px; flex-direction: column; }
@@ -671,9 +670,8 @@
     <!-- ─── PROJECTS ─── -->
     <section class="projects" id="projecten">
         <div class="section-label reveal">
-            <span class="label-num">01</span>
-            <div class="label-line"></div>
             <span class="label-text" data-i18n="projects-title">Projecten</span>
+            <div class="label-line"></div>
         </div>
 
         <!-- Project 1 -->
@@ -806,7 +804,7 @@
     <!-- ─── FOOTER ─── -->
     <footer id="contact">
         <div class="footer-left">
-            © 2026 <span>Alano Kricha</span> — Self-hosted on Raspberry Pi 5
+            © 2026 <span>Alano Kricha</span> 
         </div>
         <div class="footer-right">
             <a href="https://linkedin.com/in/alanoafk" target="_blank" rel="noopener">LinkedIn</a>
