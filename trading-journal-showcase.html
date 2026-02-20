@@ -840,6 +840,35 @@
         .cursor { position: fixed; width: 10px; height: 10px; background: #00ff88; border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
         .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(0,255,136,0.4); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); transition: width .3s, height .3s, border-color .3s; }
         @media (max-width: 768px) { .cursor, .cursor-ring { display: none; } body { cursor: auto; } }
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .hero-right { display: none; }
+            .hero-left {
+                padding: 100px 24px 60px;
+            }
+            .hero-title {
+                font-size: clamp(36px, 10vw, 56px) !important;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .hero-actions a, .hero-actions button {
+                width: 100%;
+                text-align: center;
+            }
+            section { padding: 60px 24px !important; }
+            .features-grid { grid-template-columns: 1fr !important; }
+            .tech-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .ai-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+            .site-header { padding: 16px 24px !important; }
+            h2 { font-size: clamp(28px, 8vw, 48px) !important; }
+        }
+
     </style>
 </head>
 <body>
