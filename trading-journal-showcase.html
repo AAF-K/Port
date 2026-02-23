@@ -905,7 +905,7 @@
 
     <header class="site-header" id="site-header">
         <a href="index.html" class="header-back">← Portfolio</a>
-        
+        <span class="header-logo">AI Journal</span>
     </header>
 
     <!-- ─── HERO ─── -->
@@ -1000,7 +1000,7 @@
     <!-- ─── STATS BAR ─── -->
     <div class="stats-bar reveal">
         <div class="stat-item">
-            <span class="stat-num">5</span>
+            <span class="stat-num">6</span>
             <span class="stat-label">Core Features</span>
         </div>
         <div class="stat-item">
@@ -1225,25 +1225,54 @@
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
-                e.preventDefault();
-                document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const href = a.getAttribute('href');
+                if (href === '#') return;
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
         // Header scroll
-    window.addEventListener('scroll', () => {
-        document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 30);
-    });
+    const siteHeader = document.getElementById('site-header');
+    if (siteHeader) {
+        window.addEventListener('scroll', () => {
+            siteHeader.classList.toggle('scrolled', window.scrollY > 30);
+        });
+    }
 
-    // Cursor
+    // Cursor (only when elements exist; hidden on touch/mobile via CSS)
     const cursor = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
-    (function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-    document.querySelectorAll('a,button').forEach(el=>{
-        el.addEventListener('mouseenter',()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderColor='rgba(0,255,136,0.6)';});
-        el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(0,255,136,0.4)';});
-    });
+    if (cursor && ring) {
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+        (function animRing() {
+            rx += (mx - rx) * 0.12;
+            ry += (my - ry) * 0.12;
+            ring.style.left = rx + 'px';
+            ring.style.top = ry + 'px';
+            requestAnimationFrame(animRing);
+        })();
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = '52px';
+                ring.style.height = '52px';
+                ring.style.borderColor = 'rgba(0,255,136,0.6)';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = '36px';
+                ring.style.height = '36px';
+                ring.style.borderColor = 'rgba(0,255,136,0.4)';
+            });
+        });
+    }
 </script>
 </body>
 </html>
