@@ -491,7 +491,7 @@
             <div class="feature-card">
                 <span class="feature-icon">🤖</span>
                 <div class="feature-title" data-i18n="f1-title">Lokale AI</div>
-                <p class="feature-desc" data-i18n="f1-desc">Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.</p>
+                <p class="feature-desc" data-i18n="f1-desc">Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op Nexus, geen cloud nodig.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🛡️</span>
@@ -506,7 +506,7 @@
             <div class="feature-card">
                 <span class="feature-icon">📊</span>
                 <div class="feature-title" data-i18n="f4-title">Monitoring Dashboard</div>
-                <p class="feature-desc" data-i18n="f4-desc">FastAPI dashboard voor live Pi prestaties. CPU, geheugen, temperatuur — alles in real-time.</p>
+                <p class="feature-desc" data-i18n="f4-desc">FastAPI dashboard voor live Nexus prestaties. CPU, geheugen, temperatuur — alles in real-time.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🏠</span>
@@ -516,7 +516,7 @@
             <div class="feature-card">
                 <span class="feature-icon">💻</span>
                 <div class="feature-title" data-i18n="f6-title">Development Setup</div>
-                <p class="feature-desc" data-i18n="f6-desc">VS Code Remote SSH om vanaf de Mac op de Pi te programmeren. Continue.dev voor AI-powered code suggesties.</p>
+                <p class="feature-desc" data-i18n="f6-desc">VS Code Remote SSH om vanaf de Mac op Nexus te programmeren. Continue.dev voor AI-powered code suggesties.</p>
             </div>
         </div>
     </div>
@@ -578,7 +578,7 @@
         <div class="insights-list">
             <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight1"><strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN.</p></div>
             <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight2"><strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op.</p></div>
-            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight3"><strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden komen binnen 10-20 seconden.</p></div>
+            <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight3"><strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op Nexus. Antwoorden komen binnen 10-20 seconden.</p></div>
             <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight4"><strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres, zodat niemand het kan overbelasten.</p></div>
             <div class="insight-item"><div class="insight-dot"></div><p class="insight-text" data-i18n="insight5"><strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt.</p></div>
         </div>
@@ -698,23 +698,23 @@ limiter = <span class="c-fn">Limiter</span>(app=app, default_limits=[<span class
             "overview-p1": "Een zelfgebouwde server op een Raspberry Pi 5, waar ik AI modellen lokaal kan draaien, mijn smart home apparaten kan bedienen en data kan opslaan. Het hele systeem draait 24/7 en is van buitenaf veilig te bereiken.",
             "overview-p2": "Door alle services alleen op localhost te draaien en externe toegang via een beveiligde tunnel te regelen, blijft alles privé en veilig. Alle AI modellen draaien lokaal — mijn data gaat nergens naartoe.",
             "features-title": "Wat het kan",
-            "f1-title": "Lokale AI", "f1-desc": "Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op de Pi, geen cloud nodig.",
+            "f1-title": "Lokale AI", "f1-desc": "Ollama draait AI modellen (Qwen 2.5) volledig lokaal. Gecombineerd met ChromaDB voor slimme context. Alles blijft op Nexus, geen cloud nodig.",
             "f2-title": "Beveiliging", "f2-desc": "Alle diensten draaien alleen op localhost. Firewall blokkeert alles van buitenaf. SSH werkt alleen met keys. Cloudflare Tunnel voor veilige externe toegang.",
             "f3-title": "Publieke AI Chat", "f3-desc": "Flask API met rate limiting zodat niemand het kan misbruiken. Bereikbaar via cleo.alanokricha.com met SSL encryptie.",
-            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard voor live Pi prestaties. CPU, geheugen, temperatuur — alles in real-time.",
+            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard voor live Nexus prestaties. CPU, geheugen, temperatuur — alles in real-time.",
             "f5-title": "Smart Home", "f5-desc": "Homebridge verbindt alle slimme apparaten met Apple HomeKit. Philips Hue, IKEA — alles via één systeem.",
-            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH om vanaf de Mac op de Pi te programmeren. Continue.dev voor AI-powered code suggesties.",
+            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH om vanaf de Mac op Nexus te programmeren. Continue.dev voor AI-powered code suggesties.",
             "arch-title": "Systeem Architectuur",
             "layer5": "Externe Toegang & Beveiliging", "layer4": "Beveiligingslaag", "layer3": "Applicatie Services", "layer2": "OS & Runtime", "layer1": "Hardware",
             "auto-updates": "Automatische security updates", "active-cooling": "Actieve koeling",
             "approach-title": "Aanpak", "insights-title": "Belangrijke keuzes",
             "insight1": "<strong>Alles op localhost:</strong> Geen enkele service is direct vanaf internet te bereiken. Alleen via Cloudflare Tunnel of Tailscale VPN.",
             "insight2": "<strong>Automatisch herstarten:</strong> Als een service crasht, start systemd hem automatisch opnieuw op.",
-            "insight3": "<strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op de Pi. Antwoorden binnen 10-20 seconden.",
+            "insight3": "<strong>Kleinere AI modellen:</strong> Qwen 2.5 met 1.5B of 3B parameters draaien goed op Nexus. Antwoorden binnen 10-20 seconden.",
             "insight4": "<strong>Rate limiting:</strong> Maximum 100 API requests per uur per IP adres.",
             "insight5": "<strong>Geheugen beheer:</strong> Elke service heeft een maximum geheugen limiet, zodat de 16GB RAM niet vol loopt.",
             "code-title": "Code voorbeeld", "impact-title": "Wat het heeft opgeleverd",
-            "i1t": "Snelheid", "i1d": "AI antwoorden binnen 10-20 seconden. Indrukwekkend voor een Pi die normaal voor hobbyprojecten wordt gebruikt.",
+            "i1t": "Snelheid", "i1d": "AI antwoorden binnen 10-20 seconden. Indrukwekkend voor een server die thuis draait.",
             "i2t": "Veiligheid", "i2d": "Geen enkel beveiligingsprobleem. Firewall en Fail2ban doen hun werk. Security score van 70% naar 95%.",
             "i3t": "Uitbreidbaar", "i3d": "Dezelfde setup is te verhuizen naar een echte server zonder alles opnieuw te bouwen.",
             "i4t": "Goedkoop", "i4d": "~5 euro per maand aan stroom. Geen cloud kosten, volledige controle over eigen data."
@@ -728,23 +728,23 @@ limiter = <span class="c-fn">Limiter</span>(app=app, default_limits=[<span class
             "overview-p1": "A self-built server on a Raspberry Pi 5, where I can run AI models locally, control my smart home devices and store data. The entire system runs 24/7 and can be securely accessed from anywhere.",
             "overview-p2": "By running all services on localhost only and routing external access through a secured tunnel, everything stays private and safe. All AI models run locally — my data goes nowhere.",
             "features-title": "What it can do",
-            "f1-title": "Local AI", "f1-desc": "Ollama runs AI models (Qwen 2.5) entirely locally. Combined with ChromaDB for smart context. Everything stays on the Pi, no cloud needed.",
+            "f1-title": "Local AI", "f1-desc": "Ollama runs AI models (Qwen 2.5) entirely locally. Combined with ChromaDB for smart context. Everything stays on Nexus, no cloud needed.",
             "f2-title": "Security", "f2-desc": "All services run on localhost only. Firewall blocks all incoming traffic. SSH with keys only. Cloudflare Tunnel for secure external access.",
             "f3-title": "Public AI Chat", "f3-desc": "Flask API with rate limiting so no one can abuse it. Accessible via cleo.alanokricha.com with SSL encryption.",
-            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard for live Pi performance. CPU, memory, temperature — all in real-time.",
+            "f4-title": "Monitoring Dashboard", "f4-desc": "FastAPI dashboard for live Nexus performance. CPU, memory, temperature — all in real-time.",
             "f5-title": "Smart Home", "f5-desc": "Homebridge connects all smart devices to Apple HomeKit. Philips Hue, IKEA — all through one system.",
-            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH to code on the Pi from my Mac. Continue.dev for AI-powered code suggestions.",
+            "f6-title": "Development Setup", "f6-desc": "VS Code Remote SSH to code on Nexus from my Mac. Continue.dev for AI-powered code suggestions.",
             "arch-title": "System Architecture",
             "layer5": "External Access & Security", "layer4": "Security Layer", "layer3": "Application Services", "layer2": "OS & Runtime", "layer1": "Hardware",
             "auto-updates": "Automatic security updates", "active-cooling": "Active cooling",
             "approach-title": "Approach", "insights-title": "Key decisions",
             "insight1": "<strong>Everything on localhost:</strong> No service is directly reachable from the internet. Only via Cloudflare Tunnel or Tailscale VPN.",
             "insight2": "<strong>Auto-restart:</strong> If a service crashes, systemd automatically restarts it.",
-            "insight3": "<strong>Smaller AI models:</strong> Qwen 2.5 with 1.5B or 3B parameters run well on the Pi. Responses within 10-20 seconds.",
+            "insight3": "<strong>Smaller AI models:</strong> Qwen 2.5 with 1.5B or 3B parameters run well on Nexus. Responses within 10-20 seconds.",
             "insight4": "<strong>Rate limiting:</strong> Maximum 100 API requests per hour per IP address.",
             "insight5": "<strong>Memory management:</strong> Each service has a memory limit so the 16GB RAM does not fill up.",
             "code-title": "Code example", "impact-title": "What it delivered",
-            "i1t": "Speed", "i1d": "AI responses within 10-20 seconds. Impressive for a Pi normally used for hobby projects.",
+            "i1t": "Speed", "i1d": "AI responses within 10-20 seconds. Impressive for a home server.",
             "i2t": "Security", "i2d": "Zero security incidents. Firewall and Fail2ban doing their job. Security score from 70% to 95%.",
             "i3t": "Scalable", "i3d": "The same setup can be moved to a real server without rebuilding everything.",
             "i4t": "Cost-effective", "i4d": "~5 euros per month in electricity. No cloud costs, full control over own data."
