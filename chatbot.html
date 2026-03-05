@@ -485,7 +485,7 @@
 </div>
 
 <script>
-    const API = 'https://cleo.alanokricha.com/chat';
+    const API = 'https://naja.nexusakai.com/chat';
     let history = [], currentCat = 'laptops', clang = 'nl';
 
     const CT = {
@@ -608,7 +608,7 @@
     }
 
     async function checkAPI() {
-        try { const r = await fetch('https://cleo.alanokricha.com/health'); if(r.ok) addMsg(CT[clang].greeting); }
+        try { const r = await fetch('https://naja.nexusakai.com/health'); if(r.ok) addMsg(CT[clang].greeting); }
         catch(e) { showError(CT[clang].offline); }
     }
 
